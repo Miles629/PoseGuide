@@ -1,15 +1,16 @@
 import socket
 import sys
-from PyQt5.QtWidgets import QApplication,QWidget
+from PyQt5.QtWidgets import QApplication,QWidget,QMessageBox
 from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History
 from PyQt5 import QtGui,QtCore
 target_host = "39.106.96.98"
 target_port = 9998
 
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect((target_host, target_port))
+userAccount = "user"
 '''
-def login_clicked():
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect((target_host, target_port))
+def login_clicked():    
     txt1 = ui.usernameT.toPlainText()
     txt2 = ui.passwordT.toPlainText()
     print(txt1)
@@ -31,16 +32,34 @@ class Login(QWidget,Login.Ui_LoginP):
         self.jumpToRegisterP.clicked.connect(self.jumpToRegisterP_clicked)
         self.loginB_2.clicked.connect(self.loginB_clicked)
 
-
     def jumpToRegisterP_clicked(self):
         self.close()
         self.ui = Register()
         self.ui.show()
 
     def loginB_clicked(self):
-        self.close()
-        self.ui = MainWindow()
-        self.ui.show()
+        try:
+            user = self.userT.toPlainText()
+            pwd = self.pwdT.toPlainText()
+            print(user)
+            print(pwd)
+            msg = "login %s %s" %(user, pwd)
+            print(msg)
+            msg = msg.encode()
+            client.send(msg)
+            response = client.recv(4096)
+            print("LoginReturn:%s" %(response))
+            if response == True:
+                userAccount = user
+                self.close()
+                self.ui = MainWindow()
+                self.ui.show()
+            else:
+                QMessageBox.warning(self,'错误','您输入的密码有误',QMessageBox.Cancel)
+        except Exception as e:
+            QMessageBox.warning(self,"错误",e,QMessageBox.Cancel)
+
+
 
 
 class Register(QWidget,Register.Ui_RegitserP):
@@ -56,9 +75,33 @@ class Register(QWidget,Register.Ui_RegitserP):
         self.ui.show()
 
     def registerB_clicked(self):
-        self.close()
-        self.ui = MainWindow()
-        self.ui.show()
+        try:
+            email =self.emailT.toPlainText()
+            user = self.usernameT.toPlainText()
+            pwd = self.passwordT.toPlainText()
+            vpwd = self.VpasswordT.toPlainText()
+            print(user)
+            print(pwd)
+            if pwd == vpwd:
+                msg = "signin %s %s %s" %(user, pwd, email)
+                print(msg)
+                msg = msg.encode()
+                client.send(msg)
+                response = client.recv(4096)
+                print("RegisterReturn:%s" %(response))
+                if response == True:
+                    userAccount = user
+                    self.close()
+                    self.ui = MainWindow()
+                    self.ui.show()
+                else:
+                    QMessageBox.about(self,'有误','注册失败',QMessageBox.Cancel)
+            else:
+                QMessageBox.warning(self,"错误",'您输入的两次密码不同，请重新输入',QMessageBox.Ok)
+
+        except Exception as e:
+            QMessageBox.warning(self,"错误",e,QMessageBox.Cancel)
+
 
 
 class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
@@ -79,9 +122,22 @@ class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
         self.ui = ChooseTrain()
         self.ui.show()
     def jumpToHistoryP_clicked(self):
-        self.close()
-        self.ui = History()
-        self.ui.show()
+        try:
+            msg = "askhistory %s" %(userAccount)
+            msg = msg.encode()
+            client.send(msg)
+            response = client.recv(4096)
+            print("askHistoryReturn:%s" % (response))
+            if response != 0:
+                self.close()
+                self.ui = History()
+                self.ui.show()
+            else:
+                QMessageBox.warning(self,"提示",'暂无个人历史记录',QMessageBox.Ok)
+        except Exception as e:
+            QMessageBox.warning(self,"错误",e,QMessageBox.Cancel)
+            print(e)
+
     def jumpToLikeP_clicked(self):
         '''
         self.close()
@@ -104,8 +160,46 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         self.ui.show()
     def chooseCurrentVideoB_clicked(self):
         self.close()
-        self.ui = Score()
+        self.ui = StartTrain()
         self.ui.show()
+
+
+class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
+    def __init__(self):
+        super(StartTrain, self).__init__()
+        self.setupUi(self)
+        self.jumpToChooseP.clicked.connect(self.jumpToChooseP_clicked)
+        self.startB.clicked.connect(self.startB_clicked)
+        self.jumpToScoreP.clicked.connect(self.jumpToScore_clicked)
+
+    def jumpToChooseP_clicked(self):
+        self.close()
+        self.ui = ChooseTrain()
+        self.ui.show()
+
+    def jumpToScore_clicked(self):
+        try:
+            # 上传训练历史记录的格式如下，u用户名item训练项目s分数dp存储路径dur持续时间date训练日期
+            #msg = "uphistory u item s dp dur date"
+            msg = "uphistory %s %s %s %s %s %s" % (userAccount,"项目1","90","E://Video","16:00","2020/7/11")
+            msg = msg.encode()
+            client.send(msg)
+            response = client.recv(4096)
+            print("upHistoryReturn:%s" % (response))
+            if response ==True:
+                QMessageBox.warning(self,'提示',"分数上传成功",msg,QMessageBox.Ok)
+                self.close()
+                self.ui = Score()
+                self.ui.show()
+            else:
+                QMessageBox.warning(self,'提示',"分数上传失败",msg,QMessageBox.Ok)
+        except Exception as e:
+            QMessageBox.warning(self, '提示',"错误", e, QMessageBox.Cancel)
+            print(e)
+
+
+    def startB_clicked(self):
+        do = "nothing"
 
 
 class Score(QWidget,Score.Ui_Score):
