@@ -20,7 +20,8 @@ class DataBaseHandle(object):
             print(tt)
             data = self.cursor.fetchall() # 返回所有记录列表
             print(data)
-            return data
+            msg=str(tt)+str(data)
+            return msg
             # for row in data:
             #     sid = row[0]
             #     name = row[1]
