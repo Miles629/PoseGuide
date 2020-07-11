@@ -38,9 +38,34 @@ class Login(QWidget,Login.Ui_LoginP):
         self.ui.show()
 
     def loginB_clicked(self):
+<<<<<<< Updated upstream:Page/Logic_Main_Control.py
         self.close()
         self.ui = MainWindow()
         self.ui.show()
+=======
+        try:
+            user = self.userT.toPlainText()
+            pwd = self.pwdT.toPlainText()
+            print(user)
+            print(pwd)
+            msg = "login %s %s" %(user, pwd)
+            print(msg)
+            msg = msg.encode()
+            client.send(msg)
+            response = client.recv(4096)
+            print("LoginReturn:%s" %(response))
+            if response:
+                userAccount = user
+                self.close()
+                self.ui = MainWindow()
+                self.ui.show()
+            else:
+                QMessageBox.warning(self,'错误','您输入的密码有误',QMessageBox.Cancel)
+        except Exception as e:
+            QMessageBox.warning(self,"错误",e,QMessageBox.Cancel)
+
+
+>>>>>>> Stashed changes:Logic_Main_Control.py
 
 
 class Register(QWidget,Register.Ui_RegitserP):
@@ -56,9 +81,39 @@ class Register(QWidget,Register.Ui_RegitserP):
         self.ui.show()
 
     def registerB_clicked(self):
+<<<<<<< Updated upstream:Page/Logic_Main_Control.py
         self.close()
         self.ui = MainWindow()
         self.ui.show()
+=======
+        try:
+            email =self.emailT.toPlainText()
+            user = self.usernameT.toPlainText()
+            pwd = self.passwordT.toPlainText()
+            vpwd = self.VpasswordT.toPlainText()
+            print(user)
+            print(pwd)
+            if pwd == vpwd:
+                msg = "signin %s %s %s" %(user, pwd, email)
+                print(msg)
+                msg = msg.encode()
+                client.send(msg)
+                response = client.recv(4096)
+                print("RegisterReturn:%s" %(response))
+                if response:
+                    userAccount = user
+                    self.close()
+                    self.ui = MainWindow()
+                    self.ui.show()
+                else:
+                    QMessageBox.about(self,'有误','注册失败',QMessageBox.Cancel)
+            else:
+                QMessageBox.warning(self,"错误",'您输入的两次密码不同，请重新输入',QMessageBox.Ok)
+
+        except Exception as e:
+            QMessageBox.warning(self,"错误",e,QMessageBox.Cancel)
+
+>>>>>>> Stashed changes:Logic_Main_Control.py
 
 
 class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
@@ -107,6 +162,33 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         self.ui = Score()
         self.ui.show()
 
+<<<<<<< Updated upstream:Page/Logic_Main_Control.py
+=======
+    def jumpToScore_clicked(self):
+        try:
+            # 上传训练历史记录的格式如下，u用户名item训练项目s分数dp存储路径dur持续时间date训练日期
+            #msg = "uphistory u item s dp dur date"
+            msg = "uphistory %s %s %s %s %s %s" % (userAccount,"项目1","90","E://Video","16:00","2020/7/11")
+            msg = msg.encode()
+            client.send(msg)
+            response = client.recv(4096)
+            print("upHistoryReturn:%s" % (response))
+            if response:
+                QMessageBox.warning(self,'提示',"分数上传成功",msg,QMessageBox.Ok)
+                self.close()
+                self.ui = Score()
+                self.ui.show()
+            else:
+                QMessageBox.warning(self,'提示',"分数上传失败",msg,QMessageBox.Ok)
+        except Exception as e:
+            QMessageBox.warning(self, '提示',"错误", e, QMessageBox.Cancel)
+            print(e)
+
+
+    def startB_clicked(self):
+        do = "nothing"
+
+>>>>>>> Stashed changes:Logic_Main_Control.py
 
 class Score(QWidget,Score.Ui_Score):
     def __init__(self):
