@@ -273,7 +273,7 @@ class ThreadPose(QThread):
             self.nlPose.NL_Pose_Exit()
         self.mutex.unlock()
         print('算法线程退出了')
-        filename="u_"+datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')+".json"
+        filename="u_"+datetime.now().strftime('%Y-%m-%d_%H:%M:%S')+".json"
         with open(os.path.join('/system/ftproot/aa/pydemo/poses/',filename),'w') as output_file:
             json.dump(json_result,output_file)
         # 返回评分结果
