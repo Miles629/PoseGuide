@@ -6,12 +6,31 @@ from PyQt5 import QtGui,QtCore
 target_host = "39.106.96.98"
 target_port = 9998
 
+'''
+def login_clicked():
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client.connect((target_host, target_port))
+    txt1 = ui.usernameT.toPlainText()
+    txt2 = ui.passwordT.toPlainText()
+    print(txt1)
+    print(txt2)
+    msg = "login %s %s"%(txt1,txt2)
+    print(msg)
+    #msg = msg.encode()
+    msg1 = "login 99 6"
+    msg1 = msg.encode()
+    client.send(msg1)
+    response = client.recv(4096)
+    print(response)
+'''
+
 class Login(QWidget,Login.Ui_LoginP):
     def __init__(self):
         super(Login,self).__init__()
         self.setupUi(self)
         self.jumpToRegisterP.clicked.connect(self.jumpToRegisterP_clicked)
-        self.loginB.clicked.connect(self.loginB_clicked)
+        self.loginB_2.clicked.connect(self.loginB_clicked)
+
 
     def jumpToRegisterP_clicked(self):
         self.close()
@@ -46,10 +65,10 @@ class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setupUi(self)
-        self.jumpToLoginP.clicked.connect()
-        self.jumpToChooseP.clicked.connect()
-        self.jumpToHistoryP.clicked.connect()
-        self.jumpToLikeP.clicked.connect()
+        self.jumpToLoginP.clicked.connect(self.jumpToLoginP_clicked)
+        self.jumpToChooseP.clicked.connect(self.jumpToChooseP_clicked)
+        self.jumpToHistoryP.clicked.connect(self.jumpToHistoryP_clicked)
+        self.jumpToLikeP.clicked.connect(self.jumpToLikeP_clicked)
 
     def jumpToLoginP_clicked(self):
         self.close()
