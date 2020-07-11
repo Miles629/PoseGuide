@@ -34,7 +34,7 @@ class Login(QWidget,Login.Ui_LoginP):
             client.send(msg)
             response = client.recv(4096)
             print("LoginReturn:%s" %(response))
-            if response ==True:
+            if response:
                 userAccount = user
                 self.close()
                 self.ui = MainWindow()
@@ -74,7 +74,7 @@ class Register(QWidget,Register.Ui_RegitserP):
                 client.send(msg)
                 response = client.recv(4096)
                 print("RegisterReturn:%s" %(response))
-                if response ==True:
+                if response:
                     userAccount = user
                     self.close()
                     self.ui = MainWindow()
@@ -175,7 +175,7 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
             client.send(msg)
             response = client.recv(4096)
             print("upHistoryReturn:%s" % (response))
-            if response == True:
+            if response:
                 QMessageBox.warning(self,'提示',"分数上传成功",msg,QMessageBox.Ok)
                 self.close()
                 self.ui = Score()
