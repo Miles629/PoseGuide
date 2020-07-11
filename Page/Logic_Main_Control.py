@@ -9,21 +9,6 @@ target_port = 9998
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect((target_host, target_port))
 userAccount = "user"
-'''
-def login_clicked():    
-    txt1 = ui.usernameT.toPlainText()
-    txt2 = ui.passwordT.toPlainText()
-    print(txt1)
-    print(txt2)
-    msg = "login %s %s"%(txt1,txt2)
-    print(msg)
-    #msg = msg.encode()
-    msg1 = "login 99 6"
-    msg1 = msg.encode()
-    client.send(msg1)
-    response = client.recv(4096)
-    print(response)
-'''
 
 class Login(QWidget,Login.Ui_LoginP):
     def __init__(self):
@@ -49,7 +34,7 @@ class Login(QWidget,Login.Ui_LoginP):
             client.send(msg)
             response = client.recv(4096)
             print("LoginReturn:%s" %(response))
-            if response == True:
+            if response ==True:
                 userAccount = user
                 self.close()
                 self.ui = MainWindow()
@@ -89,7 +74,7 @@ class Register(QWidget,Register.Ui_RegitserP):
                 client.send(msg)
                 response = client.recv(4096)
                 print("RegisterReturn:%s" %(response))
-                if response == True:
+                if response ==True:
                     userAccount = user
                     self.close()
                     self.ui = MainWindow()
@@ -128,9 +113,13 @@ class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
             client.send(msg)
             response = client.recv(4096)
             print("askHistoryReturn:%s" % (response))
-            if response != 0:
+            alist = response.decode().split('\'')
+            num = alist[0].split('"')
+            num = num[0].split('(')
+            num = num[0]
+            if num != 0:
                 self.close()
-                self.ui = History()
+                self.ui = History(alist)
                 self.ui.show()
             else:
                 QMessageBox.warning(self,"提示",'暂无个人历史记录',QMessageBox.Ok)
@@ -186,7 +175,7 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
             client.send(msg)
             response = client.recv(4096)
             print("upHistoryReturn:%s" % (response))
-            if response ==True:
+            if response == True:
                 QMessageBox.warning(self,'提示',"分数上传成功",msg,QMessageBox.Ok)
                 self.close()
                 self.ui = Score()
@@ -215,10 +204,31 @@ class Score(QWidget,Score.Ui_Score):
 
 
 class History(QWidget,History.Ui_HistoryP):
-    def __init__(self):
+    def __init__(self,alist):
         super(History, self).__init__()
         self.setupUi(self)
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
+
+        num = alist[0].split('"')
+        num = num[0].split('(')
+        num = num[0]
+        index = 0
+        result={}
+        for a in range(1, int(num) + 1):
+            for b in range(1, 7):
+                i = 14 * a - 11
+                result[index] = alist[i+2*b-2]
+                #label = "iL%s" %(str(index))
+        self.iL1 =result[0]
+        self.iL2 = result[1]
+        self.iL3 = result[2]
+        self.iL4 = result[3]
+        self.iL5 = result[4]
+        self.iL6 = result[5]
+
+
+
+
 
 
     def jumpToMainWindowP_clicked(self):
