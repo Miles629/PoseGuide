@@ -1,4 +1,13 @@
 # -*- coding: utf-8 -*-
+'''
+Auth://作者 zzm
+Create date:///创建时间 2020.7.9
+Update date://签入时间 2020.7.11
+Discrip://此处须注明更新的详细内容
+    更改了写json文件操作，将相似度比较功能加入进来
+    前端调用的时候看注释操作（算法线程的stop函数里）
+'''
+
 import sys
 import cv2
 import os
@@ -17,6 +26,8 @@ from ctypes import *
 from camera import ThreadCap
 from NL_pose import NL_Pose
 from camera import ThreadCap
+from coslike import *
+from datetime import datetime
 
 
 # POSE_PAIRS
@@ -27,6 +38,9 @@ gPosePairs = [1, 2, 1, 5, 2, 3, 3, 4, 5, 6, 6, 7, 1, 8, 8, 9, 9, 10, 1,
 gColors = [255, 0, 85, 255, 0, 0, 255, 85, 0, 255, 170, 0, 255, 255, 0, 170, 255, 0,
            85, 255, 0, 0, 255, 0, 0, 255, 85, 0, 255, 170, 0, 255, 255, 0, 170, 255, 0,
            85, 255, 0, 0, 255, 255, 0, 170, 170, 0, 255, 255, 0, 255, 85, 0, 255]
+
+# json_result
+json_result={}
 
 class VideoBox(QWidget):
     def __init__(self, libNamePath, configPath, capWidth, capHeight):
@@ -142,11 +156,18 @@ class ThreadPose(QThread):
             self.isInit = True
 
 #-----------------------------------------------------------------
+    def coslike(self,spath,upath):
+        # 标准视频和用户视频相似度比较 
+        # spath:标准视频json数据路径；upath:用户视频json数据路径
+        match=Coslike(spath,upath)
+        return match.getLikeness()
+
 
 #-----------------------------------------------------------------
     def run(self):
         self.myInit()
-        findex=0 #帧序号，从0开始，用于文件输出
+        # json_result={} #输出的json结果
+        findex=0  #帧序号，从0开始，用于文件输出
         while self.working:
             self.mutex.lock()
             if self.mw.AlgIsbasy == False and not (self.mw.limg is None):
@@ -169,17 +190,17 @@ class ThreadPose(QThread):
                         threshold = 0.05
                         numberColors = len(gColors)
                         # 检查结果输出
-                        json_result={} #用于文件输出
-                        # json_result[str(findex)]={}
+                        json_result[str(findex)+".jpg"]={} # 构造json,初始化某一帧
+                        # json_result[str(findex)+".jpg"]["fIndex"]=findex # 构造json,初始化某一帧的帧序号
+
                         for i in range(int(self.nlPose.djACTVarOut.dwPersonNum)):
                             djActionInfors = self.nlPose.djACTVarOut.pdjActionInfors[i]
-                            # 【改】↓
-
-                            json_result["people"+str(i)]=[] #初始化某一人
-                            for j in range(18):
-                                json_result["people"+str(i)].append(djActionInfors.fPosePos[j].x)
-                                json_result["people"+str(i)].append(djActionInfors.fPosePos[j].y)
-                                json_result["people"+str(i)].append(djActionInfors.fPosePos[j].p_score)
+                            # 【改】↓json文件输出相关
+                            json_result[str(findex)+".jpg"]["people"+str(i)]=[] # 构造json,初始化某一人
+                            for j in range(18): # 构造json,填充每一帧骨骼数据
+                                json_result[str(findex)+".jpg"]["people"+str(i)].append(djActionInfors.fPosePos[j].x)
+                                json_result[str(findex)+".jpg"]["people"+str(i)].append(djActionInfors.fPosePos[j].y)
+                                json_result[str(findex)+".jpg"]["people"+str(i)].append(djActionInfors.fPosePos[j].p_score)
 
                             # 绘制关节点
                             for pose in range(djActionInfors.dwPoseNum):
@@ -214,9 +235,7 @@ class ThreadPose(QThread):
                             # self.nlPose.djACTVarOut.pdjUpBodyPos[i].x + self.nlPose.djACTVarOut.pdjUpBodyPos[i].width,
                             # self.nlPose.djACTVarOut.pdjUpBodyPos[i].y + self.nlPose.djACTVarOut.pdjUpBodyPos[i].height)
                             # cv2.rectangle(rgb, RectPoint1, RectPoint2, (200, 0, 125), 5, 8)
-                        filename="fPose"+str(findex)+".json"
-                        with open(os.path.join('/system/ftproot/aa/',filename),'w') as output_file:
-                            output_file.write(str(json_result))
+
                         findex=findex+1
                         showImage = QImage(rgb.data, width, height, bytesPerLine, QImage.Format_RGB888)
                         self.mw.showImage = QPixmap.fromImage(showImage)
@@ -234,8 +253,16 @@ class ThreadPose(QThread):
                     print('Var Init Error code:', ret)
                     sleep(0.001)
                 self.mw.AlgIsbasy = False
+
             else:
                 sleep(0.001)
+            # 写json文件
+            # filename=
+            json_result["fnum"]=findex
+            # with open(os.path.join('/system/ftproot/aa/pydemo/poses/',"json_result2.json"),'w') as output_file:
+            #     json.dump(json_result,output_file)
+            # # 返回评分结果[标准路径（前）为该动作的数据路径，用户路径（后）为该训练的数据路径，通过数据库获取]
+            # score=self.coslike()
             self.mutex.unlock()
 
 
@@ -246,4 +273,7 @@ class ThreadPose(QThread):
             self.nlPose.NL_Pose_Exit()
         self.mutex.unlock()
         print('算法线程退出了')
+        filename="u_"+datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')+".json"
+        with open(os.path.join('/system/ftproot/aa/pydemo/poses/',filename),'w') as output_file:
+            json.dump(json_result,output_file)
 
