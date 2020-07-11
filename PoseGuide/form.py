@@ -276,4 +276,9 @@ class ThreadPose(QThread):
         filename="u_"+datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')+".json"
         with open(os.path.join('/system/ftproot/aa/pydemo/poses/',filename),'w') as output_file:
             json.dump(json_result,output_file)
+        # 返回评分结果
+        spath='/system/ftproot/aa/pydemo/poses/json_result2.json' # 标准动作数据，调用的时候改为该动作标准数据路径
+        upath='/system/ftproot/aa/pydemo/poses/'+filename # 本次摄像头读取的用户数据
+        score=self.coslike(spath,upath) # 这个是输出的得分
+        print(score)
 
