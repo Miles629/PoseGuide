@@ -192,10 +192,27 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
 
 
 class Score(QWidget,Score.Ui_Score):
-    def __init__(self):
-        super(Score, self).__init__()
+    def __init__(self,alist):
+        super(History, self).__init__()
         self.setupUi(self)
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
+
+        num = alist[0].split('"')
+        num = num[0].split('(')
+        num = num[0]
+        index = 0
+        result={}
+        for a in range(1, int(num) + 1):
+            for b in range(1, 7):
+                i = 14 * a - 11
+                result[index] = alist[i+2*b-2]
+                #label = "iL%s" %(str(index))
+        self.iL1 =result[0]
+        self.iL2 = result[1]
+        self.iL3 = result[2]
+        self.iL4 = result[3]
+        self.iL5 = result[4]
+        self.iL6 = result[5]
 
     def jumpToMainWindowP_clicked(self):
         self.close()
