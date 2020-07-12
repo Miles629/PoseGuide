@@ -1,7 +1,7 @@
 import socket
 import sys
 from PyQt5.QtWidgets import QApplication,QWidget,QMessageBox
-from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History
+from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History,globalvar
 from PyQt5 import QtGui,QtCore
 from datetime import datetime
 target_host = "39.106.96.98"
@@ -36,16 +36,10 @@ class Login(QWidget,Login.Ui_LoginP):
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
-<<<<<<< HEAD
             print("loginReturn:%s" %(response))
             result = response.decode()
-            print(result)
             if result == 'True':
-=======
-            print("LoginReturn:%s" %(response))
-            if response:
                 global userAccount
->>>>>>> bb43f7698f0d13b625297a701417b5266bc196d1
                 userAccount = user
                 self.close()
                 self.ui = MainWindow()
@@ -185,13 +179,9 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
         try:
             # 上传训练历史记录的格式如下，u用户名item训练项目s分数dp存储路径dur持续时间date训练日期
             #msg = "uphistory u item s dp dur date"
-<<<<<<< HEAD
-            msg = "uphistory %s %s %s %s %s %s" % ("wx","项目2","90","E://Video","16:00","2020/7/11")
-=======
             # date=datetime.date()
             date=datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
             msg = "uphistory %s %s %s %s %s %s" % (userAccount,"项目1",,"E://Video","16:00",date)
->>>>>>> bb43f7698f0d13b625297a701417b5266bc196d1
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
