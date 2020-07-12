@@ -27,7 +27,7 @@ so = cdll.LoadLibrary("/usr/lib/libopencv_core.so")
 so = cdll.LoadLibrary("/system/3559v100_AI_libs/libNL_POSE.so")
 json_result={}
 # from PyQt5 import QtCore, QtGui, QtWidgets
-
+score=10
 
 
 # 结构体定义
@@ -292,6 +292,7 @@ class ThreadPose(QThread):
         # 返回评分结果
         spath='./poses/json_result2.json' # 标准动作数据，调用的时候改为该动作标准数据路径
         upath='./poses/'+filename # 本次摄像头读取的用户数据
+        global score
         score=self.coslike(spath,upath) # 这个是输出的得分
         print(score)
 
