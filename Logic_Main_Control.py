@@ -3,20 +3,6 @@ import sys
 from PyQt5.QtWidgets import QApplication,QWidget,QMessageBox
 from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History
 from PyQt5 import QtGui,QtCore
-<<<<<<< Updated upstream
-=======
-from datetime import datetime
-import globalvar
-'''
-Auth://作者 吴茜
-Create date:///创建时间 2020.7.9
-Update date://签入时间 2020.7.11
-Discrip://此处须注明更新的详细内容
-    以下为前端设计代码
-    修改了部分控件名称和坐标
-'''
-
->>>>>>> Stashed changes
 target_host = "39.106.96.98"
 target_port = 9998
 

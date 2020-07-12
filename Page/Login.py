@@ -10,14 +10,6 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-'''
-Auth://作者 吴茜
-Create date:///创建时间 2020.7.9
-Update date://签入时间 2020.7.12
-Discrip://此处须注明更新的详细内容
-    以下为前端设计代码
-    修改了label的pixmap,但仍然从Logic_Main_Control.py文件中设置
-'''
 
 class Ui_LoginP(object):
     def setupUi(self, LoginP):

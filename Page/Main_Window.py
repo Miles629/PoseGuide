@@ -10,14 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-'''
-Auth://作者 吴茜
-Create date:///创建时间 2020.7.9
-Update date://签入时间 2020.7.11
-Discrip://此处须注明更新的详细内容
-    以下为前端设计代码
-    修改了控件的位置和名称
-'''
+
 class Ui_MainWindowP(object):
     def setupUi(self, MainWindowP):
         MainWindowP.setObjectName("MainWindowP")
