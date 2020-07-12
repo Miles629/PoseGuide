@@ -5,10 +5,11 @@ from dtw import dtw
 '''
 Auth://作者 zzm
 Create date:///创建时间 2020.7.9
-Update date://签入时间 2020.7.11
+Update date://签入时间 2020.7.12
 Discrip://此处须注明更新的详细内容
     整合了动态时间规整算法和余弦比较算法，调用该类getLikeness（）可以进行相似度比较
     算法结果目前不太好，待完善
+    修改了部分细节便于进行输出和判断
 '''
 
 class Coslike():
@@ -155,9 +156,7 @@ class Coslike():
         # 把规整后的数据改为 帧数*54 大小的二维列表
         ssdata = np.array(ssdata).reshape(Length,54)
         uudata = np.array(uudata).reshape(Length,54)
-
         scores=[] # 逐帧存储分数
-
         # useful_num=0 # 有效帧的个数（分数不为-1的帧是有效帧）
         # 对有效帧逐帧进行相似度比较
         for f in range(Length):
@@ -165,7 +164,6 @@ class Coslike():
             if scoref != -1:
                 scores.append(scoref)
                 # useful_num=useful_num+1
-            
         print(scores)
         avg_score=np.mean(scores)
         return avg_score
