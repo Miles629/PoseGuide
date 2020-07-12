@@ -23,6 +23,7 @@ from threading import Timer, Thread, Event
 from ctypes import *
 from coslike import *
 from datetime import datetime
+import globalvar as gl
 so = cdll.LoadLibrary("/usr/lib/libopencv_core.so")
 so = cdll.LoadLibrary("/system/3559v100_AI_libs/libNL_POSE.so")
 json_result={}
@@ -295,6 +296,7 @@ class ThreadPose(QThread):
         global score
         score=self.coslike(spath,upath) # 这个是输出的得分
         print(score)
+        gl.set_value("score",score)
 
 
 

@@ -1,7 +1,7 @@
 import socket
 import sys
 from PyQt5.QtWidgets import QApplication,QWidget,QMessageBox
-from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History,globalvar
+from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History
 from PyQt5 import QtGui,QtCore
 from datetime import datetime
 target_host = "39.106.96.98"
@@ -181,7 +181,7 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
             #msg = "uphistory u item s dp dur date"
             # date=datetime.date()
             date=datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
-            msg = "uphistory %s %s %s %s %s %s" % (userAccount,"项目1",,"E://Video","16:00",date)
+            msg = "uphistory %s %s %s %s %s %s" % (userAccount,"项目1",globalvar.get_value("score"),"E://Video","16:00",date)
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
