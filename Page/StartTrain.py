@@ -29,7 +29,7 @@ so = cdll.LoadLibrary("/system/3559v100_AI_libs/libNL_POSE.so")
 json_result={}
 # from PyQt5 import QtCore, QtGui, QtWidgets
 score=10
-
+gl._init()
 
 # 结构体定义
 class Struct_Handle(Structure):  # NLDJ_ACTION_Handle

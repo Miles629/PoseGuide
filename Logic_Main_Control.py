@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QApplication,QWidget,QMessageBox
 from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History
 from PyQt5 import QtGui,QtCore
 from datetime import datetime
+import globalvar
 target_host = "39.106.96.98"
 target_port = 9998
 
