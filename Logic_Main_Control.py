@@ -2,6 +2,7 @@ import socket
 import sys
 from PyQt5.QtWidgets import QApplication,QWidget,QMessageBox
 from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History
+#from Image import
 from PyQt5 import QtGui,QtCore
 target_host = "39.106.96.98"
 target_port = 9998
@@ -14,6 +15,7 @@ class Login(QWidget,Login.Ui_LoginP):
     def __init__(self):
         super(Login,self).__init__()
         self.setupUi(self)
+        self.imageL.setPixmap(QtGui.QPixmap("Image/15562886683298.png"))
         self.jumpToRegisterP.clicked.connect(self.jumpToRegisterP_clicked)
         self.loginB_2.clicked.connect(self.loginB_clicked)
 
@@ -34,7 +36,9 @@ class Login(QWidget,Login.Ui_LoginP):
             client.send(msg)
             response = client.recv(4096)
             print("LoginReturn:%s" %(response))
-            if response:
+            result = response.decode()
+            print(result)
+            if result == 'True':
                 userAccount = user
                 self.close()
                 self.ui = MainWindow()
@@ -51,6 +55,7 @@ class Register(QWidget,Register.Ui_RegitserP):
     def __init__(self):
         super(Register, self).__init__()
         self.setupUi(self)
+        self.imageL.setPixmap(QtGui.QPixmap("Image/15562886683298.png"))
         self.jumpToLoginP.clicked.connect(self.jumpToLoginP_clicked)
         self.registerB.clicked.connect(self.registerB_clicked)
 
@@ -74,7 +79,9 @@ class Register(QWidget,Register.Ui_RegitserP):
                 client.send(msg)
                 response = client.recv(4096)
                 print("RegisterReturn:%s" %(response))
-                if response:
+                result = response.decode()
+                print(result)
+                if result == 'True':
                     userAccount = user
                     self.close()
                     self.ui = MainWindow()
@@ -108,7 +115,7 @@ class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
         self.ui.show()
     def jumpToHistoryP_clicked(self):
         try:
-            msg = "askhistory %s" %(userAccount)
+            msg = "askhistory %s" %('wx')
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
@@ -117,6 +124,7 @@ class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
             num = alist[0].split('"')
             num = num[0].split('(')
             num = num[0]
+            print(num)
             if num != 0:
                 self.close()
                 self.ui = History(alist)
@@ -170,18 +178,20 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
         try:
             # 上传训练历史记录的格式如下，u用户名item训练项目s分数dp存储路径dur持续时间date训练日期
             #msg = "uphistory u item s dp dur date"
-            msg = "uphistory %s %s %s %s %s %s" % (userAccount,"项目1","90","E://Video","16:00","2020/7/11")
+            msg = "uphistory %s %s %s %s %s %s" % ("wx","项目2","90","E://Video","16:00","2020/7/11")
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
             print("upHistoryReturn:%s" % (response))
-            if response:
-                QMessageBox.warning(self,'提示',"分数上传成功",msg,QMessageBox.Ok)
+            result = response.decode()
+            print(result)
+            if result == 'True':
+                QMessageBox.warning(self,'提示','上传成功',QMessageBox.Cancel)
                 self.close()
                 self.ui = Score()
                 self.ui.show()
             else:
-                QMessageBox.warning(self,'提示',"分数上传失败",msg,QMessageBox.Ok)
+                QMessageBox.warning(self,'提示','上传失败',QMessageBox.Cancel)
         except Exception as e:
             QMessageBox.warning(self, '提示',"错误", e, QMessageBox.Cancel)
             print(e)
@@ -196,6 +206,8 @@ class Score(QWidget,Score.Ui_Score):
         super(Score, self).__init__()
         self.setupUi(self)
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
+        self.scoreL.setText('90')
+        self.suggestionL.setText('待改进')
 
     def jumpToMainWindowP_clicked(self):
         self.close()
@@ -212,23 +224,21 @@ class History(QWidget,History.Ui_HistoryP):
         num = alist[0].split('"')
         num = num[0].split('(')
         num = num[0]
+        print(num)
         index = 0
-        result={}
+        result = []
         for a in range(1, int(num) + 1):
             for b in range(1, 7):
                 i = 14 * a - 11
-                result[index] = alist[i+2*b-2]
+                #result[index] =
+                result.append(alist[i+2*b-2])
                 #label = "iL%s" %(str(index))
-        self.iL1 =result[0]
-        self.iL2 = result[1]
-        self.iL3 = result[2]
-        self.iL4 = result[3]
-        self.iL5 = result[4]
-        self.iL6 = result[5]
-
-
-
-
+        self.iL1.setText(result[0])
+        self.iL2.setText(result[1])
+        self.iL3.setText(result[2])
+        self.iL4.setText(result[3])
+        self.iL5.setText(result[4])
+        self.iL6.setText(result[5])
 
 
     def jumpToMainWindowP_clicked(self):
