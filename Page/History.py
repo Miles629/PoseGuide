@@ -10,7 +10,14 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-
+'''
+Auth://作者 吴茜
+Create date:///创建时间 2020.7.9
+Update date://签入时间 2020.7.11
+Discrip://此处须注明更新的详细内容
+    以下为前端设计代码
+    增加了一些label控件，用于显示相关信息
+'''
 class Ui_HistoryP(object):
     def setupUi(self, HistoryP):
         HistoryP.setObjectName("HistoryP")

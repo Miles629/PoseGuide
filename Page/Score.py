@@ -10,7 +10,14 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-
+'''
+Auth://作者 吴茜
+Create date:///创建时间 2020.7.9
+Update date://签入时间 2020.7.12
+Discrip://此处须注明更新的详细内容
+    以下为前端设计代码
+    增加了一些label控件以实现数据的显示结果
+'''
 class Ui_Score(object):
     def setupUi(self, Score):
         Score.setObjectName("Score")
