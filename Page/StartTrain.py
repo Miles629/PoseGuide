@@ -57,3 +57,6 @@ class Ui_StartTrainP(object):
         self.jumpToScoreP.setText(_translate("StartTrainP", "完成录制"))
         self.startB.setText(_translate("StartTrainP", "开始录制"))
         self.jumpToChooseP.setText(_translate("StartTrainP", "返回选择训练界面"))
+    
+    # def startB_clicked(self):
+
