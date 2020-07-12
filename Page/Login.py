@@ -124,7 +124,7 @@ class Ui_LoginP(object):
         self.loginB_2.setStyleSheet("color: rgb(46, 55, 112);")
         self.loginB_2.setObjectName("loginB_2")
         self.jumpToRegisterP = QtWidgets.QPushButton(LoginP)
-        self.jumpToRegisterP.setGeometry(QtCore.QRect(1030, 770, 331, 50))
+        self.jumpToRegisterP.setGeometry(QtCore.QRect(1030, 770, 250, 50))
         font = QtGui.QFont()
         font.setFamily("Adobe Arabic")
         font.setPointSize(12)
