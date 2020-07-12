@@ -1,16 +1,20 @@
+'''
+Auth://作者 zzm
+Create date:///创建时间 2020.7.9
+Update date://签入时间 2020.7.11
+Discrip://此处须注明更新的详细内容
+    7.11
+    整合了动态时间规整算法和余弦比较算法，调用该类getLikeness（）可以进行相似度比较
+    算法结果目前不太好，待完善
+    修改了部分细节便于进行输出和判断
+    7.12
+    优化了余弦比较算法中的权重，分数拉开了10分，帧比较部分还可以继续优化
+'''
 import math
 import json
 import numpy as np
 from dtw import dtw
-'''
-Auth://作者 zzm
-Create date:///创建时间 2020.7.9
-Update date://签入时间 2020.7.12
-Discrip://此处须注明更新的详细内容
-    整合了动态时间规整算法和余弦比较算法，调用该类getLikeness（）可以进行相似度比较
-    算法结果目前不太好，待完善
-    修改了部分细节便于进行输出和判断
-'''
+
 
 class Coslike():
 
@@ -36,11 +40,9 @@ class Coslike():
         cq=pose[3*q+2]
 
         c=(cp+cq+co)/3  #角置信度为三点置信度的平均值【【【待改进】】】
-
         # 若有一点的置信度小于0.1，直接返回cos值-2
         if (cp<0.1)|(co<0.1)|(cq<0.1):
             return [-2.0,c]
-
         #计算向量OP(x1,y1)、OQ(x2,y2)
         x1=xp-xo
         y1=yp-yo
@@ -49,8 +51,8 @@ class Coslike():
         cosine=(x1*x2+y1*y2)/(math.sqrt(x1**2+y1**2)*math.sqrt(x2**2+y2**2))
         return [cosine,c]
 
-    # 计算某一帧的10个角度，返回值为列表[[角1余弦，角置信度1],[角2余弦，角置信度2]...]
     def CalcuCosAngles(self,pose):
+        # 计算某一帧的10个角度，返回值为列表[[角1余弦，角置信度1],[角2余弦，角置信度2]...]
         cosines=[]
         cosines.append(self.VectorCosine(0,1,2,pose))
         cosines.append(self.VectorCosine(1,2,3,pose))
@@ -65,7 +67,7 @@ class Coslike():
         return cosines
 
     def CalcuDistance(self,spose, upose):
-        # 以下是单帧对比求相似度（结果为距离）
+        # 计算距离，用于动态时间规整
         sangles = self.CalcuCosAngles(spose)  # standard单帧所有角度余弦值
         uangles = self.CalcuCosAngles(upose)  # user单帧所有角度余弦值
         ds = 0  # ds是该帧中有效角度差之和
@@ -75,17 +77,14 @@ class Coslike():
         for i in range(len(sangles)):
             # 当某个角在用户和标准动作中都有较高置信度时[等于-2.0表示置信度小于0.1]
             if (sangles[i][0] != -2.0) & (uangles[i][0] != -2.0):
-                wi = (sangles[i][1] + uangles[i][1]) / 2  # 平均值求权重【【【】】】
+                wi = (sangles[i][1] + uangles[i][1]) / 2  # 平均值求权重【【【权重可优化】】】
                 ds += abs(math.acos(sangles[i][0]) - math.acos(uangles[i][0])) * wi  # 角度差的绝对值*该角的平均权重
                 w += wi
-                # print("angle", i, ":", abs(math.acos(sangles[i][0]) - math.acos(uangles[i][0])), " ", wi, "\n")
                 cmpare_angles=cmpare_angles+1
-                # print("angle",i,":",abs(math.acos(sangles[i][0])-math.acos(uangles[i][0]))," ",wi,"\n")
         if cmpare_angles!=0:  # w！=0,可以进行除法计算
             Distance = ds / (2 * math.pi) / w
         else:
             Distance=-1
-            # print("请保证全身出镜")
 
         return Distance
 
@@ -94,23 +93,28 @@ class Coslike():
         sangles=self.CalcuCosAngles(spose)  #standard单帧所有角度余弦值
         uangles=self.CalcuCosAngles(upose)  #user单帧所有角度余弦值
         ds=0  #ds是该帧中有效角度差之和
-        w=0
+        w=0   #用于加权
+        s=0   #用于计算分子
         cmpare_angles=0 #成功匹配的角度数目
         
         for i in range(len(sangles)):
             # 当某个角在用户和标准动作中都有较高置信度时[等于-2.0表示置信度小于0.1]
             if (sangles[i][0]!=-2.0)&(uangles[i][0]!=-2.0):
-                wi=(sangles[i][1]+uangles[i][1])/2 #平均值求权重【【【】】】
-                ds+=abs(math.acos(sangles[i][0])-math.acos(uangles[i][0]))*wi   #角度差的绝对值*该角的平均权重
+                ds+=abs(math.acos(sangles[i][0])-math.acos(uangles[i][0]))  # 求角度差之和
+        # 根据角度差，给每一个角赋予权重
+        for i in range(len(uangles)):
+            # 当某个角在用户和标准动作中都有较高置信度时[等于-2.0表示置信度小于0.1]
+            if (sangles[i][0]!=-2.0)&(uangles[i][0]!=-2.0):
+                ci=(sangles[i][1]+uangles[i][1])/2 #平均值求权重【【【】】】
+                da=abs(math.acos(sangles[i][0])-math.acos(uangles[i][0]))   # 角度差da
+                wi=ci*da/ds # wi是角度的权重
+                s+=da*wi
                 w+=wi
                 cmpare_angles=cmpare_angles+1
-                # print("angle",i,":",abs(math.acos(sangles[i][0])-math.acos(uangles[i][0]))," ",wi,"\n")
         if cmpare_angles!=0:  # w！=0,可以进行除法计算
-            likeness=1-ds/(2*math.pi)/w
+            likeness=1-s/(2*math.pi)/w
         else:
             likeness=-1
-            # print("请保证全身出镜")
-        # likeness=1-ds/(2*math.pi)/w
         return likeness
 
     # 获取数据
@@ -141,8 +145,6 @@ class Coslike():
 
     def getLikeness(self):
         # 计算标准动作和用户动作的相似度（多帧）
-        # fread=0 #正在读取的列表序号        
-        
         Length,index = self.dtww(self.spath,self.upath)
         sdata, udata = self.getData(self.spath, self.upath)
 
@@ -157,13 +159,11 @@ class Coslike():
         ssdata = np.array(ssdata).reshape(Length,54)
         uudata = np.array(uudata).reshape(Length,54)
         scores=[] # 逐帧存储分数
-        # useful_num=0 # 有效帧的个数（分数不为-1的帧是有效帧）
         # 对有效帧逐帧进行相似度比较
         for f in range(Length):
             scoref=self.CalcuLikeness(ssdata[f],uudata[f])
             if scoref != -1:
                 scores.append(scoref)
-                # useful_num=useful_num+1
         print(scores)
         avg_score=np.mean(scores)
         return avg_score
