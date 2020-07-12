@@ -1,3 +1,13 @@
+'''
+Auth://作者 吴茜
+Create date:///创建时间 2020.7.9
+Update date://签入时间 2020.7.12
+Discrip://此处须注明更新的详细内容
+    完成了label的图片正确显示
+    更改了路径
+    完成了数据显示
+'''
+
 import socket
 import sys
 from PyQt5.QtWidgets import QApplication,QWidget,QMessageBox
