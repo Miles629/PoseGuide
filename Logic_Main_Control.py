@@ -1,18 +1,11 @@
-import sys
 import socket
+import sys
+from PyQt5.QtWidgets import QApplication,QWidget,QMessageBox
 from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History
-<<<<<<< Updated upstream:Logic_Main_Control.py
-#from Image import
 from PyQt5 import QtGui,QtCore
-=======
-from PyQt5.QtWidgets import *
-from PyQt5.QtMultimedia import *
-from PyQt5.QtMultimediaWidgets import QVideoWidget
-
-
->>>>>>> Stashed changes:Page/Logic_Main_Control.py
 target_host = "39.106.96.98"
 target_port = 9998
+
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect((target_host, target_port))
 userAccount = "user"
@@ -41,14 +34,10 @@ class Login(QWidget,Login.Ui_LoginP):
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
-            print("LoginReturn:%s" %(response))
-<<<<<<< Updated upstream:Logic_Main_Control.py
+            print("loginReturn:%s" %(response))
             result = response.decode()
             print(result)
             if result == 'True':
-=======
-            if response:
->>>>>>> Stashed changes:Page/Logic_Main_Control.py
                 userAccount = user
                 self.close()
                 self.ui = MainWindow()
@@ -89,13 +78,9 @@ class Register(QWidget,Register.Ui_RegitserP):
                 client.send(msg)
                 response = client.recv(4096)
                 print("RegisterReturn:%s" %(response))
-<<<<<<< Updated upstream:Logic_Main_Control.py
                 result = response.decode()
                 print(result)
                 if result == 'True':
-=======
-                if response:
->>>>>>> Stashed changes:Page/Logic_Main_Control.py
                     userAccount = user
                     self.close()
                     self.ui = MainWindow()
@@ -182,8 +167,6 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
         self.jumpToChooseP.clicked.connect(self.jumpToChooseP_clicked)
         self.startB.clicked.connect(self.startB_clicked)
         self.jumpToScoreP.clicked.connect(self.jumpToScore_clicked)
-        #self.startB.clicked.connect()
-        #self.btn_play.clicked.connect(self.player.play)
 
     def jumpToChooseP_clicked(self):
         self.close()
@@ -199,15 +182,10 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
             client.send(msg)
             response = client.recv(4096)
             print("upHistoryReturn:%s" % (response))
-<<<<<<< Updated upstream:Logic_Main_Control.py
             result = response.decode()
             print(result)
             if result == 'True':
                 QMessageBox.warning(self,'提示','上传成功',QMessageBox.Cancel)
-=======
-            if response:
-                QMessageBox.warning(self,'提示',"分数上传成功",msg,QMessageBox.Ok)
->>>>>>> Stashed changes:Page/Logic_Main_Control.py
                 self.close()
                 self.ui = Score()
                 self.ui.show()
@@ -254,7 +232,6 @@ class History(QWidget,History.Ui_HistoryP):
                 #result[index] =
                 result.append(alist[i+2*b-2])
                 #label = "iL%s" %(str(index))
-<<<<<<< Updated upstream:Logic_Main_Control.py
         self.iL1.setText(result[0])
         self.iL2.setText(result[1])
         self.iL3.setText(result[2])
@@ -262,14 +239,6 @@ class History(QWidget,History.Ui_HistoryP):
         self.iL5.setText(result[4])
         self.iL6.setText(result[5])
 
-=======
-        self.iL1 =result[0]
-        self.iL2 = result[1]
-        self.iL3 = result[2]
-        self.iL4 = result[3]
-        self.iL5 = result[4]
-        self.iL6 = result[5]
->>>>>>> Stashed changes:Page/Logic_Main_Control.py
 
     def jumpToMainWindowP_clicked(self):
         self.close()
@@ -279,19 +248,6 @@ class History(QWidget,History.Ui_HistoryP):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    player = QMediaPlayer()
     ui = Login()
     ui.show()
     sys.exit(app.exec_())
-
-'''
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    player = QMediaPlayer()
-    vw=  QVideoWidget()                       # 定义视频显示的widget
-    vw.show()
-    player.setVideoOutput(vw)                 # 视频播放输出的widget，就是上面定义的
-    player.setMedia(QMediaContent(QFileDialog.getOpenFileUrl()[0]))  # 选取视频文件
-    player.play()                               # 播放视频
-    sys.exit(app.exec_())
-'''
