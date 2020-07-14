@@ -4,6 +4,7 @@ import cv2
 import os
 import numpy as np
 import datetime
+import cv2
 from time import sleep
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -206,54 +207,55 @@ class ThreadPose(QThread):
                                 json_result[str(findex)+".jpg"]["people"+str(i)].append(djActionInfors.fPosePos[j].x)
                                 json_result[str(findex)+".jpg"]["people"+str(i)].append(djActionInfors.fPosePos[j].y)
                                 json_result[str(findex)+".jpg"]["people"+str(i)].append(djActionInfors.fPosePos[j].p_score)
+                        # 下面是原来的显示人体姿态的部分
+                        #     # 绘制关节点
+                        #     for pose in range(djActionInfors.dwPoseNum):
+                        #         djfPosePos = djActionInfors.fPosePos[pose]
 
-                            # 绘制关节点
-                            for pose in range(djActionInfors.dwPoseNum):
-                                djfPosePos = djActionInfors.fPosePos[pose]
+                        #         if djfPosePos.p_score > threshold:
+                        #             centerPoint = (int(djfPosePos.x), int(djfPosePos.y))  # 关节点坐标
 
-                                if djfPosePos.p_score > threshold:
-                                    centerPoint = (int(djfPosePos.x), int(djfPosePos.y))  # 关节点坐标
+                        #             #colorIndex = pose * 3
+                        #             # color = (
+                        #             # gColors[(colorIndex + 2) % numberColors], gColors[(colorIndex + 1) % numberColors],
+                        #             # gColors[colorIndex % numberColors])
+                        #             cv2.circle(rgb, centerPoint, 3, (0,255,0), 1, lineType)
+                        #     # 绘制关节点连线
+                        #     for pair in range(0, len(gPosePairs), 2):
+                        #         fPosePos1 = djActionInfors.fPosePos[gPosePairs[pair]]
+                        #         fPosePos2 = djActionInfors.fPosePos[gPosePairs[pair + 1]]
+                        #         if (fPosePos1.p_score > threshold) and (fPosePos2.p_score > threshold):
+                        #             # colorIndex = gPosePairs[pair + 1] * 3
+                        #             # color = (gColors[(colorIndex + 2) % numberColors],
+                        #             #          gColors[(colorIndex + 1) % numberColors],
+                        #             #          gColors[colorIndex % numberColors])
+                        #             LineScaled = 5
+                        #             keypoint1 = (int(fPosePos1.x), int(fPosePos1.y))
+                        #             keypoint2 = (int(fPosePos2.x), int(fPosePos2.y))
+                        #             cv2.line(rgb, keypoint1, keypoint2, (0,255,0), LineScaled, lineType)
 
-                                    #colorIndex = pose * 3
-                                    # color = (
-                                    # gColors[(colorIndex + 2) % numberColors], gColors[(colorIndex + 1) % numberColors],
-                                    # gColors[colorIndex % numberColors])
-                                    cv2.circle(rgb, centerPoint, 3, (0,255,0), 1, lineType)
-                            # 绘制关节点连线
-                            for pair in range(0, len(gPosePairs), 2):
-                                fPosePos1 = djActionInfors.fPosePos[gPosePairs[pair]]
-                                fPosePos2 = djActionInfors.fPosePos[gPosePairs[pair + 1]]
-                                if (fPosePos1.p_score > threshold) and (fPosePos2.p_score > threshold):
-                                    # colorIndex = gPosePairs[pair + 1] * 3
-                                    # color = (gColors[(colorIndex + 2) % numberColors],
-                                    #          gColors[(colorIndex + 1) % numberColors],
-                                    #          gColors[colorIndex % numberColors])
-                                    LineScaled = 5
-                                    keypoint1 = (int(fPosePos1.x), int(fPosePos1.y))
-                                    keypoint2 = (int(fPosePos2.x), int(fPosePos2.y))
-                                    cv2.line(rgb, keypoint1, keypoint2, (0,255,0), LineScaled, lineType)
-
-                            # 绘制上半身矩形框
-                            # RectPoint1 = (
-                            # self.nlPose.djACTVarOut.pdjUpBodyPos[i].x, self.nlPose.djACTVarOut.pdjUpBodyPos[i].y)
-                            # RectPoint2 = (
-                            # self.nlPose.djACTVarOut.pdjUpBodyPos[i].x + self.nlPose.djACTVarOut.pdjUpBodyPos[i].width,
-                            # self.nlPose.djACTVarOut.pdjUpBodyPos[i].y + self.nlPose.djACTVarOut.pdjUpBodyPos[i].height)
-                            # cv2.rectangle(rgb, RectPoint1, RectPoint2, (200, 0, 125), 5, 8)
+                        #     # 绘制上半身矩形框
+                        #     # RectPoint1 = (
+                        #     # self.nlPose.djACTVarOut.pdjUpBodyPos[i].x, self.nlPose.djACTVarOut.pdjUpBodyPos[i].y)
+                        #     # RectPoint2 = (
+                        #     # self.nlPose.djACTVarOut.pdjUpBodyPos[i].x + self.nlPose.djACTVarOut.pdjUpBodyPos[i].width,
+                        #     # self.nlPose.djACTVarOut.pdjUpBodyPos[i].y + self.nlPose.djACTVarOut.pdjUpBodyPos[i].height)
+                        #     # cv2.rectangle(rgb, RectPoint1, RectPoint2, (200, 0, 125), 5, 8)
 
                         findex=findex+1
-                        showImage = QImage(rgb.data, width, height, bytesPerLine, QImage.Format_RGB888)
-                        self.mw.showImage = QPixmap.fromImage(showImage)
-                        self.updatedImage.emit(self.mw.frameID)
+                        # showImage = QImage(rgb.data, width, height, bytesPerLine, QImage.Format_RGB888)
+                        # self.mw.showImage = QPixmap.fromImage(showImage)
+                        # self.updatedImage.emit(self.mw.frameID)
                     else:
                         # 显示结果到图片上
                         print('No object:', ret)
-                        height, width, bytesPerComponent = limg.shape
-                        bytesPerLine = bytesPerComponent * width
-                        rgb = cv2.cvtColor(limg, cv2.COLOR_BGR2RGB)
-                        showImage = QImage(rgb.data, width, height, bytesPerLine, QImage.Format_RGB888)
-                        self.mw.showImage = QPixmap.fromImage(showImage)
-                        self.updatedImage.emit(self.mw.frameID)
+                        # 下面是原来采集摄像头的部分
+                        # height, width, bytesPerComponent = limg.shape
+                        # bytesPerLine = bytesPerComponent * width
+                        # rgb = cv2.cvtColor(limg, cv2.COLOR_BGR2RGB)
+                        # showImage = QImage(rgb.data, width, height, bytesPerLine, QImage.Format_RGB888)
+                        # self.mw.showImage = QPixmap.fromImage(showImage)
+                        # self.updatedImage.emit(self.mw.frameID)
                 else:
                     print('Var Init Error code:', ret)
                     sleep(0.001)
@@ -338,6 +340,8 @@ class ThreadCap(QThread):
             self.mutex.unlock()
 
 
+
+
     def stop(self):
         self.working = False
         self.mutex.lock()
@@ -346,3 +350,26 @@ class ThreadCap(QThread):
         self.cap = None
         self.mutex.unlock()
         print('摄像机线程退出了')
+class videoshow(object):
+    def __init__(self,ctrl):
+        print("视频播放")
+    def __del__(self):
+        self.wait()
+    def start(self):
+        # if videoisbusy ==False:
+            cap = cv2.VideoCapture('test.mp4') ###修改路径
+            cv2.namedWindow("video", 0)
+            cv2.resizeWindow("video", 1920, 1080)
+            while(cap.isOpened()):
+                ret, frame = cap.read()
+                if ret == True:
+                    cv2.imshow('video', frame)
+                    if cv2.waitKey(1) & 0xFF == ord('q'):
+                        break
+                else:
+                    break
+            cap.release()
+            cv2.destroyAllWindows()
+    def stop(self):
+        cap.release()
+        cv2.destroyAllWindows()
