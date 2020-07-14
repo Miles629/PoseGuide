@@ -15,6 +15,7 @@ from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History
 from PyQt5 import QtGui,QtCore
 from datetime import datetime
 import globalvar
+import modelload
 target_host = "39.106.96.98"
 target_port = 9998
 
@@ -180,6 +181,15 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
         self.jumpToChooseP.clicked.connect(self.jumpToChooseP_clicked)
         self.startB.clicked.connect(self.startB_clicked)
         self.jumpToScoreP.clicked.connect(self.jumpToScore_clicked)
+        self.startB.setEnabled(True)
+        self.jumpToScoreP.setEnabled(False)
+        self.libNamePath = "/system/3559v100_AI_libs/libNL_ACTIONENC.so"
+        self.configPath = b"/system/3559v100_AI_model"
+        # 线程变量初始化
+        self.threadCap = None
+        self.nlPose = None
+        self.capWidth = 640
+        self.capHeight = 480
 
     def jumpToChooseP_clicked(self):
         self.close()
@@ -188,6 +198,15 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
 
     def jumpToScore_clicked(self):
         try:
+            if self.threadCap:
+                self.threadCap.stop()
+                self.threadCap.wait()
+                self.threadAlgorithm.stop()
+                self.threadAlgorithm.wait()
+            del self.threadCap
+            del self.threadAlgorithm
+        # self.startB.setEnabled(True)
+        # self.j.setEnabled(False)
             # 上传训练历史记录的格式如下，u用户名item训练项目s分数dp存储路径dur持续时间date训练日期
             #msg = "uphistory u item s dp dur date"
             # date=datetime.date()
@@ -212,8 +231,37 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
 
 
     def startB_clicked(self):
-        do = "nothing"
+                # configPath = b"/system/3559v100_AI_model"
+        # libNamePath = "/system/3559v100_AI_libs/libNL_ACTIONENC.so"  # 模型名字
+        # box = VideoBox(libNamePath, configPath, 640, 480)
+        # box.show()
+    # def startButtonPressed(self):
+        # self.info_label.setText('加载中......')
+        print("clicked!")
+        self.startB.setEnabled(False)
+        self.jumpToScoreP.setEnabled(True)
+        # 设置双线程
+        self.frameID = 0
+        self.CapIsbasy = False
+        self.AlgIsbasy = False
+        self.showImage = None
+        self.limg = None
+        # 线程1相机采集
+        self.threadCap = None
+        self.threadCap = modelload.ThreadCap(self)
+        self.threadCap.start()
 
+        # 线程2算法处理
+        self.threadAlgorithm = None
+        self.threadAlgorithm = modelload.ThreadPose(self)
+        self.threadAlgorithm.updatedImage.connect(self.showframe)
+        self.threadAlgorithm.start()
+
+    def showframe(self):
+        # self.info_label.setText('已加载完成！')
+        self.label.setPixmap(self.showImage)
+        # if not self.jumpToScoreP.isEnabled():
+            # self.info_label.setText('已停止！')
 
 class Score(QWidget,Score.Ui_Score):
     def __init__(self):
