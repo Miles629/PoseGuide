@@ -155,18 +155,14 @@ class ThreadPose(QThread):
                 print('ComInit Error code:', ret)
             self.isInit = True
 
-#-----------------------------------------------------------------
     def coslike(self,spath,upath):
         # 标准视频和用户视频相似度比较 
         # spath:标准视频json数据路径；upath:用户视频json数据路径
         match=Coslike(spath,upath)
         return match.getLikeness()
 
-
-#-----------------------------------------------------------------
     def run(self):
         self.myInit()
-        # json_result={} #输出的json结果
         findex=0  #帧序号，从0开始，用于文件输出
         while self.working:
             self.mutex.lock()
@@ -191,7 +187,6 @@ class ThreadPose(QThread):
                         numberColors = len(gColors)
                         # 检查结果输出
                         json_result[str(findex)+".jpg"]={} # 构造json,初始化某一帧
-                        # json_result[str(findex)+".jpg"]["fIndex"]=findex # 构造json,初始化某一帧的帧序号
 
                         for i in range(int(self.nlPose.djACTVarOut.dwPersonNum)):
                             djActionInfors = self.nlPose.djACTVarOut.pdjActionInfors[i]
@@ -256,13 +251,7 @@ class ThreadPose(QThread):
 
             else:
                 sleep(0.001)
-            # 写json文件
-            # filename=
             json_result["fnum"]=findex
-            # with open(os.path.join('/system/ftproot/aa/pydemo/poses/',"json_result2.json"),'w') as output_file:
-            #     json.dump(json_result,output_file)
-            # # 返回评分结果[标准路径（前）为该动作的数据路径，用户路径（后）为该训练的数据路径，通过数据库获取]
-            # score=self.coslike()
             self.mutex.unlock()
 
 
@@ -273,6 +262,7 @@ class ThreadPose(QThread):
             self.nlPose.NL_Pose_Exit()
         self.mutex.unlock()
         print('算法线程退出了')
+        # 写json文件
         filename="u_"+datetime.now().strftime('%Y-%m-%d_%H:%M:%S')+".json"
         with open(os.path.join('/system/ftproot/aa/pydemo/poses/',filename),'w') as output_file:
             json.dump(json_result,output_file)
