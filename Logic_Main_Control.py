@@ -10,6 +10,9 @@ Discrip://此处须注明更新的详细内容
 
 import socket
 import sys
+from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History
+from PyQt5.QtWidgets import *
+from PyQt5 import QtGui,QtCore
 # from PyQt5.QtWidgets import QApplication,QWidget,QMessageBox
 from PyQt5.QtWidgets import *
 from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History
@@ -33,8 +36,9 @@ class Login(QWidget,Login.Ui_LoginP):
     def __init__(self):
         super(Login,self).__init__()
         self.setupUi(self)
-        # self.imageL.setPixmap(QtGui.QPixmap("Image/15562886683298.png"))
-        self.imageL.setPixmap(QPixmap("Image/15562886683298.png"))
+
+        self.imageL.setPixmap(QtGui.QPixmap("Image/patten.png"))
+
         self.jumpToRegisterP.clicked.connect(self.jumpToRegisterP_clicked)
         self.loginB_2.clicked.connect(self.loginB_clicked)
 
@@ -69,13 +73,11 @@ class Login(QWidget,Login.Ui_LoginP):
             QMessageBox.warning(self,"错误",e,QMessageBox.Cancel)
 
 
-
-
 class Register(QWidget,Register.Ui_RegitserP):
     def __init__(self):
         super(Register, self).__init__()
         self.setupUi(self)
-        self.imageL.setPixmap(QtGui.QPixmap("Image/15562886683298.png"))
+        self.imageL.setPixmap(QtGui.QPixmap("Image/patten.png"))
         self.jumpToLoginP.clicked.connect(self.jumpToLoginP_clicked)
         self.registerB.clicked.connect(self.registerB_clicked)
 
@@ -115,11 +117,15 @@ class Register(QWidget,Register.Ui_RegitserP):
             QMessageBox.warning(self,"错误",e,QMessageBox.Cancel)
 
 
-
 class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setupUi(self)
+        self.backgroud.setPixmap(QtGui.QPixmap("Image/patten.png"))
+        self.jumpToChooseP.setIcon(QtGui.QIcon("Image/button1.png"))
+        self.jumpToLikeP.setIcon(QtGui.QIcon("Image/button2.png"))
+        self.jumpToHistoryP.setIcon(QtGui.QIcon("Image/button3.png"))
+
         self.jumpToLoginP.clicked.connect(self.jumpToLoginP_clicked)
         self.jumpToChooseP.clicked.connect(self.jumpToChooseP_clicked)
         self.jumpToHistoryP.clicked.connect(self.jumpToHistoryP_clicked)
@@ -135,7 +141,7 @@ class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
         self.ui.show()
     def jumpToHistoryP_clicked(self):
         try:
-            msg = "askhistory %s" %('wx')
+            msg = "askhistory %s" %(userAccount)
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
@@ -163,19 +169,118 @@ class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
         '''
 
 
-
 class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
     def __init__(self):
         super(ChooseTrain, self).__init__()
         self.setupUi(self)
+        self.imagel.setPixmap(QtGui.QPixmap("Image/patten2.png"))
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
-        self.chooseCurrentVideoB.clicked.connect(self.chooseCurrentVideoB_clicked)
+
+        self.listWidget_1.itemClicked.connect(self.jump)
+        self.listWidget_2.itemClicked.connect(self.jump)
+        self.listWidget_3.itemClicked.connect(self.jump)
+        self.listWidget_4.itemClicked.connect(self.jump)
+        self.listWidget_5.itemClicked.connect(self.jump)
+        self.getData()
 
     def jumpToMainWindowP_clicked(self):
         self.close()
         self.ui = MainWindow()
         self.ui.show()
-    def chooseCurrentVideoB_clicked(self):
+
+    def getData(self):
+
+        '''
+        1.从数据库获取数据，然后分解
+        2.将每个单元的内容改成：视频名，视频封面，视频类型，视频难度，视频介绍
+        3.将‘视频封面路径，视频名，视频类型，视频难度，视频介绍’传入add中
+        '''
+        self.itemAdd1(self.add())
+        self.itemAdd2(self.add())
+        self.itemAdd3(self.add())
+        self.itemAdd4(self.add())
+        self.itemAdd5(self.add())
+
+    def add(self,image,l1, l2, l3,l4):
+        self.imagel = QLabel()
+        self.lb1 = QLabel()
+        self.lb2 = QLabel()
+        self.lb3 = QLabel()
+        self.lb4 = QLabel()
+        wight = QWidget()
+        # 设置属性
+        self.imagel.setPixmap(QtGui.QPixmap('image/%s.png'%(image)).scaled(421, 316))
+        self.imagel.setFixedSize(421, 316)
+        # self.imagel.setScaledContents(True)  # 让图片自适应label大小
+
+        self.lb1.setStyleSheet("background-color:#ffffff")
+        self.lb1.setStyleSheet("color:#07213a")
+        self.lb1.setText(l1)
+        self.lb1.setFont(QtGui.QFont("Adobe Arabic", 22, 80))
+
+        self.lb2.setStyleSheet("background-color:#ffffff")
+        self.lb2.setStyleSheet("color:#52968e")
+        self.lb2.setText(l2)
+        self.lb2.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+
+        self.lb4.setStyleSheet("background-color:#ffffff")
+        self.lb4.setStyleSheet("color:#52968e")
+        self.lb4.setText(l4)
+        self.lb4.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+
+        self.lb3.setStyleSheet("background-color:#ffffff")
+        self.lb3.setStyleSheet("color:#829cb5")
+        self.lb3.setWordWrap(True)
+        self.lb3.setText(l3)
+        self.lb3.setFont(QtGui.QFont("Adobe Arabic", 18, 50))
+
+        # 布局
+        layout_main = QHBoxLayout()
+        layout_middel = QVBoxLayout()
+
+        # 添加控件
+        layout_middel.addWidget(self.lb1)
+        layout_middel.addWidget(self.lb2)
+        layout_middel.addWidget(self.lb4)
+        layout_main.addWidget(self.imagel)
+        layout_main.addLayout(layout_middel)
+        layout_main.addWidget(self.lb3)
+        wight.setLayout(layout_main)
+        #self.itemAdd(wight)
+        return wight
+
+    def itemAdd1(self, object):
+        item = QListWidgetItem()
+        item.setSizeHint(QtCore.QSize(900, 230))
+        self.listWidget_1.addItem(item)
+        self.listWidget_1.setItemWidget(item, object)
+        self.listWidget_1.setWrapping(True)
+    def itemAdd2(self, object):
+        item = QListWidgetItem()
+        item.setSizeHint(QtCore.QSize(900, 230))
+        self.listWidget_1.addItem(item)
+        self.listWidget_1.setItemWidget(item, object)
+        self.listWidget_1.setWrapping(True)
+    def itemAdd3(self, object):
+        item = QListWidgetItem()
+        item.setSizeHint(QtCore.QSize(900, 230))
+        self.listWidget_1.addItem(item)
+        self.listWidget_1.setItemWidget(item, object)
+        self.listWidget_1.setWrapping(True)
+    def itemAdd4(self, object):
+        item = QListWidgetItem()
+        item.setSizeHint(QtCore.QSize(900, 230))
+        self.listWidget_1.addItem(item)
+        self.listWidget_1.setItemWidget(item, object)
+        self.listWidget_1.setWrapping(True)
+    def itemAdd5(self, object):
+        item = QListWidgetItem()
+        item.setSizeHint(QtCore.QSize(900, 230))
+        self.listWidget_1.addItem(item)
+        self.listWidget_1.setItemWidget(item, object)
+        self.listWidget_1.setWrapping(True)
+
+    def jump(self):
         self.close()
         self.ui = StartTrain()
         self.ui.show()
@@ -374,8 +479,9 @@ class Score(QWidget,Score.Ui_Score):
         super(Score, self).__init__()
         self.setupUi(self)
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
+        self.imagL.setPixmap(QtGui.QPixmap("Image/patten2.png"))
         self.scoreL.setText('90')
-        self.suggestionL.setText('待改进')
+        self.label.setText('建议是')
 
     def jumpToMainWindowP_clicked(self):
         self.close()
@@ -387,26 +493,55 @@ class History(QWidget,History.Ui_HistoryP):
     def __init__(self,alist):
         super(History, self).__init__()
         self.setupUi(self)
+        self.imageL.setPixmap(QtGui.QPixmap("Image/patten3.png"))
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
+        #目前的添加只考虑了添加1条的情况，多条数据分解，需要与数据库结合考虑
+        self.record(alist)
 
+    # "uphistory u item s dp dur date"
+
+    def record(self,alist):
+        #分解数据
         num = alist[0].split('"')
         num = num[0].split('(')
         num = num[0]
-        print(num)
-        index = 0
         result = []
         for a in range(1, int(num) + 1):
             for b in range(1, 7):
                 i = 14 * a - 11
-                #result[index] =
-                result.append(alist[i+2*b-2])
-                #label = "iL%s" %(str(index))
-        self.iL1.setText(result[0])
-        self.iL2.setText(result[1])
-        self.iL3.setText(result[2])
-        self.iL4.setText(result[3])
-        self.iL5.setText(result[4])
-        self.iL6.setText(result[5])
+                result.append(alist[i + 2 * b - 2])
+        #显示再界面上
+        lb0 = QLabel(result[0])
+        lb1 = QLabel(result[1])
+        lb2 = QLabel(result[2])
+        lb3 = QLabel(result[4])
+        lb4 = QLabel(result[5])
+        wight = QWidget()
+        layoutH = QHBoxLayout()
+
+        lb0.setStyleSheet("color:#07213a")
+        lb0.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+
+        lb1.setStyleSheet("color:#07213a")
+        lb1.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+
+        lb2.setStyleSheet("color:#07213a")
+        lb2.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+
+        lb3.setStyleSheet("color:#07213a")
+        lb3.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+
+        lb4.setStyleSheet("color:#07213a")
+        lb4.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+
+        layoutH.addWidget(lb0)
+        layoutH.addWidget(lb1)
+        layoutH.addWidget(lb2)
+        layoutH.addWidget(lb3)
+        layoutH.addWidget(lb4)
+        wight.setLayout(layoutH)
+        self.itemAdd(wight)
+
 
 
     def jumpToMainWindowP_clicked(self):
@@ -414,9 +549,15 @@ class History(QWidget,History.Ui_HistoryP):
         self.ui = MainWindow()
         self.ui.show()
 
+    def itemAdd(self, object):
+        item = QListWidgetItem()
+        item.setSizeHint(QtCore.QSize(620, 70))
+        self.listWidget.addItem(item)
+        self.listWidget.setItemWidget(item, object)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ui = Login()
+    ui = ChooseTrain()
     ui.show()
     sys.exit(app.exec_())
