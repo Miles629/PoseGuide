@@ -9,6 +9,8 @@ Discrip://此处须注明更新的详细内容
     修改了部分细节便于进行输出和判断
     7.12
     优化了余弦比较算法中的权重，分数拉开了10分，帧比较部分还可以继续优化
+    7.15
+    增加了分部位的评分，增加了改进建议
 '''
 import math
 import json
@@ -26,7 +28,7 @@ class Coslike():
         self.upath=myupath
 
     #计算向量夹角余弦
-    def VectorCosine(self,p,o,q,pose):
+    def __VectorCosine(self,p,o,q,pose):
         #其中p,o,q为三个点的序号，返回值为∠POQ的余弦值
         # 读取O\P\Q三个点的x,y,c【置信度】
         xp=pose[3*p]
@@ -49,27 +51,58 @@ class Coslike():
         x2=xq-xo
         y2=yq-yo
         cosine=(x1*x2+y1*y2)/(math.sqrt(x1**2+y1**2)*math.sqrt(x2**2+y2**2))
+        cosine=float(format(cosine,'.6f'))
+        # cosine=int(cosine*100000)/100000
         return [cosine,c]
 
-    def CalcuCosAngles(self,pose):
+    def __CalcuCosAngles(self,pose):
         # 计算某一帧的10个角度，返回值为列表[[角1余弦，角置信度1],[角2余弦，角置信度2]...]
         cosines=[]
-        cosines.append(self.VectorCosine(0,1,2,pose))
-        cosines.append(self.VectorCosine(1,2,3,pose))
-        cosines.append(self.VectorCosine(2,3,4,pose))
-        cosines.append(self.VectorCosine(0,1,5,pose))
-        cosines.append(self.VectorCosine(1,5,6,pose))
-        cosines.append(self.VectorCosine(5,6,7,pose))
-        cosines.append(self.VectorCosine(1,8,9,pose))
-        cosines.append(self.VectorCosine(8,9,10,pose))
-        cosines.append(self.VectorCosine(1,11,12,pose))
-        cosines.append(self.VectorCosine(11,12,13,pose))
+        cosines.append(self.__VectorCosine(0,1,2,pose))
+        cosines.append(self.__VectorCosine(1,2,3,pose))
+        cosines.append(self.__VectorCosine(2,3,4,pose))
+        cosines.append(self.__VectorCosine(0,1,5,pose))
+        cosines.append(self.__VectorCosine(1,5,6,pose))
+        cosines.append(self.__VectorCosine(5,6,7,pose))
+        cosines.append(self.__VectorCosine(1,8,9,pose))
+        cosines.append(self.__VectorCosine(8,9,10,pose))
+        cosines.append(self.__VectorCosine(1,11,12,pose))
+        cosines.append(self.__VectorCosine(11,12,13,pose))
         return cosines
 
-    def CalcuDistance(self,spose, upose):
+    def __CalcuPartsScores(self,spose,upose):
+        # 计算单帧中，各身体部位的分数
+        sangles = self.__CalcuCosAngles(spose)  # standard单帧所有角度余弦值
+        uangles = self.__CalcuCosAngles(upose)  # user单帧所有角度余弦值
+        part_scores={}
+        part_scores["头部"]=self.__CalcuPartScore(0,3,sangles,uangles)
+        part_scores["左臂"]=self.__CalcuPartScore(4,5,sangles,uangles)
+        part_scores["右臂"]=self.__CalcuPartScore(1,2,sangles,uangles)
+        part_scores["左腿"]=self.__CalcuPartScore(8,9,sangles,uangles)
+        part_scores["右腿"]=self.__CalcuPartScore(6,7,sangles,uangles)
+        return part_scores
+
+
+    def __CalcuPartScore(self,index1,index2,sangles,uangles):
+        # 计算某部分的分数 index1,index2是该身体部位的两个角的序号
+        if (sangles[index1][0]!=-2.0)&(uangles[index1][0]!=-2.0)&(sangles[index2][0]!=-2.0)&(uangles[index2][0]!=-2.0):
+            c0 = (sangles[index1][1] + uangles[index1][1]) / 2
+            c1 = (sangles[index2][1] + uangles[index2][1]) / 2
+
+            d0=abs(math.acos(sangles[index1][0]) - math.acos(uangles[index1][0]))
+            d1=abs(math.acos(sangles[index2][0]) - math.acos(uangles[index2][0]))
+            ds=d0+d1
+            w0 = c0*d0/ds
+            w1 = c1*d1/ds
+            return 1-(d0*w0+d1*w1)/(2*math.pi*(w0+w1))
+        else:
+            return -1
+
+
+    def __CalcuDistance(self,spose, upose):
         # 计算距离，用于动态时间规整
-        sangles = self.CalcuCosAngles(spose)  # standard单帧所有角度余弦值
-        uangles = self.CalcuCosAngles(upose)  # user单帧所有角度余弦值
+        sangles = self.__CalcuCosAngles(spose)  # standard单帧所有角度余弦值
+        uangles = self.__CalcuCosAngles(upose)  # user单帧所有角度余弦值
         ds = 0  # ds是该帧中有效角度差之和
         w = 0
         cmpare_angles=0 #成功匹配的角度数目
@@ -88,10 +121,10 @@ class Coslike():
 
         return Distance
 
-    def CalcuLikeness(self,spose,upose):
+    def __CalcuLikeness(self,spose,upose):
         # 以下是单帧对比求相似度
-        sangles=self.CalcuCosAngles(spose)  #standard单帧所有角度余弦值
-        uangles=self.CalcuCosAngles(upose)  #user单帧所有角度余弦值
+        sangles=self.__CalcuCosAngles(spose)  #standard单帧所有角度余弦值
+        uangles=self.__CalcuCosAngles(upose)  #user单帧所有角度余弦值
         ds=0  #ds是该帧中有效角度差之和
         w=0   #用于加权
         s=0   #用于计算分子
@@ -105,7 +138,7 @@ class Coslike():
         for i in range(len(uangles)):
             # 当某个角在用户和标准动作中都有较高置信度时[等于-2.0表示置信度小于0.1]
             if (sangles[i][0]!=-2.0)&(uangles[i][0]!=-2.0):
-                ci=(sangles[i][1]+uangles[i][1])/2 #平均值求权重【【【】】】
+                ci=(sangles[i][1]+uangles[i][1])/2   #平均置信度
                 da=abs(math.acos(sangles[i][0])-math.acos(uangles[i][0]))   # 角度差da
                 wi=ci*da/ds # wi是角度的权重
                 s+=da*wi
@@ -138,7 +171,7 @@ class Coslike():
     # 动态时间规整，返回规整后序列长度，以及规整后的序列编号，index[0]为标准序列，index[1]为用户序列
     def dtww(self,sf_name,uf_name):
         sdata,udata = self.getData(sf_name, uf_name)
-        distance = lambda x, y: self.CalcuDistance(x, y)
+        distance = lambda x, y: self.__CalcuDistance(x, y)
         d, cost_matrix, acc_cost_matrix, index = dtw(sdata, udata, dist=distance)
         pathLength = len(index[0])
         return pathLength,index
@@ -159,11 +192,26 @@ class Coslike():
         ssdata = np.array(ssdata).reshape(Length,54)
         uudata = np.array(uudata).reshape(Length,54)
         scores=[] # 逐帧存储分数
+
         # 对有效帧逐帧进行相似度比较
         for f in range(Length):
-            scoref=self.CalcuLikeness(ssdata[f],uudata[f])
+            scoref=self.__CalcuLikeness(ssdata[f],uudata[f])
             if scoref != -1:
                 scores.append(scoref)
-        print(scores)
-        avg_score=np.mean(scores)
-        return avg_score
+        # print(scores)
+        avg_score=np.nanmean(scores)
+
+        # 计算各部分相似度
+        part_scores={"头部":[],"左臂":[],"右臂":[],"左腿":[],"右腿":[]}
+        for f in range(Length):
+            fpart_score=self.__CalcuPartsScores(ssdata[f],uudata[f])
+            print(fpart_score)
+            for k in part_scores.keys():
+                if fpart_score[k] !=-1:
+                    part_scores[k].append(fpart_score[k])
+        for k in part_scores.keys():
+            part_scores[k]=np.nanmean(part_scores[k])
+        print(part_scores)
+
+
+        return avg_score,part_scores,comment
