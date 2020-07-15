@@ -150,6 +150,47 @@ class Coslike():
             likeness=-1
         return likeness
 
+    def giveComments(self, avg_score, part_scores):
+        # 写评论头、评论尾
+        head, comment_good, comment_bad, end="","","",""
+        # end=""
+        if avg_score>0.95:
+            head="您本次的运动表现很棒哟！"
+            end=""
+        elif avg_score>0.90:
+            head="本次运动表现不错~"
+            end="加油！奥利给！"
+        else:
+            head="呀，您的运动还有待改善喔。"
+            end="再接再厉！"
+        # 写动作分析评论
+        goodparts, badparts=[], []
+        # badparts=[]
+        for k in part_scores.keys():
+            if part_scores[k]>0.9:
+                goodparts.append(k)
+            elif part_scores[k]<=0.9:
+                badparts.append(k)
+            else:
+                continue
+        # comment_good=""
+        # comment_bad=""
+        if len(goodparts)>0:
+            parts=""
+            for p in goodparts:
+                parts+=p+"、"
+            comment_good="在"+parts[:-1]+"上，您有较高的准确度，继续保持哟！"
+        if len(badparts)>0:
+            parts=""
+            for p in badparts:
+                parts+=p+"、"
+            comment_bad="如果能多注意下"+parts[:-1]+"部位的动作，你一定能做的更好！"
+        print(goodparts,badparts,comment_good,comment_bad)
+        comment=head+comment_good+comment_bad+end
+        print(comment)
+        return comment
+        
+
     # 获取数据
     def getData(self,sf_name, uf_name):
         with open(sf_name, 'r') as load_sf, open(uf_name, 'r') as load_uf:
@@ -213,5 +254,6 @@ class Coslike():
             part_scores[k]=np.nanmean(part_scores[k])
         print(part_scores)
 
+        comment=self.giveComments(avg_score, part_scores)
 
         return avg_score,part_scores,comment
