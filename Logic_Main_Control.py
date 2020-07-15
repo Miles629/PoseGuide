@@ -10,18 +10,15 @@ Discrip://此处须注明更新的详细内容
 
 import socket
 import sys
-<<<<<<< HEAD
 from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History
 from PyQt5.QtWidgets import *
 from PyQt5 import QtGui,QtCore
-=======
 # from PyQt5.QtWidgets import QApplication,QWidget,QMessageBox
 from PyQt5.QtWidgets import *
 from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History
 # from PyQt5 import QtGui
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
->>>>>>> master
 from datetime import datetime
 import cv2
 import globalvar
@@ -39,12 +36,9 @@ class Login(QWidget,Login.Ui_LoginP):
     def __init__(self):
         super(Login,self).__init__()
         self.setupUi(self)
-<<<<<<< HEAD
+
         self.imageL.setPixmap(QtGui.QPixmap("Image/patten.png"))
-=======
-        # self.imageL.setPixmap(QtGui.QPixmap("Image/15562886683298.png"))
-        self.imageL.setPixmap(QPixmap("Image/15562886683298.png"))
->>>>>>> master
+
         self.jumpToRegisterP.clicked.connect(self.jumpToRegisterP_clicked)
         self.loginB_2.clicked.connect(self.loginB_clicked)
 
@@ -504,10 +498,6 @@ class History(QWidget,History.Ui_HistoryP):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-<<<<<<< HEAD
     ui = ChooseTrain()
-=======
-    ui = MainWindow()
->>>>>>> master
     ui.show()
     sys.exit(app.exec_())
