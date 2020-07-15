@@ -197,6 +197,7 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
         # 线程变量初始化
         self.threadCap = None
         self.nlPose = None
+        self.videoth = None
         self.capWidth = 640
         self.capHeight = 480
 #       尝试播放视频
@@ -205,8 +206,27 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
 
 
         # 创建一个关闭事件并设为未触发
-        self.stopEvent = threading.Event()
-        self.stopEvent.clear()
+        # self.stopEvent = threading.Event()
+        # self.stopEvent.clear()
+    # 尝试开始的时候用视频显示
+    #     self.timer_camera = QTimer(self)
+    #     self.cap = cv2.VideoCapture(0)  
+    #     self.timer_camera.timeout.connect(self.show_pic)
+    #     self.begin=False
+    #     self.timer_camera.start(10)
+    # def show_pic(self):
+    #     print("kaishi")
+    #     # image_resize = cv2.resize(image, (1280, 960), interpolation=cv2.INTER_CUBIC)
+    #     if self.begin==False:
+    #         print("begin=false")
+    #         success, frame=self.cap.read()
+    #         if success:
+    #             show = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    #             showImage = QImage(show.data, show.shape[1], show.shape[0], QImage.Format_RGB888)
+    #             self.label.setPixmap(QPixmap.fromImage(showImage))
+    #             self.timer_camera.start(10)
+    #     else:
+    #         return
 
 
 
@@ -278,6 +298,7 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
         self.CapIsbasy = False
         self.AlgIsbasy = False
         self.videoisbusy = False
+        self.CapIsReady = False
         self.showImage = None
         self.limg = None
         # 线程1相机采集
@@ -288,7 +309,7 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
         # 线程2算法处理
         self.threadAlgorithm = None
         self.threadAlgorithm = modelload.ThreadPose(self)
-        # self.threadAlgorithm.updatedImage.connect(self.showframe)
+        self.threadAlgorithm.updatedImage.connect(self.showframe)
         self.threadAlgorithm.start()
 
         # 线程3播放视频
@@ -303,11 +324,14 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
 
     def jumpToScore_clicked(self):
         try:
+            self.jumpToChooseP.setEnabled(False)
             if self.threadCap:
                 self.threadCap.stop()
                 self.threadCap.wait()
                 self.threadAlgorithm.stop()
                 self.threadAlgorithm.wait()
+                self.showvedio.stop()
+                self.showvedio.wait()
             del self.threadCap
             del self.threadAlgorithm
             del self.showvedio
@@ -338,11 +362,11 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
 
 
     
-    # def showframe(self):
-    #     # self.info_label.setText('已加载完成！')
-    #     self.label.setPixmap(self.showImage)
-    #     # if not self.jumpToScoreP.isEnabled():
-    #         # self.info_label.setText('已停止！')
+    def showframe(self):
+        # self.info_label.setText('已加载完成！')
+        self.label.setPixmap(self.showImage)
+        # if not self.jumpToScoreP.isEnabled():
+            # self.info_label.setText('已停止！')
         
 
 class Score(QWidget,Score.Ui_Score):

@@ -1,4 +1,12 @@
-
+'''
+Auth://作者 马草原 张智敏
+Create date:///创建时间 2020.7.9
+Update date://签入时间 2020.7.12
+Discrip://此处须注明更新的详细内容
+    完成了label的图片正确显示
+    更改了路径
+    完成了数据显示
+'''
 import sys
 import cv2
 import os
@@ -21,6 +29,7 @@ so = cdll.LoadLibrary("/system/3559v100_AI_libs/libNL_POSE.so")
 json_result={}
 # from PyQt5 import QtCore, QtGui, QtWidgets
 score=10
+isTrainning=False  #是否已经在训练中 
 gl._init()
 
 # 结构体定义
@@ -145,11 +154,30 @@ class ThreadPose(QThread):
         self.nlPose = None
         self.working = True
         self.isInit = False
+        
+        # mw.timer_camera = QTimer(mw)
+        # mw.cap = cv2.VideoCapture(0)  
+        # mw.timer_camera.timeout.connect(mw.show_pic)
+        # self.begin=False
+        # mw.timer_camera.start(10)
+
         QThread.__init__(self)
 
     def __del__(self):
         self.wait()
-
+    # def show_pic(self,mw):
+    #     print("kaishi")
+    #     # image_resize = cv2.resize(image, (1280, 960), interpolation=cv2.INTER_CUBIC)
+    #     if self.begin==False:
+    #         print("begin=false")
+    #         success, frame=mw.cap.read()
+    #         if success:
+    #             show = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    #             showImage = QImage(show.data, show.shape[1], show.shape[0], QImage.Format_RGB888)
+    #             mw.label.setPixmap(QPixmap.fromImage(showImage))
+    #             mw.timer_camera.start(10)
+    #     else:
+    #         return
     def myInit(self):
         if not self.isInit:
             self.nlPose = NL_Pose(self.mw.libNamePath)
@@ -161,19 +189,18 @@ class ThreadPose(QThread):
                 print('ComInit Error code:', ret)
             self.isInit = True
 
-#-----------------------------------------------------------------
     def coslike(self,spath,upath):
         # 标准视频和用户视频相似度比较 
         # spath:标准视频json数据路径；upath:用户视频json数据路径
         match=Coslike(spath,upath)
         return match.getLikeness()
 
-
-#-----------------------------------------------------------------
     def run(self):
         self.myInit()
-        # json_result={} #输出的json结果
         findex=0  #帧序号，从0开始，用于文件输出
+        isReady=False
+        global isTrainning
+        print("检测线程开始")
         while self.working:
             self.mutex.lock()
             if self.mw.AlgIsbasy == False and not (self.mw.limg is None):
@@ -182,80 +209,48 @@ class ThreadPose(QThread):
                 ret = self.nlPose.NL_Pose_InitVarIn(limg)
                 if ret == 0:
                     ret = self.nlPose.NL_Pose_Process_C()  # 返回值是目标个数
-                    # start = cv2.getTickCount()
-                    # end = cv2.getTickCount()
-                    # during = (end - start) / cv2.getTickFrequency()
-                    # print('time used:' + str(during))
                     if ret > 0:
-                        # 显示结果到图片上
-                        height, width, bytesPerComponent = limg.shape
-                        bytesPerLine = bytesPerComponent * width
-                        rgb = cv2.cvtColor(limg, cv2.COLOR_BGR2RGB)
-                        # 人脸检测结果输出
-                        lineType = 8
-                        threshold = 0.05
-                        numberColors = len(gColors)
-                        # 检查结果输出
-                        json_result[str(findex)+".jpg"]={} # 构造json,初始化某一帧
-                        # json_result[str(findex)+".jpg"]["fIndex"]=findex # 构造json,初始化某一帧的帧序号
+                        if isReady==False:
+                            # 显示结果到图片上
+                            height, width, bytesPerComponent = limg.shape
+                            bytesPerLine = bytesPerComponent * width
+                            rgb = cv2.cvtColor(limg, cv2.COLOR_BGR2RGB)
+                            showImage = QImage(rgb.data, width, height, bytesPerLine, QImage.Format_RGB888)
+                            self.mw.showImage = QPixmap.fromImage(showImage)
+                            self.updatedImage.emit(self.mw.frameID)
+                            for i in range(int(self.nlPose.djACTVarOut.dwPersonNum)):
+                                    djActionInfors = self.nlPose.djACTVarOut.pdjActionInfors[i]
+                                    if djActionInfors.pdwHandUp == 1:
+                                        # 如果举起手
+                                        isReady=True
+                                        isTrainning=True
+                                        self.mw.CapIsReady=True
+                                        print("举手")
+                        else:
+                            # 检查结果输出
+                            json_result[str(findex)+".jpg"]={} # 构造json,初始化某一帧
 
-                        for i in range(int(self.nlPose.djACTVarOut.dwPersonNum)):
-                            djActionInfors = self.nlPose.djACTVarOut.pdjActionInfors[i]
-                            # 【改】↓json文件输出相关
-                            json_result[str(findex)+".jpg"]["people"+str(i)]=[] # 构造json,初始化某一人
-                            for j in range(18): # 构造json,填充每一帧骨骼数据
-                                json_result[str(findex)+".jpg"]["people"+str(i)].append(djActionInfors.fPosePos[j].x)
-                                json_result[str(findex)+".jpg"]["people"+str(i)].append(djActionInfors.fPosePos[j].y)
-                                json_result[str(findex)+".jpg"]["people"+str(i)].append(djActionInfors.fPosePos[j].p_score)
-                        # 下面是原来的显示人体姿态的部分
-                        #     # 绘制关节点
-                        #     for pose in range(djActionInfors.dwPoseNum):
-                        #         djfPosePos = djActionInfors.fPosePos[pose]
+                            for i in range(int(self.nlPose.djACTVarOut.dwPersonNum)):
+                                djActionInfors = self.nlPose.djACTVarOut.pdjActionInfors[i]
+                                # 【改】↓json文件输出相关
+                                json_result[str(findex)+".jpg"]["people"+str(i)]=[] # 构造json,初始化某一人
+                                for j in range(18): # 构造json,填充每一帧骨骼数据
+                                    json_result[str(findex)+".jpg"]["people"+str(i)].append(djActionInfors.fPosePos[j].x)
+                                    json_result[str(findex)+".jpg"]["people"+str(i)].append(djActionInfors.fPosePos[j].y)
+                                    json_result[str(findex)+".jpg"]["people"+str(i)].append(djActionInfors.fPosePos[j].p_score)
 
-                        #         if djfPosePos.p_score > threshold:
-                        #             centerPoint = (int(djfPosePos.x), int(djfPosePos.y))  # 关节点坐标
-
-                        #             #colorIndex = pose * 3
-                        #             # color = (
-                        #             # gColors[(colorIndex + 2) % numberColors], gColors[(colorIndex + 1) % numberColors],
-                        #             # gColors[colorIndex % numberColors])
-                        #             cv2.circle(rgb, centerPoint, 3, (0,255,0), 1, lineType)
-                        #     # 绘制关节点连线
-                        #     for pair in range(0, len(gPosePairs), 2):
-                        #         fPosePos1 = djActionInfors.fPosePos[gPosePairs[pair]]
-                        #         fPosePos2 = djActionInfors.fPosePos[gPosePairs[pair + 1]]
-                        #         if (fPosePos1.p_score > threshold) and (fPosePos2.p_score > threshold):
-                        #             # colorIndex = gPosePairs[pair + 1] * 3
-                        #             # color = (gColors[(colorIndex + 2) % numberColors],
-                        #             #          gColors[(colorIndex + 1) % numberColors],
-                        #             #          gColors[colorIndex % numberColors])
-                        #             LineScaled = 5
-                        #             keypoint1 = (int(fPosePos1.x), int(fPosePos1.y))
-                        #             keypoint2 = (int(fPosePos2.x), int(fPosePos2.y))
-                        #             cv2.line(rgb, keypoint1, keypoint2, (0,255,0), LineScaled, lineType)
-
-                        #     # 绘制上半身矩形框
-                        #     # RectPoint1 = (
-                        #     # self.nlPose.djACTVarOut.pdjUpBodyPos[i].x, self.nlPose.djACTVarOut.pdjUpBodyPos[i].y)
-                        #     # RectPoint2 = (
-                        #     # self.nlPose.djACTVarOut.pdjUpBodyPos[i].x + self.nlPose.djACTVarOut.pdjUpBodyPos[i].width,
-                        #     # self.nlPose.djACTVarOut.pdjUpBodyPos[i].y + self.nlPose.djACTVarOut.pdjUpBodyPos[i].height)
-                        #     # cv2.rectangle(rgb, RectPoint1, RectPoint2, (200, 0, 125), 5, 8)
-
-                        findex=findex+1
-                        # showImage = QImage(rgb.data, width, height, bytesPerLine, QImage.Format_RGB888)
-                        # self.mw.showImage = QPixmap.fromImage(showImage)
-                        # self.updatedImage.emit(self.mw.frameID)
+                            findex=findex+1
                     else:
                         # 显示结果到图片上
                         print('No object:', ret)
-                        # 下面是原来采集摄像头的部分
-                        # height, width, bytesPerComponent = limg.shape
-                        # bytesPerLine = bytesPerComponent * width
-                        # rgb = cv2.cvtColor(limg, cv2.COLOR_BGR2RGB)
-                        # showImage = QImage(rgb.data, width, height, bytesPerLine, QImage.Format_RGB888)
-                        # self.mw.showImage = QPixmap.fromImage(showImage)
-                        # self.updatedImage.emit(self.mw.frameID)
+                        # 如果在摄像头调整阶段，显示摄像头内容
+                        if isReady==False:
+                            height, width, bytesPerComponent = limg.shape
+                            bytesPerLine = bytesPerComponent * width
+                            rgb = cv2.cvtColor(limg, cv2.COLOR_BGR2RGB)
+                            showImage = QImage(rgb.data, width, height, bytesPerLine, QImage.Format_RGB888)
+                            self.mw.showImage = QPixmap.fromImage(showImage)
+                            self.updatedImage.emit(self.mw.frameID)
                 else:
                     print('Var Init Error code:', ret)
                     sleep(0.001)
@@ -263,13 +258,7 @@ class ThreadPose(QThread):
 
             else:
                 sleep(0.001)
-            # 写json文件
-            # filename=
             json_result["fnum"]=findex
-            # with open(os.path.join('/system/ftproot/aa/pydemo/poses/',"json_result2.json"),'w') as output_file:
-            #     json.dump(json_result,output_file)
-            # # 返回评分结果[标准路径（前）为该动作的数据路径，用户路径（后）为该训练的数据路径，通过数据库获取]
-            # score=self.coslike()
             self.mutex.unlock()
 
 
@@ -340,8 +329,6 @@ class ThreadCap(QThread):
             self.mutex.unlock()
 
 
-
-
     def stop(self):
         self.working = False
         self.mutex.lock()
@@ -350,13 +337,31 @@ class ThreadCap(QThread):
         self.cap = None
         self.mutex.unlock()
         print('摄像机线程退出了')
-class videoshow(object):
-    def __init__(self,ctrl):
-        print("视频播放")
+class videoshow(QThread):
+    def __init__(self, mw):
+        print("videoshow")
+        self.mw = mw
+        self.cap = cv2.VideoCapture('test.mp4')
+        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.mw.capWidth)
+        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.mw.capHeight)
+        self.working = True
+        self.mutex = QMutex()
+        QThread.__init__(self)
     def __del__(self):
         self.wait()
-    def start(self):
-        # if videoisbusy ==False:
+    def run(self):
+        print("视频播放线程run")
+        self.mutex.lock()
+        # while self.working:
+        print("视频播放线程working")
+        QApplication.processEvents()
+        # if not self.mw.CapIsbasy:
+        while self.mw.CapIsReady==False:
+            continue
+        if self.mw.CapIsReady:
+        # 采集图像的过程中
+            print("播放视频")
+            # self.mw.CapIsbasy = True
             cap = cv2.VideoCapture('test.mp4') ###修改路径
             cv2.namedWindow("video", 0)
             cv2.resizeWindow("video", 1920, 1080)
@@ -369,7 +374,20 @@ class videoshow(object):
                 else:
                     break
             cap.release()
-            cv2.destroyAllWindows()
+            cv2.destroyWindow("video")
+            # break
+            # self.mutex.unlock()
+            # self.mw.CapIsbasy = False
+        else:
+            sleep(1000)
+        # self.mw.CapIsReady=False
+        self.mutex.unlock()
+        self.working = False
     def stop(self):
-        cap.release()
-        cv2.destroyAllWindows()
+        self.working = False
+        self.mutex.lock()
+        if not (self.cap is None):
+            self.cap.release()
+        self.cap = None
+        self.mutex.unlock()
+        print('视频线程退出了')
