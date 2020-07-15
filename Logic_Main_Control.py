@@ -10,8 +10,8 @@ Discrip://此处须注明更新的详细内容
 
 import socket
 import sys
-from PyQt5.QtWidgets import QApplication,QWidget,QMessageBox
 from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History
+from PyQt5.QtWidgets import *
 from PyQt5 import QtGui,QtCore
 from datetime import datetime
 import globalvar
@@ -161,13 +161,112 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         super(ChooseTrain, self).__init__()
         self.setupUi(self)
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
-        self.chooseCurrentVideoB.clicked.connect(self.chooseCurrentVideoB_clicked)
+
+        self.listWidget_1.itemClicked.connect(self.jump)
+        self.listWidget_2.itemClicked.connect(self.jump)
+        self.listWidget_3.itemClicked.connect(self.jump)
+        self.listWidget_4.itemClicked.connect(self.jump)
+        self.listWidget_5.itemClicked.connect(self.jump)
+        self.getData()
 
     def jumpToMainWindowP_clicked(self):
         self.close()
         self.ui = MainWindow()
         self.ui.show()
-    def chooseCurrentVideoB_clicked(self):
+
+    def getData(self):
+
+        '''
+        1.从数据库获取数据，然后分解
+        2.将每个单元的内容改成：视频名，视频封面，视频类型，视频难度，视频介绍
+        3.将‘视频封面路径，视频名，视频类型，视频难度，视频介绍’传入add中
+        '''
+        self.itemAdd1(self.add())
+        self.itemAdd2(self.add())
+        self.itemAdd3(self.add())
+        self.itemAdd4(self.add())
+        self.itemAdd5(self.add())
+
+    def add(self,image,l1, l2, l3,l4):
+        self.imagel = QLabel()
+        self.lb1 = QLabel()
+        self.lb2 = QLabel()
+        self.lb3 = QLabel()
+        self.lb4 = QLabel()
+        wight = QWidget()
+        # 设置属性
+        self.imagel.setPixmap(QtGui.QPixmap('image/%s.png'%(image)).scaled(421, 316))
+        self.imagel.setFixedSize(421, 316)
+        # self.imagel.setScaledContents(True)  # 让图片自适应label大小
+
+        self.lb1.setStyleSheet("background-color:#ffffff")
+        self.lb1.setStyleSheet("color:#07213a")
+        self.lb1.setText(l1)
+        self.lb1.setFont(QtGui.QFont("Adobe Arabic", 22, 80))
+
+        self.lb2.setStyleSheet("background-color:#ffffff")
+        self.lb2.setStyleSheet("color:#52968e")
+        self.lb2.setText(l2)
+        self.lb2.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+
+        self.lb4.setStyleSheet("background-color:#ffffff")
+        self.lb4.setStyleSheet("color:#52968e")
+        self.lb4.setText(l4)
+        self.lb4.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+
+        self.lb3.setStyleSheet("background-color:#ffffff")
+        self.lb3.setStyleSheet("color:#829cb5")
+        self.lb3.setWordWrap(True)
+        self.lb3.setText(l3)
+        self.lb3.setFont(QtGui.QFont("Adobe Arabic", 18, 50))
+
+        # 布局
+        layout_main = QHBoxLayout()
+        layout_middel = QVBoxLayout()
+
+        # 添加控件
+        layout_middel.addWidget(self.lb1)
+        layout_middel.addWidget(self.lb2)
+        layout_middel.addWidget(self.lb4)
+        layout_main.addWidget(self.imagel)
+        layout_main.addLayout(layout_middel)
+        layout_main.addWidget(self.lb3)
+        wight.setLayout(layout_main)
+        #self.itemAdd(wight)
+        return wight
+
+    def itemAdd1(self, object):
+        item = QListWidgetItem()
+        item.setSizeHint(QtCore.QSize(900, 230))
+        self.listWidget_1.addItem(item)
+        self.listWidget_1.setItemWidget(item, object)
+        self.listWidget_1.setWrapping(True)
+    def itemAdd2(self, object):
+        item = QListWidgetItem()
+        item.setSizeHint(QtCore.QSize(900, 230))
+        self.listWidget_1.addItem(item)
+        self.listWidget_1.setItemWidget(item, object)
+        self.listWidget_1.setWrapping(True)
+    def itemAdd3(self, object):
+        item = QListWidgetItem()
+        item.setSizeHint(QtCore.QSize(900, 230))
+        self.listWidget_1.addItem(item)
+        self.listWidget_1.setItemWidget(item, object)
+        self.listWidget_1.setWrapping(True)
+    def itemAdd4(self, object):
+        item = QListWidgetItem()
+        item.setSizeHint(QtCore.QSize(900, 230))
+        self.listWidget_1.addItem(item)
+        self.listWidget_1.setItemWidget(item, object)
+        self.listWidget_1.setWrapping(True)
+    def itemAdd5(self, object):
+        item = QListWidgetItem()
+        item.setSizeHint(QtCore.QSize(900, 230))
+        self.listWidget_1.addItem(item)
+        self.listWidget_1.setItemWidget(item, object)
+        self.listWidget_1.setWrapping(True)
+
+    def jump(self):
         self.close()
         self.ui = StartTrain()
         self.ui.show()
@@ -263,6 +362,6 @@ class History(QWidget,History.Ui_HistoryP):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ui = Login()
+    ui = ChooseTrain()
     ui.show()
     sys.exit(app.exec_())

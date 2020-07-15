@@ -13,67 +13,13 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="horizontalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>1090</x>
-     <y>240</y>
-     <width>581</width>
-     <height>201</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <property name="spacing">
-     <number>50</number>
-    </property>
-    <item>
-     <widget class="QPushButton" name="jumpToChooseP">
-      <property name="font">
-       <font>
-        <family>Adobe Arabic</family>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>训练</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="jumpToLikeP">
-      <property name="font">
-       <font>
-        <family>Adobe Arabic</family>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>收藏夹</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="jumpToHistoryP">
-      <property name="font">
-       <font>
-        <family>Adobe Arabic</family>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>历史记录</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
   <widget class="QPushButton" name="jumpToLoginP">
    <property name="geometry">
     <rect>
-     <x>1740</x>
-     <y>30</y>
-     <width>100</width>
-     <height>50</height>
+     <x>1730</x>
+     <y>20</y>
+     <width>161</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="font">
@@ -83,9 +29,127 @@
     </font>
    </property>
    <property name="text">
-    <string>退出登录</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../Image/loginB.png</normaloff>../Image/loginB.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>161</width>
+     <height>61</height>
+    </size>
    </property>
   </widget>
+  <widget class="QLabel" name="backgroudL">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1920</width>
+     <height>1080</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>../Image/MianWindow.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="jumpToChooseP">
+   <property name="geometry">
+    <rect>
+     <x>1260</x>
+     <y>220</y>
+     <width>143</width>
+     <height>320</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../Image/button1.png</normaloff>../Image/button1.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>143</width>
+     <height>320</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="jumpToLikeP">
+   <property name="geometry">
+    <rect>
+     <x>1472</x>
+     <y>324</y>
+     <width>143</width>
+     <height>320</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../Image/button2.png</normaloff>../Image/button2.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>143</width>
+     <height>320</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="jumpToHistoryP">
+   <property name="geometry">
+    <rect>
+     <x>1706</x>
+     <y>416</y>
+     <width>143</width>
+     <height>320</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../Image/button3.png</normaloff>../Image/button3.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>143</width>
+     <height>320</height>
+    </size>
+   </property>
+  </widget>
+  <zorder>backgroudL</zorder>
+  <zorder>jumpToLoginP</zorder>
+  <zorder>jumpToChooseP</zorder>
+  <zorder>jumpToLikeP</zorder>
+  <zorder>jumpToHistoryP</zorder>
  </widget>
  <resources/>
  <connections/>
