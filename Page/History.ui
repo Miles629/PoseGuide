@@ -13,30 +13,11 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="searchB">
-   <property name="geometry">
-    <rect>
-     <x>1720</x>
-     <y>90</y>
-     <width>80</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Adobe Arabic</family>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>搜索</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="jumpToMainWindowP">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>50</y>
+     <x>1730</x>
+     <y>30</y>
      <width>100</width>
      <height>50</height>
     </rect>
@@ -44,125 +25,141 @@
    <property name="font">
     <font>
      <family>Adobe Arabic</family>
-     <pointsize>14</pointsize>
+     <pointsize>18</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(7, 33, 58);
+color: rgb(252, 204, 220);</string>
    </property>
    <property name="text">
     <string>返回首页</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="searchT">
+  <widget class="QLabel" name="imageL">
    <property name="geometry">
     <rect>
-     <x>1070</x>
-     <y>90</y>
-     <width>600</width>
-     <height>50</height>
+     <x>0</x>
+     <y>0</y>
+     <width>1920</width>
+     <height>1080</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>Adobe Arabic</family>
-     <pointsize>14</pointsize>
-    </font>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>../Image/patten3.png</pixmap>
    </property>
   </widget>
-  <widget class="QWidget" name="gridLayoutWidget">
+  <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>430</x>
-     <y>490</y>
-     <width>661</width>
-     <height>111</height>
+     <x>680</x>
+     <y>130</y>
+     <width>1141</width>
+     <height>80</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="4">
-     <widget class="QLabel" name="durL">
-      <property name="text">
-       <string>时间</string>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <family>Adobe Arabic</family>
+        <pointsize>22</pointsize>
+       </font>
       </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="iL1">
-      <property name="text">
-       <string>TextLabel</string>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);</string>
       </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QLabel" name="iL2">
-      <property name="text">
-       <string>itemL</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_2">
       <property name="text">
        <string>用户</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="3">
-     <widget class="QLabel" name="label_6">
+    <item>
+     <widget class="QLabel" name="label_2">
+      <property name="font">
+       <font>
+        <family>Adobe Arabic</family>
+        <pointsize>22</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);</string>
+      </property>
       <property name="text">
-       <string>路径</string>
+       <string>项目名</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="2">
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>分数</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
+    <item>
      <widget class="QLabel" name="label_3">
+      <property name="font">
+       <font>
+        <family>Adobe Arabic</family>
+        <pointsize>22</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);</string>
+      </property>
       <property name="text">
-       <string>项目</string>
+       <string>得分</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="5">
-     <widget class="QLabel" name="dataL">
+    <item>
+     <widget class="QLabel" name="label_5">
+      <property name="font">
+       <font>
+        <family>Adobe Arabic</family>
+        <pointsize>22</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);</string>
+      </property>
       <property name="text">
-       <string>日期</string>
+       <string>时长</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="2">
-     <widget class="QLabel" name="iL3">
-      <property name="text">
-       <string>TextLabel</string>
+    <item>
+     <widget class="QLabel" name="label_4">
+      <property name="font">
+       <font>
+        <family>Adobe Arabic</family>
+        <pointsize>22</pointsize>
+       </font>
       </property>
-     </widget>
-    </item>
-    <item row="1" column="3">
-     <widget class="QLabel" name="iL4">
-      <property name="text">
-       <string>TextLabel</string>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);</string>
       </property>
-     </widget>
-    </item>
-    <item row="1" column="4">
-     <widget class="QLabel" name="iL5">
       <property name="text">
-       <string>TextLabel</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="5">
-     <widget class="QLabel" name="iL6">
-      <property name="text">
-       <string>TextLabel</string>
+       <string>训练日期</string>
       </property>
      </widget>
     </item>
    </layout>
   </widget>
+  <widget class="QListWidget" name="listWidget">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>210</y>
+     <width>1140</width>
+     <height>620</height>
+    </rect>
+   </property>
+  </widget>
+  <zorder>imageL</zorder>
+  <zorder>jumpToMainWindowP</zorder>
+  <zorder>horizontalLayoutWidget</zorder>
+  <zorder>listWidget</zorder>
  </widget>
  <resources/>
  <connections/>

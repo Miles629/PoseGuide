@@ -141,7 +141,7 @@ class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
         self.ui.show()
     def jumpToHistoryP_clicked(self):
         try:
-            msg = "askhistory %s" %('wx')
+            msg = "askhistory %s" %(userAccount)
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
@@ -455,8 +455,9 @@ class Score(QWidget,Score.Ui_Score):
         super(Score, self).__init__()
         self.setupUi(self)
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
+        self.imagL.setPixmap(QtGui.QPixmap("Image/patten2.png"))
         self.scoreL.setText('90')
-        self.suggestionL.setText('待改进')
+        self.label.setText('建议是')
 
     def jumpToMainWindowP_clicked(self):
         self.close()
@@ -468,32 +469,67 @@ class History(QWidget,History.Ui_HistoryP):
     def __init__(self,alist):
         super(History, self).__init__()
         self.setupUi(self)
+        self.imageL.setPixmap(QtGui.QPixmap("Image/patten3.png"))
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
+        #目前的添加只考虑了添加1条的情况，多条数据分解，需要与数据库结合考虑
+        self.record(alist)
 
+    # "uphistory u item s dp dur date"
+
+    def record(self,alist):
+        #分解数据
         num = alist[0].split('"')
         num = num[0].split('(')
         num = num[0]
-        print(num)
-        index = 0
         result = []
         for a in range(1, int(num) + 1):
             for b in range(1, 7):
                 i = 14 * a - 11
-                #result[index] =
-                result.append(alist[i+2*b-2])
-                #label = "iL%s" %(str(index))
-        self.iL1.setText(result[0])
-        self.iL2.setText(result[1])
-        self.iL3.setText(result[2])
-        self.iL4.setText(result[3])
-        self.iL5.setText(result[4])
-        self.iL6.setText(result[5])
+                result.append(alist[i + 2 * b - 2])
+        #显示再界面上
+        lb0 = QLabel(result[0])
+        lb1 = QLabel(result[1])
+        lb2 = QLabel(result[2])
+        lb3 = QLabel(result[4])
+        lb4 = QLabel(result[5])
+        wight = QWidget()
+        layoutH = QHBoxLayout()
+
+        lb0.setStyleSheet("color:#07213a")
+        lb0.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+
+        lb1.setStyleSheet("color:#07213a")
+        lb1.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+
+        lb2.setStyleSheet("color:#07213a")
+        lb2.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+
+        lb3.setStyleSheet("color:#07213a")
+        lb3.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+
+        lb4.setStyleSheet("color:#07213a")
+        lb4.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+
+        layoutH.addWidget(lb0)
+        layoutH.addWidget(lb1)
+        layoutH.addWidget(lb2)
+        layoutH.addWidget(lb3)
+        layoutH.addWidget(lb4)
+        wight.setLayout(layoutH)
+        self.itemAdd(wight)
+
 
 
     def jumpToMainWindowP_clicked(self):
         self.close()
         self.ui = MainWindow()
         self.ui.show()
+
+    def itemAdd(self, object):
+        item = QListWidgetItem()
+        item.setSizeHint(QtCore.QSize(620, 70))
+        self.listWidget.addItem(item)
+        self.listWidget.setItemWidget(item, object)
 
 
 if __name__ == '__main__':
