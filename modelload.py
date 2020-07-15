@@ -276,9 +276,11 @@ class ThreadPose(QThread):
         spath='./poses/json_result2.json' # 标准动作数据，调用的时候改为该动作标准数据路径
         upath='./poses/'+filename # 本次摄像头读取的用户数据
         global score
-        score=self.coslike(spath,upath) # 这个是输出的得分
-        print(score)
+        score, part_scores, comment=self.coslike(spath,upath) # 这个是输出的得分
+        print(score,part_scores,comment)
         gl.set_value("score",score)
+        gl.set_value("part_scores",part_scores)
+        gl.set_value("comment",comment)
 
 
 
