@@ -69,8 +69,6 @@ class Login(QWidget,Login.Ui_LoginP):
             QMessageBox.warning(self,"错误",e,QMessageBox.Cancel)
 
 
-
-
 class Register(QWidget,Register.Ui_RegitserP):
     def __init__(self):
         super(Register, self).__init__()
@@ -113,7 +111,6 @@ class Register(QWidget,Register.Ui_RegitserP):
 
         except Exception as e:
             QMessageBox.warning(self,"错误",e,QMessageBox.Cancel)
-
 
 
 class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
@@ -161,7 +158,6 @@ class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
         self.ui = Login()
         self.ui.show()
         '''
-
 
 
 class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
@@ -393,6 +389,6 @@ class History(QWidget,History.Ui_HistoryP):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ui = Login()
+    ui = MainWindow()
     ui.show()
     sys.exit(app.exec_())
