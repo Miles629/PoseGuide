@@ -26,7 +26,7 @@ class Login(QWidget,Login.Ui_LoginP):
     def __init__(self):
         super(Login,self).__init__()
         self.setupUi(self)
-        self.imageL.setPixmap(QtGui.QPixmap("Image/15562886683298.png"))
+        self.imageL.setPixmap(QtGui.QPixmap("Image/patten.png"))
         self.jumpToRegisterP.clicked.connect(self.jumpToRegisterP_clicked)
         self.loginB_2.clicked.connect(self.loginB_clicked)
 
@@ -67,7 +67,7 @@ class Register(QWidget,Register.Ui_RegitserP):
     def __init__(self):
         super(Register, self).__init__()
         self.setupUi(self)
-        self.imageL.setPixmap(QtGui.QPixmap("Image/15562886683298.png"))
+        self.imageL.setPixmap(QtGui.QPixmap("Image/patten.png"))
         self.jumpToLoginP.clicked.connect(self.jumpToLoginP_clicked)
         self.registerB.clicked.connect(self.registerB_clicked)
 
@@ -112,6 +112,11 @@ class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setupUi(self)
+        self.backgroud.setPixmap(QtGui.QPixmap("Image/patten.png"))
+        self.jumpToChooseP.setIcon(QtGui.QIcon("Image/button1.png"))
+        self.jumpToLikeP.setIcon(QtGui.QIcon("Image/button2.png"))
+        self.jumpToHistoryP.setIcon(QtGui.QIcon("Image/button3.png"))
+
         self.jumpToLoginP.clicked.connect(self.jumpToLoginP_clicked)
         self.jumpToChooseP.clicked.connect(self.jumpToChooseP_clicked)
         self.jumpToHistoryP.clicked.connect(self.jumpToHistoryP_clicked)
@@ -160,6 +165,7 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
     def __init__(self):
         super(ChooseTrain, self).__init__()
         self.setupUi(self)
+        self.imagel.setPixmap(QtGui.QPixmap("Image/patten2.png"))
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
 
         self.listWidget_1.itemClicked.connect(self.jump)
