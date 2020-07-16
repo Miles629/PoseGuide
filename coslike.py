@@ -239,6 +239,7 @@ class Coslike():
             scoref=self.__CalcuLikeness(ssdata[f],uudata[f])
             if scoref != -1:
                 scores.append(scoref)
+
         # print(scores)
         avg_score=np.nanmean(scores)
 

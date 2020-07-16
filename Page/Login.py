@@ -87,7 +87,7 @@ class Ui_LoginP(object):
         self.userT = QtWidgets.QTextEdit(self.verticalLayoutWidget_2)
         font = QtGui.QFont()
         font.setFamily("Adobe Arabic")
-        font.setPointSize(14)
+        font.setPointSize(20)
         self.userT.setFont(font)
         self.userT.setStyleSheet("color: rgb(0, 0, 0);")
         self.userT.setInputMethodHints(QtCore.Qt.ImhNone)
@@ -96,13 +96,13 @@ class Ui_LoginP(object):
         self.pwdT = QtWidgets.QTextEdit(self.verticalLayoutWidget_2)
         font = QtGui.QFont()
         font.setFamily("Adobe Arabic")
-        font.setPointSize(14)
+        font.setPointSize(20)
         self.pwdT.setFont(font)
         self.pwdT.setStyleSheet("color: rgb(0, 0, 0);")
         self.pwdT.setObjectName("pwdT")
         self.verticalLayout_3.addWidget(self.pwdT)
         self.loginB_2 = QtWidgets.QPushButton(LoginP)
-        self.loginB_2.setGeometry(QtCore.QRect(1310, 790, 101, 50))
+        self.loginB_2.setGeometry(QtCore.QRect(1310, 790, 120, 80))
         font = QtGui.QFont()
         font.setFamily("Adobe Arabic")
         font.setPointSize(22)
@@ -116,10 +116,10 @@ class Ui_LoginP(object):
 "")
         self.loginB_2.setObjectName("loginB_2")
         self.jumpToRegisterP = QtWidgets.QPushButton(LoginP)
-        self.jumpToRegisterP.setGeometry(QtCore.QRect(1520, 710, 250, 50))
+        self.jumpToRegisterP.setGeometry(QtCore.QRect(1489, 710, 281, 80))
         font = QtGui.QFont()
         font.setFamily("Adobe Arabic")
-        font.setPointSize(18)
+        font.setPointSize(20)
         font.setBold(True)
         font.setWeight(75)
         self.jumpToRegisterP.setFont(font)
@@ -149,12 +149,12 @@ class Ui_LoginP(object):
         self.userT.setHtml(_translate("LoginP", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Adobe Arabic\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'SimSun\'; color:#6a6a6a;\">username</span></p></body></html>"))
+"</style></head><body style=\" font-family:\'Adobe Arabic\'; font-size:20pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'SimSun\'; font-size:14pt; color:#6a6a6a;\">username</span></p></body></html>"))
         self.pwdT.setHtml(_translate("LoginP", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Adobe Arabic\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'SimSun\'; color:#6a6a6a;\">password</span></p></body></html>"))
+"</style></head><body style=\" font-family:\'Adobe Arabic\'; font-size:20pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'SimSun\'; font-size:14pt; color:#6a6a6a;\">password</span></p></body></html>"))
         self.loginB_2.setText(_translate("LoginP", "登录"))
         self.jumpToRegisterP.setText(_translate("LoginP", "没有账号？快速注册"))

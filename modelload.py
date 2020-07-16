@@ -262,7 +262,7 @@ class ThreadPose(QThread):
             self.mutex.unlock()
 
 
-    def stop(self):  # 重写stop方法
+    def stop(self,json1):  # 重写stop方法
         self.working = False
         self.mutex.lock()
         if self.isInit:
@@ -273,7 +273,7 @@ class ThreadPose(QThread):
         with open(os.path.join('./poses/',filename),'w') as output_file:
             json.dump(json_result,output_file)
         # 返回评分结果
-        spath='./poses/json_result2.json' # 标准动作数据，调用的时候改为该动作标准数据路径
+        spath='./poses/%s'%(json1) # 标准动作数据，调用的时候改为该动作标准数据路径
         upath='./poses/'+filename # 本次摄像头读取的用户数据
         global score
         score, part_scores, comment=self.coslike(spath,upath) # 这个是输出的得分

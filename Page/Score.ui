@@ -16,16 +16,16 @@
   <widget class="QPushButton" name="jumpToMainWindowP">
    <property name="geometry">
     <rect>
-     <x>1790</x>
-     <y>30</y>
-     <width>100</width>
-     <height>50</height>
+     <x>1710</x>
+     <y>40</y>
+     <width>120</width>
+     <height>80</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Adobe Arabic</family>
-     <pointsize>18</pointsize>
+     <pointsize>20</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -47,118 +47,21 @@ color: rgb(252, 204, 220);</string>
      <height>1080</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
    <property name="text">
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>../Image/patten2.png</pixmap>
-   </property>
-  </widget>
-  <widget class="QLabel" name="videoL">
-   <property name="geometry">
-    <rect>
-     <x>110</x>
-     <y>160</y>
-     <width>534</width>
-     <height>400</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(252, 204, 220);</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="cameraL">
-   <property name="geometry">
-    <rect>
-     <x>110</x>
-     <y>630</y>
-     <width>534</width>
-     <height>400</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(252, 204, 220);</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>110</x>
-     <y>100</y>
-     <width>100</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Adobe Arabic</family>
-     <pointsize>18</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string>标准视频</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>110</x>
-     <y>570</y>
-     <width>100</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Adobe Arabic</family>
-     <pointsize>18</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string>录制视频</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>970</x>
-     <y>160</y>
-     <width>80</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Adobe Arabic</family>
-     <pointsize>22</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string>分数：</string>
+    <pixmap>../Image/patten4.png</pixmap>
    </property>
   </widget>
   <widget class="QLabel" name="scoreL">
    <property name="geometry">
     <rect>
-     <x>1060</x>
-     <y>160</y>
+     <x>1570</x>
+     <y>140</y>
      <width>100</width>
      <height>50</height>
     </rect>
@@ -176,35 +79,13 @@ color: rgb(252, 204, 220);</string>
     <string>TextLabel</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_4">
+  <widget class="QLabel" name="commentL">
    <property name="geometry">
     <rect>
-     <x>970</x>
-     <y>260</y>
-     <width>80</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Adobe Arabic</family>
-     <pointsize>22</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string>建议：</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_5">
-   <property name="geometry">
-    <rect>
-     <x>970</x>
-     <y>320</y>
-     <width>101</width>
-     <height>41</height>
+     <x>1450</x>
+     <y>410</y>
+     <width>381</width>
+     <height>341</height>
     </rect>
    </property>
    <property name="font">
@@ -226,16 +107,125 @@ color: rgb(252, 204, 220);</string>
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QLabel" name="headl">
+   <property name="geometry">
+    <rect>
+     <x>1050</x>
+     <y>90</y>
+     <width>100</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>22</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lefthandL">
+   <property name="geometry">
+    <rect>
+     <x>1230</x>
+     <y>270</y>
+     <width>100</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>22</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="rightlegL">
+   <property name="geometry">
+    <rect>
+     <x>1310</x>
+     <y>740</y>
+     <width>100</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>22</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="leftlegL">
+   <property name="geometry">
+    <rect>
+     <x>780</x>
+     <y>830</y>
+     <width>100</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>22</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="righthandL">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>120</y>
+     <width>100</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>22</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
   <zorder>imagL</zorder>
   <zorder>jumpToMainWindowP</zorder>
-  <zorder>videoL</zorder>
-  <zorder>cameraL</zorder>
-  <zorder>label</zorder>
-  <zorder>label_2</zorder>
-  <zorder>label_3</zorder>
   <zorder>scoreL</zorder>
-  <zorder>label_4</zorder>
-  <zorder>label_5</zorder>
+  <zorder>commentL</zorder>
+  <zorder>headl</zorder>
+  <zorder>lefthandL</zorder>
+  <zorder>rightlegL</zorder>
+  <zorder>leftlegL</zorder>
+  <zorder>righthandL</zorder>
  </widget>
  <resources/>
  <connections/>
