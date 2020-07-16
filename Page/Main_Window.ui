@@ -13,44 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="jumpToLoginP">
-   <property name="geometry">
-    <rect>
-<<<<<<< HEAD
-     <x>1730</x>
-     <y>20</y>
-     <width>161</width>
-     <height>61</height>
-=======
-     <x>1710</x>
-     <y>70</y>
-     <width>100</width>
-     <height>50</height>
->>>>>>> master
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Adobe Arabic</family>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="text">
-<<<<<<< HEAD
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>../Image/loginB.png</normaloff>../Image/loginB.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>161</width>
-     <height>61</height>
-    </size>
-   </property>
-  </widget>
-  <widget class="QLabel" name="backgroudL">
+  <widget class="QLabel" name="imageL">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -65,6 +28,9 @@
    <property name="pixmap">
     <pixmap>../Image/MianWindow.png</pixmap>
    </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QPushButton" name="jumpToChooseP">
    <property name="geometry">
@@ -75,18 +41,12 @@
      <height>320</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>Adobe Arabic</family>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
    <property name="text">
     <string/>
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../Image/button1.png</normaloff>../Image/button1.png</iconset>
+     <normaloff>Image/button1.png</normaloff>Image/button1.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -98,24 +58,18 @@
   <widget class="QPushButton" name="jumpToLikeP">
    <property name="geometry">
     <rect>
-     <x>1472</x>
+     <x>1474</x>
      <y>324</y>
      <width>143</width>
      <height>320</height>
     </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Adobe Arabic</family>
-     <pointsize>14</pointsize>
-    </font>
    </property>
    <property name="text">
     <string/>
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../Image/button2.png</normaloff>../Image/button2.png</iconset>
+     <normaloff>Image/button2.png</normaloff>Image/button2.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -131,56 +85,14 @@
      <y>416</y>
      <width>143</width>
      <height>320</height>
-=======
-    <string>退出登录</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="jumpToChooseP">
-   <property name="geometry">
-    <rect>
-     <x>1260</x>
-     <y>220</y>
-     <width>141</width>
-     <height>321</height>
     </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Adobe Arabic</family>
-     <pointsize>14</pointsize>
-    </font>
    </property>
    <property name="text">
     <string/>
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../Image/Button.png</normaloff>../Image/Button.png</iconset>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="jumpToLikeP">
-   <property name="geometry">
-    <rect>
-     <x>1510</x>
-     <y>490</y>
-     <width>80</width>
-     <height>50</height>
->>>>>>> master
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Adobe Arabic</family>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="text">
-<<<<<<< HEAD
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>../Image/button3.png</normaloff>../Image/button3.png</iconset>
+     <normaloff>Image/button3.png</normaloff>Image/button3.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -189,53 +101,29 @@
     </size>
    </property>
   </widget>
-  <zorder>backgroudL</zorder>
-  <zorder>jumpToLoginP</zorder>
-=======
-    <string>收藏夹</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="jumpToHistoryP">
+  <widget class="QPushButton" name="jumpToLoginP">
    <property name="geometry">
     <rect>
      <x>1720</x>
-     <y>550</y>
-     <width>80</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Adobe Arabic</family>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>历史记录</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="backgroudL">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1920</width>
-     <height>1080</height>
+     <y>20</y>
+     <width>161</width>
+     <height>80</height>
     </rect>
    </property>
    <property name="text">
     <string/>
    </property>
-   <property name="pixmap">
-    <pixmap>../Image/MianWindow.png</pixmap>
+   <property name="icon">
+    <iconset>
+     <normaloff>Image/loginB.png</normaloff>Image/loginB.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>161</width>
+     <height>80</height>
+    </size>
    </property>
   </widget>
-  <zorder>jumpToLoginP</zorder>
-  <zorder>backgroudL</zorder>
->>>>>>> master
-  <zorder>jumpToChooseP</zorder>
-  <zorder>jumpToLikeP</zorder>
-  <zorder>jumpToHistoryP</zorder>
  </widget>
  <resources/>
  <connections/>

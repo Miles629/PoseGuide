@@ -46,15 +46,19 @@
     <rect>
      <x>1700</x>
      <y>900</y>
-     <width>100</width>
-     <height>50</height>
+     <width>120</width>
+     <height>80</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Adobe Arabic</family>
-     <pointsize>14</pointsize>
+     <pointsize>20</pointsize>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(7, 33, 58);</string>
    </property>
    <property name="text">
     <string>完成录制</string>
@@ -64,16 +68,22 @@
    <property name="geometry">
     <rect>
      <x>960</x>
-     <y>50</y>
-     <width>100</width>
-     <height>50</height>
+     <y>20</y>
+     <width>120</width>
+     <height>80</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Adobe Arabic</family>
-     <pointsize>14</pointsize>
+     <pointsize>20</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(252, 204, 220);
+color: rgb(7, 33, 58);</string>
    </property>
    <property name="text">
     <string>开始录制</string>
@@ -82,20 +92,24 @@
   <widget class="QPushButton" name="jumpToChooseP">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>20</y>
-     <width>200</width>
-     <height>50</height>
+     <x>20</x>
+     <y>10</y>
+     <width>250</width>
+     <height>80</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Adobe Arabic</family>
-     <pointsize>14</pointsize>
+     <pointsize>20</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(7, 33, 58);</string>
+   </property>
    <property name="text">
-    <string>返回选择训练界面</string>
+    <string>返回选择视频</string>
    </property>
   </widget>
  </widget>

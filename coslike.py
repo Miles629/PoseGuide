@@ -167,3 +167,4 @@ class Coslike():
         print(scores)
         avg_score=np.mean(scores)
         return avg_score
+    #总分 部位 建议
