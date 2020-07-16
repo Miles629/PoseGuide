@@ -10,7 +10,7 @@ Discrip://此处须注明更新的详细内容
 
 import socket
 import sys
-from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History
+from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History,Tabel
 from PyQt5.QtWidgets import *
 from PyQt5 import QtGui,QtCore
 # from PyQt5.QtWidgets import QApplication,QWidget,QMessageBox
@@ -219,7 +219,6 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         finally:
             if f:
                 f.close()
-
 
     def add(self,image,l1, l2, l3):
         self.imagel = QLabel()
@@ -732,6 +731,18 @@ class History(QWidget,History.Ui_HistoryP):
         item.setSizeHint(QtCore.QSize(620, 70))
         self.listWidget.addItem(item)
         self.listWidget.setItemWidget(item, object)
+
+class Tabel(QWidget,Tabel.Ui_TabelP):
+    def __init__(self,alist):
+        super(Tabel, self).__init__()
+        self.setupUi(self)
+        self.imageL.setPixmap(QtGui.QPixmap("Image/patten2.png"))
+        self.jumpToChooseP.clicked.connect(self.jumpToChooseP_clicked)
+
+    def jumpToChooseP_clicked(self):
+        self.close()
+        self.ui = ChooseTrain()
+        self.ui.show()
 
 
 if __name__ == '__main__':
