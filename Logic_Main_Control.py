@@ -173,7 +173,7 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
     def __init__(self):
         super(ChooseTrain, self).__init__()
         self.setupUi(self)
-        self.imagel.setPixmap(QtGui.QPixmap("Image/patten2.png"))
+        self.label_2.setPixmap(QtGui.QPixmap("Image/patten2.png"))
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
 
         self.listWidget_1.itemClicked.connect(self.jump)
@@ -447,7 +447,9 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
             #msg = "uphistory u item s dp dur date"
             # date=datetime.date()
             date=datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
-            msg = "uphistory %s %s %s %s %s %s" % (userAccount,"项目1",globalvar.get_value("score"),"E://Video","16:00",date)
+            msg = "uphistory %s %s %s %s %s %s %s %s" % (userAccount,"项目1",globalvar.get_value("score"),"E://Video","16:00",date,globalvar.get_value("comment"),globalvar.get_value("part_scores"))
+
+            # msg = "uphistory %s %s %s %s %s %s" % (userAccount,"项目1",globalvar.get_value("score"),"E://Video","16:00",date)
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
