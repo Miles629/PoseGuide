@@ -227,6 +227,7 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         self.lb3 = QLabel()
         self.lb4 = QLabel()
         self.lb5 = QLabel()
+        self.bt = QPushButton()
         wight = QWidget()
         # 设置属性
         self.imagel.setPixmap(QtGui.QPixmap('simages/%s.png'%(image)).scaled(421, 316))
@@ -262,9 +263,15 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         self.lb5.setFont(QtGui.QFont("Adobe Arabic", 1, 50))
         self.lb5.setStyleSheet("color:#ffffff")
 
+        self.bt.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+        self.bt.setStyleSheet("color:#829cb5")
+        self.bt.setObjectName('bt')
+        self.bt.setText('详情')
+
         # 布局
         layout_main = QHBoxLayout()
         layout_middel = QVBoxLayout()
+        layout_right = QVBoxLayout()
 
         # 添加控件
         layout_middel.addWidget(self.lb1)
@@ -273,8 +280,11 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         layout_main.addWidget(self.imagel)
         layout_main.addLayout(layout_middel)
         layout_main.addWidget(self.lb3)
-        layout_main.addWidget(self.lb5)
+        layout_right.addWidget(self.bt)
+        layout_right.addWidget(self.lb5)
         wight.setLayout(layout_main)
+        layout_main.addLayout(layout_right)
+        self.bt.clicked.connect(self.jumpToTabelP(imageName[0]))
         #self.itemAdd(wight)
         return wight
 
@@ -330,7 +340,6 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
             self.ui.show()
         else:
             print('didnt find')
-
     def jump2(self):
         windows = self.listWidget_2.currentItem()
         print(type(windows))
@@ -394,7 +403,6 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
             self.ui.show()
         else:
             print('didnt find')
-
     def jump5(self):
         windows = self.listWidget_5.currentItem()
         print(type(windows))
@@ -416,6 +424,11 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
             self.ui.show()
         else:
             print('didnt find')
+
+    def jumpToTabelP(self,projectName):
+        self.close()
+        self.ui = Tabel(projectName)
+        self.ui.show()
 
 
 class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
@@ -735,7 +748,7 @@ class History(QWidget,History.Ui_HistoryP):
         self.listWidget.setItemWidget(item, object)
 
 class Tabel(QWidget,Tabel.Ui_TabelP):
-    def __init__(self,alist):
+    def __init__(self,projectName):
         super(Tabel, self).__init__()
         self.setupUi(self)
         self.imageL.setPixmap(QtGui.QPixmap("Image/patten2.png"))
