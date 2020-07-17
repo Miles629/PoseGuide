@@ -21,15 +21,15 @@ class Ui_TabelP(object):
         self.imageL.setPixmap(QtGui.QPixmap("Image/patten2.png"))
         self.imageL.setScaledContents(True)
         self.imageL.setObjectName("imageL")
-        self.pushButton = QtWidgets.QPushButton(TabelP)
-        self.pushButton.setGeometry(QtCore.QRect(1610, 50, 250, 80))
+        self.jumpToChooseP = QtWidgets.QPushButton(TabelP)
+        self.jumpToChooseP.setGeometry(QtCore.QRect(1610, 50, 250, 80))
         font = QtGui.QFont()
         font.setFamily("Adobe Arabic")
         font.setPointSize(20)
-        self.pushButton.setFont(font)
-        self.pushButton.setStyleSheet("color: rgb(252, 204, 220);\n"
+        self.jumpToChooseP.setFont(font)
+        self.jumpToChooseP.setStyleSheet("color: rgb(252, 204, 220);\n"
 "background-color: rgb(7, 33, 58);")
-        self.pushButton.setObjectName("pushButton")
+        self.jumpToChooseP.setObjectName("jumpToChooseP")
 
         self.retranslateUi(TabelP)
         QtCore.QMetaObject.connectSlotsByName(TabelP)
@@ -37,4 +37,4 @@ class Ui_TabelP(object):
     def retranslateUi(self, TabelP):
         _translate = QtCore.QCoreApplication.translate
         TabelP.setWindowTitle(_translate("TabelP", "Form"))
-        self.pushButton.setText(_translate("TabelP", "返回上一界面"))
+        self.jumpToChooseP.setText(_translate("TabelP", "返回上一界面"))

@@ -32,7 +32,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="jumpToChooseP">
    <property name="geometry">
     <rect>
      <x>1610</x>

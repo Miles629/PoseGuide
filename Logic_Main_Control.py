@@ -10,10 +10,9 @@ Discrip://此处须注明更新的详细内容
 
 import socket
 import sys
-# from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History,Tabel
+
 from PyQt5.QtWidgets import *
 from PyQt5 import QtGui,QtCore
-# from PyQt5.QtWidgets import QApplication,QWidget,QMessageBox
 from PyQt5.QtWidgets import *
 from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History,Tabel
 # from PyQt5 import QtGui
@@ -199,29 +198,28 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         2.将每个单元的内容改成：视频名，视频封面，视频类型，视频难度，视频介绍
         3.将‘视频封面路径，视频名，视频类型，视频难度，视频介绍’传入add中
         '''
-        f=''
         try:
             f = open('sposes/chooseTrain.txt', 'r', encoding='utf8', errors='ignore')
             for eachline in f.readlines():
-                eachl = eachline.split(' ')
+                eachl = eachline.split('+')
                 imagelt = eachl[0].strip('.mp4')
                 if eachl[1] =='健身':
-                    self.itemAdd1(self.add(imagelt,eachl[1],eachl[2],eachl[3]))
-                    self.itemAdd2(self.add(imagelt,eachl[1],eachl[2],eachl[3]))
+                    self.itemAdd1(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
+                    self.itemAdd2(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
                 elif eachl[1] =='有氧操':
-                    self.itemAdd1(self.add(imagelt,eachl[1],eachl[2],eachl[3]))
-                    self.itemAdd3(self.add(imagelt,eachl[1],eachl[2],eachl[3]))
+                    self.itemAdd1(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
+                    self.itemAdd3(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
                 elif eachl[1] =='舞蹈':
-                    self.itemAdd1(self.add(imagelt,eachl[1],eachl[2],eachl[3]))
-                    self.itemAdd4(self.add(imagelt,eachl[1],eachl[2],eachl[3]))
+                    self.itemAdd1(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
+                    self.itemAdd4(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
                 elif eachl[1] =='拉伸':
-                    self.itemAdd1(self.add(imagelt,eachl[1],eachl[2],eachl[3]))
-                    self.itemAdd5(self.add(imagelt,eachl[1],eachl[2],eachl[3]))
+                    self.itemAdd1(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
+                    self.itemAdd5(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
         finally:
             if f:
                 f.close()
 
-    def add(self,image,l1, l2, l3):
+    def add(self,image,l1, l2, l3,l4):
         self.imagel = QLabel()
         self.lb1 = QLabel()
         self.lb2 = QLabel()
@@ -236,7 +234,7 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         self.imagel.setObjectName('imagel')
         # self.imagel.setScaledContents(True)  # 让图片自适应label大小
 
-        imageName = image.split('-')
+        imageName = l4.split('-')
         self.lb1.setStyleSheet("background-color:#ffffff")
         self.lb1.setStyleSheet("color:#07213a")
         self.lb1.setObjectName('lb1')
@@ -283,8 +281,8 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         layout_main.addWidget(self.lb3)
         layout_right.addWidget(self.bt)
         layout_right.addWidget(self.lb5)
-        wight.setLayout(layout_main)
         layout_main.addLayout(layout_right)
+        wight.setLayout(layout_main)
         self.bt.clicked.connect(self.jumpToTabelP(imageName[0]))
         #self.itemAdd(wight)
         return wight
@@ -332,10 +330,10 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
             temp = item.text()
             # print(temp)
             t = temp.split('-')
-            prm1 = "%s-%s-%s-%s.json" % (t[0], t[1], '正', '长')
-            prm2 = "%s-%s-%s-%s.json" % (t[0], t[1], '侧', '长')
+            prm1 = "%s.json" %(temp)
+            #prm2 = "%s-%s-%s-%s.json" % (t[0], t[1], '侧', '长')
             print(prm1)
-            print(prm2)
+            #print(prm2)
             self.close()
             self.ui = StartTrain(prm1)
             self.ui.show()
@@ -353,7 +351,7 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
             temp = item.text()
             # print(temp)
             t = temp.split('-')
-            prm1 = "%s-%s-%s-%s.json" % (t[0], t[1], '正', '长')
+            prm1 = "%s.json" %(temp)
             prm2 = "%s-%s-%s-%s.json" % (t[0], t[1], '侧', '长')
             print(prm1)
             print(prm2)
@@ -374,7 +372,7 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
             temp = item.text()
             # print(temp)
             t = temp.split('-')
-            prm1 = "%s-%s-%s-%s.json" % (t[0], t[1], '正', '长')
+            prm1 = "%s.json" %(temp)
             prm2 = "%s-%s-%s-%s.json" % (t[0], t[1], '侧', '长')
             print(prm1)
             print(prm2)
@@ -395,7 +393,7 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
             temp = item.text()
             # print(temp)
             t = temp.split('-')
-            prm1 = "%s-%s-%s-%s.json" % (t[0], t[1], '正', '长')
+            prm1 = "%s.json" %(temp)
             prm2 = "%s-%s-%s-%s.json" % (t[0], t[1], '侧', '长')
             print(prm1)
             print(prm2)
@@ -416,7 +414,7 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
             temp = item.text()
             # print(temp)
             t = temp.split('-')
-            prm1 = "%s-%s-%s-%s.json" % (t[0], t[1], '正', '长')
+            prm1 = "%s.json" %(temp)
             prm2 = "%s-%s-%s-%s.json" % (t[0], t[1], '侧', '长')
             print(prm1)
             print(prm2)
@@ -600,7 +598,7 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
             video = '%s.mp4' % (tempVideo)
             temp = self.json1.split('-')
             projectName = temp[0]
-            msg = "uphistory %s %s %s %s %s %s %s %s" % (userAccount,projectName,globalvar.get_value("score"),"sposes/%s"%(video),"16:00",date,globalvar.get_value("comment"),globalvar.get_value("part_scores"))
+            msg = "uphistory %s %s %s %s %s %s %s %s" % (userAccount,projectName,globalvar.get_value("score"),"sposes/%s.mp4"%(video),"16:00",date,globalvar.get_value("comment"),globalvar.get_value("part_scores"))
 
             # msg = "uphistory %s %s %s %s %s %s" % (userAccount,"项目1",globalvar.get_value("score"),"E://Video","16:00",date)
             msg = msg.encode()
