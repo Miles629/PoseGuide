@@ -563,9 +563,12 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
         self.threadAlgorithm.updatedImage.connect(self.showframe)
         self.threadAlgorithm.start()
 
+        #获取正面视频文件名
+        tempVideo = self.json1.strip('.json')
+        video ='%s.mp4'%(tempVideo)
         # 线程3播放视频
         self.showvedio=None
-        self.showvedio=modelload.videoshow(self)
+        self.showvedio=modelload.videoshow(self,video)
         self.showvedio.start()
 
     def jumpToChooseP_clicked(self):
@@ -592,7 +595,11 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
             #msg = "uphistory u item s dp dur date"
             # date=datetime.date()
             date=datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
-            msg = "uphistory %s %s %s %s %s %s %s %s" % (userAccount,"项目1",globalvar.get_value("score"),"E://Video","16:00",date,globalvar.get_value("comment"),globalvar.get_value("part_scores"))
+            tempVideo = self.json1.strip('.json')
+            video = '%s.mp4' % (tempVideo)
+            temp = self.json1.split('-')
+            projectName = temp[0]
+            msg = "uphistory %s %s %s %s %s %s %s %s" % (userAccount,projectName,globalvar.get_value("score"),"sposes/%s"%(video),"16:00",date,globalvar.get_value("comment"),globalvar.get_value("part_scores"))
 
             # msg = "uphistory %s %s %s %s %s %s" % (userAccount,"项目1",globalvar.get_value("score"),"E://Video","16:00",date)
             msg = msg.encode()
@@ -604,7 +611,7 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
             if result == 'True':
                 QMessageBox.warning(self,'提示','上传成功',QMessageBox.Cancel)
                 self.close()
-                self.ui = Score()
+                self.ui = Score(globalvar.get_value("score"),globalvar.get_value("comment"),globalvar.get_value("part_scores"))
                 self.ui.show()
             else:
                 QMessageBox.warning(self,'提示','上传失败',QMessageBox.Cancel)
@@ -622,7 +629,7 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
         
 
 class Score(QWidget,Score.Ui_Score):
-    def __init__(self,allscore,score1,score2,score3,score4,score5,comment):
+    def __init__(self,allscore,comment,partScore):
         super(Score, self).__init__()
         self.setupUi(self)
         #self.allscore = allscore
@@ -635,11 +642,11 @@ class Score(QWidget,Score.Ui_Score):
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
         self.imagL.setPixmap(QtGui.QPixmap("Image/patten4.png"))
         self.scoreL.setText(allscore)
-        self.headl.setText(score1)
-        self.lefthandL.setText(score2)
-        self.righthandL.setText(score3)
-        self.leftlegL.setText(score4)
-        self.rightlegL.setText(score5)
+        self.headl.setText(partScore['头部'])
+        self.lefthandL.setText(partScore['左臂'])
+        self.righthandL.setText(partScore['右臂'])
+        self.leftlegL.setText(partScore['左腿'])
+        self.rightlegL.setText(partScore['右腿'])
         self.commentL.setText(comment)
 
     def jumpToMainWindowP_clicked(self):
