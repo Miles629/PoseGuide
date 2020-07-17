@@ -10,12 +10,12 @@ Discrip://此处须注明更新的详细内容
 
 import socket
 import sys
-from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History,Tabel
+# from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History,Tabel
 from PyQt5.QtWidgets import *
 from PyQt5 import QtGui,QtCore
 # from PyQt5.QtWidgets import QApplication,QWidget,QMessageBox
 from PyQt5.QtWidgets import *
-from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History
+from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History,Tabel
 # from PyQt5 import QtGui
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
@@ -199,6 +199,7 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         2.将每个单元的内容改成：视频名，视频封面，视频类型，视频难度，视频介绍
         3.将‘视频封面路径，视频名，视频类型，视频难度，视频介绍’传入add中
         '''
+        f=''
         try:
             f = open('sposes/chooseTrain.txt', 'r', encoding='utf8', errors='ignore')
             for eachline in f.readlines():
