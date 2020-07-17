@@ -204,6 +204,7 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
                 eachl = eachline.split('+')
                 imagelt = eachl[0].strip('.mp4')
                 if eachl[1] =='健身':
+                    print(eachl[4])
                     self.itemAdd1(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
                     self.itemAdd2(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
                 elif eachl[1] =='有氧操':
@@ -229,7 +230,8 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         self.bt = QPushButton()
         wight = QWidget()
         # 设置属性
-        self.imagel.setPixmap(QtGui.QPixmap('simages/%s.png'%(image)).scaled(421, 316))
+        image=image.rstrip()
+        self.imagel.setPixmap(QtGui.QPixmap('simages/%s.png'%(image)).scaled(421,316))
         self.imagel.setFixedSize(421, 316)
         self.imagel.setObjectName('imagel')
         # self.imagel.setScaledContents(True)  # 让图片自适应label大小
@@ -283,7 +285,8 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         layout_right.addWidget(self.lb5)
         layout_main.addLayout(layout_right)
         wight.setLayout(layout_main)
-        self.bt.clicked.connect(self.jumpToTabelP(imageName[0]))
+        self.programName=imageName[0]
+        self.bt.clicked.connect(self.jumpToTabelP)
         #self.itemAdd(wight)
         return wight
 
@@ -424,9 +427,9 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         else:
             print('didnt find')
 
-    def jumpToTabelP(self,projectName):
+    def jumpToTabelP(self):
         self.close()
-        self.ui = Tabel(projectName)
+        self.ui = Tabel(self.projectName)
         self.ui.show()
 
 
@@ -768,6 +771,6 @@ class Tabel(QWidget,Tabel.Ui_TabelP):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ui = ChooseTrain()
+    ui = Login()
     ui.show()
     sys.exit(app.exec_())
