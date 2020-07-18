@@ -348,10 +348,11 @@ class videoshow(QThread):
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.mw.capHeight)
         self.working = True
         self.mutex = QMutex()
-        QThread.__init__(self,video)
+        self.video=video
+        QThread.__init__(self)
     def __del__(self):
         self.wait()
-    def run(self,video):
+    def run(self):
         print("视频播放线程run")
         self.mutex.lock()
         # while self.working:
@@ -364,7 +365,7 @@ class videoshow(QThread):
         # 采集图像的过程中
             print("播放视频")
             # self.mw.CapIsbasy = True
-            cap = cv2.VideoCapture('%s.mp4'%(video)) ###修改路径
+            cap = cv2.VideoCapture('%s.mp4'%(self.video)) ###修改路径
             cv2.namedWindow("video", 0)
             cv2.resizeWindow("video", 1920, 1080)
             while(cap.isOpened()):
