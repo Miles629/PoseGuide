@@ -16,10 +16,10 @@ class Ui_ChososeTrainP(object):
         ChososeTrainP.setObjectName("ChososeTrainP")
         ChososeTrainP.resize(1920, 1080)
         self.jumpToMainWindowP = QtWidgets.QPushButton(ChososeTrainP)
-        self.jumpToMainWindowP.setGeometry(QtCore.QRect(1760, 20, 100, 50))
+        self.jumpToMainWindowP.setGeometry(QtCore.QRect(1760, 20, 120, 80))
         font = QtGui.QFont()
         font.setFamily("Adobe Arabic")
-        font.setPointSize(18)
+        font.setPointSize(20)
         font.setBold(True)
         font.setWeight(75)
         self.jumpToMainWindowP.setFont(font)
@@ -74,7 +74,7 @@ class Ui_ChososeTrainP(object):
         self.jumpToMainWindowP.raise_()
 
         self.retranslateUi(ChososeTrainP)
-        self.allWidget.setCurrentIndex(1)
+        self.allWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(ChososeTrainP)
 
     def retranslateUi(self, ChososeTrainP):
@@ -83,6 +83,6 @@ class Ui_ChososeTrainP(object):
         self.jumpToMainWindowP.setText(_translate("ChososeTrainP", "返回首页"))
         self.allWidget.setTabText(self.allWidget.indexOf(self.tab), _translate("ChososeTrainP", "全部"))
         self.allWidget.setTabText(self.allWidget.indexOf(self.tab_2), _translate("ChososeTrainP", "健身"))
-        self.allWidget.setTabText(self.allWidget.indexOf(self.tab_5), _translate("ChososeTrainP", "健美操"))
+        self.allWidget.setTabText(self.allWidget.indexOf(self.tab_5), _translate("ChososeTrainP", "有氧操"))
         self.allWidget.setTabText(self.allWidget.indexOf(self.tab_6), _translate("ChososeTrainP", "舞蹈"))
         self.allWidget.setTabText(self.allWidget.indexOf(self.tab_7), _translate("ChososeTrainP", "拉伸"))

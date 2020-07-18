@@ -18,14 +18,14 @@
     <rect>
      <x>1760</x>
      <y>20</y>
-     <width>100</width>
-     <height>50</height>
+     <width>120</width>
+     <height>80</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Adobe Arabic</family>
-     <pointsize>18</pointsize>
+     <pointsize>20</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -73,7 +73,7 @@ background-color: rgb(7, 33, 58);</string>
     <enum>QTabWidget::Triangular</enum>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -107,7 +107,7 @@ background-color: rgb(7, 33, 58);</string>
    </widget>
    <widget class="QWidget" name="tab_5">
     <attribute name="title">
-     <string>健美操</string>
+     <string>有氧操</string>
     </attribute>
     <widget class="QListWidget" name="listWidget_3">
      <property name="geometry">

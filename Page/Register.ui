@@ -18,8 +18,8 @@
     <rect>
      <x>1340</x>
      <y>860</y>
-     <width>100</width>
-     <height>50</height>
+     <width>120</width>
+     <height>80</height>
     </rect>
    </property>
    <property name="font">
@@ -155,8 +155,8 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>1720</x>
      <y>60</y>
-     <width>140</width>
-     <height>50</height>
+     <width>120</width>
+     <height>80</height>
     </rect>
    </property>
    <property name="font">

@@ -262,7 +262,7 @@ class ThreadPose(QThread):
             self.mutex.unlock()
 
 
-    def stop(self):  # 重写stop方法
+    def stop(self,json1):  # 重写stop方法
         self.working = False
         self.mutex.lock()
         if self.isInit:
@@ -273,7 +273,7 @@ class ThreadPose(QThread):
         with open(os.path.join('./poses/',filename),'w') as output_file:
             json.dump(json_result,output_file)
         # 返回评分结果
-        spath='./poses/json_result2.json' # 标准动作数据，调用的时候改为该动作标准数据路径
+        spath='./poses/%s'%(json1) # 标准动作数据，调用的时候改为该动作标准数据路径
         upath='./poses/'+filename # 本次摄像头读取的用户数据
         global score
         score, part_scores, comment=self.coslike(spath,upath) # 这个是输出的得分
@@ -340,18 +340,18 @@ class ThreadCap(QThread):
         self.mutex.unlock()
         print('摄像机线程退出了')
 class videoshow(QThread):
-    def __init__(self, mw):
+    def __init__(self, mw,video):
         print("videoshow")
         self.mw = mw
-        self.cap = cv2.VideoCapture('test.mp4')
+        self.cap = cv2.VideoCapture('%s.mp4'%(video))
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.mw.capWidth)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.mw.capHeight)
         self.working = True
         self.mutex = QMutex()
-        QThread.__init__(self)
+        QThread.__init__(self,video)
     def __del__(self):
         self.wait()
-    def run(self):
+    def run(self,video):
         print("视频播放线程run")
         self.mutex.lock()
         # while self.working:
@@ -364,7 +364,7 @@ class videoshow(QThread):
         # 采集图像的过程中
             print("播放视频")
             # self.mw.CapIsbasy = True
-            cap = cv2.VideoCapture('test.mp4') ###修改路径
+            cap = cv2.VideoCapture('%s.mp4'%(video)) ###修改路径
             cv2.namedWindow("video", 0)
             cv2.resizeWindow("video", 1920, 1080)
             while(cap.isOpened()):

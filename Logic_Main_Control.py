@@ -10,12 +10,11 @@ Discrip://此处须注明更新的详细内容
 
 import socket
 import sys
-from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History
+
 from PyQt5.QtWidgets import *
 from PyQt5 import QtGui,QtCore
-# from PyQt5.QtWidgets import QApplication,QWidget,QMessageBox
 from PyQt5.QtWidgets import *
-from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History
+from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History,Tabel
 # from PyQt5 import QtGui
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
@@ -121,7 +120,8 @@ class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setupUi(self)
-        self.backgroud.setPixmap(QtGui.QPixmap("Image/patten.png"))
+        self.imageL.setPixmap(QtGui.QPixmap("Image/patten.png"))
+        self.jumpToLoginP.setIcon(QtGui.QIcon("Image/loginB.png"))
         self.jumpToChooseP.setIcon(QtGui.QIcon("Image/button1.png"))
         self.jumpToLikeP.setIcon(QtGui.QIcon("Image/button2.png"))
         self.jumpToHistoryP.setIcon(QtGui.QIcon("Image/button3.png"))
@@ -140,7 +140,8 @@ class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
         self.ui = ChooseTrain()
         self.ui.show()
     def jumpToHistoryP_clicked(self):
-        try:
+        '''
+            try:
             msg = "askhistory %s" %(userAccount)
             msg = msg.encode()
             client.send(msg)
@@ -152,14 +153,17 @@ class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
             num = num[0]
             print(num)
             if num != 0:
-                self.close()
-                self.ui = History(alist)
-                self.ui.show()
+
             else:
                 QMessageBox.warning(self,"提示",'暂无个人历史记录',QMessageBox.Ok)
         except Exception as e:
             QMessageBox.warning(self,"错误",e,QMessageBox.Cancel)
             print(e)
+        '''
+        self.close()
+        self.ui = History()
+        self.ui.show()
+
 
     def jumpToLikeP_clicked(self):
         '''
@@ -173,14 +177,14 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
     def __init__(self):
         super(ChooseTrain, self).__init__()
         self.setupUi(self)
-        self.imagel.setPixmap(QtGui.QPixmap("Image/patten2.png"))
+        self.label_2.setPixmap(QtGui.QPixmap("Image/patten2.png"))
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
 
-        self.listWidget_1.itemClicked.connect(self.jump)
-        self.listWidget_2.itemClicked.connect(self.jump)
-        self.listWidget_3.itemClicked.connect(self.jump)
-        self.listWidget_4.itemClicked.connect(self.jump)
-        self.listWidget_5.itemClicked.connect(self.jump)
+        self.listWidget_1.itemClicked.connect(self.jump1)
+        self.listWidget_2.itemClicked.connect(self.jump2)
+        self.listWidget_3.itemClicked.connect(self.jump3)
+        self.listWidget_4.itemClicked.connect(self.jump4)
+        self.listWidget_5.itemClicked.connect(self.jump5)
         self.getData()
 
     def jumpToMainWindowP_clicked(self):
@@ -189,17 +193,32 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         self.ui.show()
 
     def getData(self):
-
         '''
         1.从数据库获取数据，然后分解
         2.将每个单元的内容改成：视频名，视频封面，视频类型，视频难度，视频介绍
         3.将‘视频封面路径，视频名，视频类型，视频难度，视频介绍’传入add中
         '''
-        self.itemAdd1(self.add())
-        self.itemAdd2(self.add())
-        self.itemAdd3(self.add())
-        self.itemAdd4(self.add())
-        self.itemAdd5(self.add())
+        try:
+            f = open('sposes/chooseTrain.txt', 'r', encoding='utf8', errors='ignore')
+            for eachline in f.readlines():
+                eachl = eachline.split('+')
+                imagelt = eachl[0].strip('.mp4')
+                if eachl[1] =='健身':
+                    print(eachl[4])
+                    self.itemAdd1(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
+                    self.itemAdd2(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
+                elif eachl[1] =='有氧操':
+                    self.itemAdd1(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
+                    self.itemAdd3(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
+                elif eachl[1] =='舞蹈':
+                    self.itemAdd1(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
+                    self.itemAdd4(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
+                elif eachl[1] =='拉伸':
+                    self.itemAdd1(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
+                    self.itemAdd5(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
+        finally:
+            if f:
+                f.close()
 
     def add(self,image,l1, l2, l3,l4):
         self.imagel = QLabel()
@@ -207,25 +226,31 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         self.lb2 = QLabel()
         self.lb3 = QLabel()
         self.lb4 = QLabel()
+        self.lb5 = QLabel()
+        self.bt = QPushButton()
         wight = QWidget()
         # 设置属性
-        self.imagel.setPixmap(QtGui.QPixmap('image/%s.png'%(image)).scaled(421, 316))
+        image=image.rstrip()
+        self.imagel.setPixmap(QtGui.QPixmap('simages/%s.png'%(image)).scaled(421,316))
         self.imagel.setFixedSize(421, 316)
+        self.imagel.setObjectName('imagel')
         # self.imagel.setScaledContents(True)  # 让图片自适应label大小
 
+        imageName = l4.split('-')
         self.lb1.setStyleSheet("background-color:#ffffff")
         self.lb1.setStyleSheet("color:#07213a")
-        self.lb1.setText(l1)
+        self.lb1.setObjectName('lb1')
+        self.lb1.setText(imageName[0])
         self.lb1.setFont(QtGui.QFont("Adobe Arabic", 22, 80))
 
         self.lb2.setStyleSheet("background-color:#ffffff")
         self.lb2.setStyleSheet("color:#52968e")
-        self.lb2.setText(l2)
+        self.lb2.setText(l1)
         self.lb2.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
 
         self.lb4.setStyleSheet("background-color:#ffffff")
         self.lb4.setStyleSheet("color:#52968e")
-        self.lb4.setText(l4)
+        self.lb4.setText(l2)
         self.lb4.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
 
         self.lb3.setStyleSheet("background-color:#ffffff")
@@ -234,9 +259,20 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         self.lb3.setText(l3)
         self.lb3.setFont(QtGui.QFont("Adobe Arabic", 18, 50))
 
+        self.lb5.setObjectName('lb5')
+        self.lb5.setText(image)
+        self.lb5.setFont(QtGui.QFont("Adobe Arabic", 1, 50))
+        self.lb5.setStyleSheet("color:#ffffff")
+
+        self.bt.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+        self.bt.setStyleSheet("color:#829cb5")
+        self.bt.setObjectName('bt')
+        self.bt.setText('详情')
+
         # 布局
         layout_main = QHBoxLayout()
         layout_middel = QVBoxLayout()
+        layout_right = QVBoxLayout()
 
         # 添加控件
         layout_middel.addWidget(self.lb1)
@@ -245,7 +281,12 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         layout_main.addWidget(self.imagel)
         layout_main.addLayout(layout_middel)
         layout_main.addWidget(self.lb3)
+        layout_right.addWidget(self.bt)
+        layout_right.addWidget(self.lb5)
+        layout_main.addLayout(layout_right)
         wight.setLayout(layout_main)
+        self.programName=imageName[0]
+        self.bt.clicked.connect(self.jumpToTabelP)
         #self.itemAdd(wight)
         return wight
 
@@ -258,38 +299,145 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
     def itemAdd2(self, object):
         item = QListWidgetItem()
         item.setSizeHint(QtCore.QSize(900, 230))
-        self.listWidget_1.addItem(item)
-        self.listWidget_1.setItemWidget(item, object)
-        self.listWidget_1.setWrapping(True)
+        self.listWidget_2.addItem(item)
+        self.listWidget_2.setItemWidget(item, object)
+        self.listWidget_2.setWrapping(True)
     def itemAdd3(self, object):
         item = QListWidgetItem()
         item.setSizeHint(QtCore.QSize(900, 230))
-        self.listWidget_1.addItem(item)
-        self.listWidget_1.setItemWidget(item, object)
-        self.listWidget_1.setWrapping(True)
+        self.listWidget_3.addItem(item)
+        self.listWidget_3.setItemWidget(item, object)
+        self.listWidget_3.setWrapping(True)
     def itemAdd4(self, object):
         item = QListWidgetItem()
         item.setSizeHint(QtCore.QSize(900, 230))
-        self.listWidget_1.addItem(item)
-        self.listWidget_1.setItemWidget(item, object)
-        self.listWidget_1.setWrapping(True)
+        self.listWidget_4.addItem(item)
+        self.listWidget_4.setItemWidget(item, object)
+        self.listWidget_4.setWrapping(True)
     def itemAdd5(self, object):
         item = QListWidgetItem()
         item.setSizeHint(QtCore.QSize(900, 230))
-        self.listWidget_1.addItem(item)
-        self.listWidget_1.setItemWidget(item, object)
-        self.listWidget_1.setWrapping(True)
+        self.listWidget_5.addItem(item)
+        self.listWidget_5.setItemWidget(item, object)
+        self.listWidget_5.setWrapping(True)
 
-    def jump(self):
+    def jump1(self):
+        windows = self.listWidget_1.currentItem()
+        print(type(windows))
+        widget = self.listWidget_1.itemWidget(windows)
+        print(type(widget))
+        item = widget.findChild(QLabel, 'lb5')
+        print(type(item))
+        if item:
+            # 这个地方负责传参数给startTrain界面，参数为（正面长.json,侧面长.json）
+            temp = item.text()
+            # print(temp)
+            t = temp.split('-')
+            prm1 = "%s.json" %(temp)
+            #prm2 = "%s-%s-%s-%s.json" % (t[0], t[1], '侧', '长')
+            print(prm1)
+            #print(prm2)
+            self.close()
+            self.ui = StartTrain(prm1)
+            self.ui.show()
+        else:
+            print('didnt find')
+    def jump2(self):
+        windows = self.listWidget_2.currentItem()
+        print(type(windows))
+        widget = self.listWidget_2.itemWidget(windows)
+        print(type(widget))
+        item = widget.findChild(QLabel, 'lb5')
+        print(type(item))
+        if item:
+            # 这个地方负责传参数给startTrain界面，参数为（正面长.json,侧面长.json）
+            temp = item.text()
+            # print(temp)
+            t = temp.split('-')
+            prm1 = "%s.json" %(temp)
+            prm2 = "%s-%s-%s-%s.json" % (t[0], t[1], '侧', '长')
+            print(prm1)
+            print(prm2)
+            self.close()
+            self.ui = StartTrain(prm1)
+            self.ui.show()
+        else:
+            print('didnt find')
+    def jump3(self):
+        windows = self.listWidget_3.currentItem()
+        print(type(windows))
+        widget = self.listWidget_3.itemWidget(windows)
+        print(type(widget))
+        item = widget.findChild(QLabel, 'lb5')
+        print(type(item))
+        if item:
+            # 这个地方负责传参数给startTrain界面，参数为（正面长.json,侧面长.json）
+            temp = item.text()
+            # print(temp)
+            t = temp.split('-')
+            prm1 = "%s.json" %(temp)
+            prm2 = "%s-%s-%s-%s.json" % (t[0], t[1], '侧', '长')
+            print(prm1)
+            print(prm2)
+            self.close()
+            self.ui = StartTrain(prm1)
+            self.ui.show()
+        else:
+            print('didnt find')
+    def jump4(self):
+        windows = self.listWidget_4.currentItem()
+        print(type(windows))
+        widget = self.listWidget_4.itemWidget(windows)
+        print(type(widget))
+        item = widget.findChild(QLabel, 'lb5')
+        print(type(item))
+        if item:
+            # 这个地方负责传参数给startTrain界面，参数为（正面长.json,侧面长.json）
+            temp = item.text()
+            # print(temp)
+            t = temp.split('-')
+            prm1 = "%s.json" %(temp)
+            prm2 = "%s-%s-%s-%s.json" % (t[0], t[1], '侧', '长')
+            print(prm1)
+            print(prm2)
+            self.close()
+            self.ui = StartTrain(prm1)
+            self.ui.show()
+        else:
+            print('didnt find')
+    def jump5(self):
+        windows = self.listWidget_5.currentItem()
+        print(type(windows))
+        widget = self.listWidget_5.itemWidget(windows)
+        print(type(widget))
+        item = widget.findChild(QLabel, 'lb5')
+        print(type(item))
+        if item:
+            # 这个地方负责传参数给startTrain界面，参数为（正面长.json,侧面长.json）
+            temp = item.text()
+            # print(temp)
+            t = temp.split('-')
+            prm1 = "%s.json" %(temp)
+            prm2 = "%s-%s-%s-%s.json" % (t[0], t[1], '侧', '长')
+            print(prm1)
+            print(prm2)
+            self.close()
+            self.ui = StartTrain(prm1)
+            self.ui.show()
+        else:
+            print('didnt find')
+
+    def jumpToTabelP(self):
         self.close()
-        self.ui = StartTrain()
+        self.ui = Tabel(self.projectName)
         self.ui.show()
 
 
 class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
-    def __init__(self):
+    def __init__(self,json1):
         super(StartTrain, self).__init__()
         self.setupUi(self)
+        self.json1 = json1
         self.jumpToChooseP.clicked.connect(self.jumpToChooseP_clicked)
         self.startB.clicked.connect(self.startB_clicked)
 
@@ -417,9 +565,12 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
         self.threadAlgorithm.updatedImage.connect(self.showframe)
         self.threadAlgorithm.start()
 
+        #获取正面视频文件名
+        tempVideo = self.json1.strip('.json')
+        video ='%s.mp4'%(tempVideo)
         # 线程3播放视频
         self.showvedio=None
-        self.showvedio=modelload.videoshow(self)
+        self.showvedio=modelload.videoshow(self,video)
         self.showvedio.start()
 
     def jumpToChooseP_clicked(self):
@@ -433,21 +584,26 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
             if self.threadCap:
                 self.threadCap.stop()
                 self.threadCap.wait()
-                self.threadAlgorithm.stop()
+                self.threadAlgorithm.stop(self.json1)
                 self.threadAlgorithm.wait()
                 self.showvedio.stop()
                 self.showvedio.wait()
             del self.threadCap
             del self.threadAlgorithm
             del self.showvedio
-
         # self.startB.setEnabled(True)
         # self.j.setEnabled(False)
             # 上传训练历史记录的格式如下，u用户名item训练项目s分数dp存储路径dur持续时间date训练日期
             #msg = "uphistory u item s dp dur date"
             # date=datetime.date()
             date=datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
-            msg = "uphistory %s %s %s %s %s %s" % (userAccount,"项目1",globalvar.get_value("score"),"E://Video","16:00",date)
+            tempVideo = self.json1.strip('.json')
+            video = '%s.mp4' % (tempVideo)
+            temp = self.json1.split('-')
+            projectName = temp[0]
+            msg = "uphistory %s %s %s %s %s %s %s %s" % (userAccount,projectName,globalvar.get_value("score"),"sposes/%s.mp4"%(video),"16:00",date,globalvar.get_value("comment"),globalvar.get_value("part_scores"))
+
+            # msg = "uphistory %s %s %s %s %s %s" % (userAccount,"项目1",globalvar.get_value("score"),"E://Video","16:00",date)
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
@@ -457,7 +613,7 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
             if result == 'True':
                 QMessageBox.warning(self,'提示','上传成功',QMessageBox.Cancel)
                 self.close()
-                self.ui = Score()
+                self.ui = Score(globalvar.get_value("score"),globalvar.get_value("comment"),globalvar.get_value("part_scores"))
                 self.ui.show()
             else:
                 QMessageBox.warning(self,'提示','上传失败',QMessageBox.Cancel)
@@ -475,13 +631,25 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
         
 
 class Score(QWidget,Score.Ui_Score):
-    def __init__(self):
+    def __init__(self,allscore,comment,partScore):
         super(Score, self).__init__()
         self.setupUi(self)
+        #self.allscore = allscore
+        #self.score1 =score1
+        #self.score2 =score2
+        #self.score3 =score3
+        #self.score4 =score4
+        #self.score5 =score5
+        #self.comment = comment
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
-        self.imagL.setPixmap(QtGui.QPixmap("Image/patten2.png"))
-        self.scoreL.setText('90')
-        self.label.setText('建议是')
+        self.imagL.setPixmap(QtGui.QPixmap("Image/patten4.png"))
+        self.scoreL.setText(allscore)
+        self.headl.setText(partScore['头部'])
+        self.lefthandL.setText(partScore['左臂'])
+        self.righthandL.setText(partScore['右臂'])
+        self.leftlegL.setText(partScore['左腿'])
+        self.rightlegL.setText(partScore['右腿'])
+        self.commentL.setText(comment)
 
     def jumpToMainWindowP_clicked(self):
         self.close()
@@ -496,9 +664,25 @@ class History(QWidget,History.Ui_HistoryP):
         self.imageL.setPixmap(QtGui.QPixmap("Image/patten3.png"))
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
         #目前的添加只考虑了添加1条的情况，多条数据分解，需要与数据库结合考虑
-        self.record(alist)
-
+        self.getDate()
     # "uphistory u item s dp dur date"
+
+    def divide(self,result):
+        num =len(result)
+        for i in range(0,num):
+            self.record(result[i][0],result[i][1],result[i][2],result[i][7],result[i][4],result[i][5])
+
+    def getDate(self):
+        try:
+            msg = "askhistory %s" % (userAccount)
+            msg = msg.encode()
+            client.send(msg)
+            response = client.recv(4096)
+            #转为元组
+            result = eval(response)
+            return result
+        except Exception as e:
+            print(e)
 
     def record(self,alist):
         #分解数据
@@ -510,12 +694,21 @@ class History(QWidget,History.Ui_HistoryP):
             for b in range(1, 7):
                 i = 14 * a - 11
                 result.append(alist[i + 2 * b - 2])
+        for i in range(1,num):
+            for j in range(0,6):
+                '''
+                获取数据库传来的数据，需要整理为（用户，项目名，总分，（部位得分），时长，日期）
+                '''
+                self.add()
         #显示再界面上
-        lb0 = QLabel(result[0])
-        lb1 = QLabel(result[1])
-        lb2 = QLabel(result[2])
-        lb3 = QLabel(result[4])
-        lb4 = QLabel(result[5])
+
+    def add(self,lb1,lb2,lb3,lb4,lb5,lb6):
+        lb0 = QLabel(lb1)
+        lb1 = QLabel(lb2)
+        lb2 = QLabel(lb3)
+        lb3 = QLabel(lb4)
+        lb4 = QLabel(lb5)
+        lb5 = QLabel(lb6)
         wight = QWidget()
         layoutH = QHBoxLayout()
 
@@ -534,15 +727,23 @@ class History(QWidget,History.Ui_HistoryP):
         lb4.setStyleSheet("color:#07213a")
         lb4.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
 
+        lb5.setStyleSheet("color:#07213a")
+        lb5.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+
         layoutH.addWidget(lb0)
         layoutH.addWidget(lb1)
         layoutH.addWidget(lb2)
         layoutH.addWidget(lb3)
         layoutH.addWidget(lb4)
+        layoutH.addWidget(lb5)
         wight.setLayout(layoutH)
-        self.itemAdd(wight)
 
-
+        #添加列表值
+        item = QListWidgetItem()
+        item.setSizeHint(QtCore.QSize(1140, 80))
+        self.listWidget.addItem(item)
+        self.listWidget.setItemWidget(item, wight)
+        #self.listWidget.setWrapping(True)
 
     def jumpToMainWindowP_clicked(self):
         self.close()
@@ -555,9 +756,21 @@ class History(QWidget,History.Ui_HistoryP):
         self.listWidget.addItem(item)
         self.listWidget.setItemWidget(item, object)
 
+class Tabel(QWidget,Tabel.Ui_TabelP):
+    def __init__(self,projectName):
+        super(Tabel, self).__init__()
+        self.setupUi(self)
+        self.imageL.setPixmap(QtGui.QPixmap("Image/patten2.png"))
+        self.jumpToChooseP.clicked.connect(self.jumpToChooseP_clicked)
+
+    def jumpToChooseP_clicked(self):
+        self.close()
+        self.ui = ChooseTrain()
+        self.ui.show()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ui = ChooseTrain()
+    ui = Login()
     ui.show()
     sys.exit(app.exec_())
