@@ -343,7 +343,7 @@ class videoshow(QThread):
     def __init__(self, mw,video):
         print("videoshow")
         self.mw = mw
-        self.cap = cv2.VideoCapture('%s.mp4'%(video))
+        self.cap = cv2.VideoCapture('sposes/%s'%(video))
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.mw.capWidth)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.mw.capHeight)
         self.working = True
@@ -365,7 +365,7 @@ class videoshow(QThread):
         # 采集图像的过程中
             print("播放视频")
             # self.mw.CapIsbasy = True
-            cap = cv2.VideoCapture('%s.mp4'%(self.video)) ###修改路径
+            cap = cv2.VideoCapture('sposes/%s'%(self.video)) ###修改路径
             cv2.namedWindow("video", 0)
             cv2.resizeWindow("video", 1920, 1080)
             while(cap.isOpened()):
