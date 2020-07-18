@@ -642,12 +642,12 @@ class Score(QWidget,Score.Ui_Score):
         #self.comment = comment
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
         self.imagL.setPixmap(QtGui.QPixmap("Image/patten4.png"))
-        self.scoreL.setText(allscore)
-        self.headl.setText(partScore['头部'])
-        self.lefthandL.setText(partScore['左臂'])
-        self.righthandL.setText(partScore['右臂'])
-        self.leftlegL.setText(partScore['左腿'])
-        self.rightlegL.setText(partScore['右腿'])
+        self.scoreL.setText(str(allscore))
+        self.headl.setText(str(partScore['头部']))
+        self.lefthandL.setText(str(partScore['左臂']))
+        self.righthandL.setText(str(partScore['右臂']))
+        self.leftlegL.setText(str(partScore['左腿']))
+        self.rightlegL.setText(str(partScore['右腿']))
         self.commentL.setText(comment)
 
     def jumpToMainWindowP_clicked(self):
@@ -657,7 +657,7 @@ class Score(QWidget,Score.Ui_Score):
 
 
 class History(QWidget,History.Ui_HistoryP):
-    def __init__(self,alist):
+    def __init__(self):
         super(History, self).__init__()
         self.setupUi(self)
         self.imageL.setPixmap(QtGui.QPixmap("Image/patten3.png"))
@@ -669,7 +669,8 @@ class History(QWidget,History.Ui_HistoryP):
     def divide(self,result):
         num =len(result)
         for i in range(0,num):
-            self.record(result[i][0],result[i][1],result[i][2],result[i][7],result[i][4],result[i][5])
+            partScore ='%s/%s/%s/%s/%s'%(str(result[i][7]['头部']),str(result[i][7]['左臂']),str(result[i][7]['右臂']),str(result[i][7]['左腿']),str(result[i][7]['右腿']))
+            self.add(result[i][0],result[i][1],str(result[i][2]),partScore,result[i][4],result[i][5])
 
     def getDate(self):
         try:
@@ -678,7 +679,7 @@ class History(QWidget,History.Ui_HistoryP):
             client.send(msg)
             response = client.recv(4096)
             #转为元组
-            result = eval(response)
+            result = eval(response.decode())
             return result
         except Exception as e:
             print(e)
