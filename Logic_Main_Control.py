@@ -642,12 +642,30 @@ class Score(QWidget,Score.Ui_Score):
         #self.comment = comment
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
         self.imagL.setPixmap(QtGui.QPixmap("Image/patten4.png"))
-        self.scoreL.setText(str(allscore))
-        self.headl.setText(str(int(100*partScore['头部']))+"%")
-        self.lefthandL.setText(str(int(100*partScore['左臂']))+"%")
-        self.righthandL.setText(str(int(100*partScore['右臂']))+"%")
-        self.leftlegL.setText(str(int(100*partScore['左腿']))+"%")
-        self.rightlegL.setText(str(int(100*partScore['右腿']))+"%")
+        try:
+            self.scoreL.setText(str(int(allscore*100))+"%")
+        except:
+            self.scoreL.setText(str(allscore))
+        try:
+            self.headl.setText(str(int(100*partScore['头部']))+"%")
+        except:
+            self.headl.setText(str(partScore['头部']))
+        try:
+            self.lefthandL.setText(str(int(100*partScore['左臂']))+"%")
+        except:
+            self.lefthandL.setText(str(partScore['左臂']))
+        try:
+            self.righthandL.setText(str(int(100*partScore['右臂']))+"%")
+        except:
+            self.righthandL.setText(str(partScore['右臂']))
+        try:
+            self.leftlegL.setText(str(int(100*partScore['左腿']))+"%")
+        except:
+            self.leftlegL.setText(str(partScore['左腿']))
+        try:
+            self.rightlegL.setText(str(int(100*partScore['右腿']))+"%")
+        except:
+            self.rightlegL.setText(str(partScore['右腿']))
         self.commentL.setText(comment)
 
     def jumpToMainWindowP_clicked(self):
