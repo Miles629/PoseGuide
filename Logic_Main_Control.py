@@ -643,11 +643,11 @@ class Score(QWidget,Score.Ui_Score):
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
         self.imagL.setPixmap(QtGui.QPixmap("Image/patten4.png"))
         self.scoreL.setText(str(allscore))
-        self.headl.setText(str(partScore['头部']))
-        self.lefthandL.setText(str(partScore['左臂']))
-        self.righthandL.setText(str(partScore['右臂']))
-        self.leftlegL.setText(str(partScore['左腿']))
-        self.rightlegL.setText(str(partScore['右腿']))
+        self.headl.setText(str(int(100*partScore['头部']))+"%")
+        self.lefthandL.setText(str(int(100*partScore['左臂']))+"%")
+        self.righthandL.setText(str(int(100*partScore['右臂']))+"%")
+        self.leftlegL.setText(str(int(100*partScore['左腿']))+"%")
+        self.rightlegL.setText(str(int(100*partScore['右腿']))+"%")
         self.commentL.setText(comment)
 
     def jumpToMainWindowP_clicked(self):
