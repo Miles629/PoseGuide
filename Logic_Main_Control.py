@@ -285,8 +285,7 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         layout_right.addWidget(self.lb5)
         layout_main.addLayout(layout_right)
         wight.setLayout(layout_main)
-        self.programName=imageName[0]
-        self.bt.clicked.connect(self.jumpToTabelP)
+        self.bt.clicked.connect(lambda:self.jumpToTabelP(imageName[0]))
         #self.itemAdd(wight)
         return wight
 
@@ -427,9 +426,9 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         else:
             print('didnt find')
 
-    def jumpToTabelP(self):
+    def jumpToTabelP(self,value):
         self.close()
-        self.ui = Tabel(self.projectName)
+        self.ui = Tabel(value)
         self.ui.show()
 
 
