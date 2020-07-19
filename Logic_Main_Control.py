@@ -681,14 +681,19 @@ class History(QWidget,History.Ui_HistoryP):
         self.imageL.setPixmap(QtGui.QPixmap("Image/patten3.png"))
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
         #目前的添加只考虑了添加1条的情况，多条数据分解，需要与数据库结合考虑
-        self.getDate()
+        self.divide(self.getDate())
+        # self.getDate()
     # "uphistory u item s dp dur date"
 
     def divide(self,result):
+        print("divide()result:"+str(result))
         num =len(result)
+        print("divide()num:"+str(num))
         for i in range(0,num):
-            partScore ='%s/%s/%s/%s/%s'%(str(result[i][7]['头部']),str(result[i][7]['左臂']),str(result[i][7]['右臂']),str(result[i][7]['左腿']),str(result[i][7]['右腿']))
-            self.add(result[i][0],result[i][1],str(result[i][2]),partScore,result[i][4],result[i][5])
+            print('result[i][8]的类型：%s'%(type(result[i][8])))
+            # partScore ='%s/%s/%s/%s/%s'%(str(result[i][8]['头部']),str(result[i][8]['左臂']),str(result[i][8]['右臂']),str(result[i][8]['左腿']),str(result[i][8]['右腿']))
+            self.add(result[i][1],result[i][2],str(result[i][3]),'89/80/90/92/86',result[i][5],result[i][6])
+
 
     def getDate(self):
         try:
@@ -696,8 +701,11 @@ class History(QWidget,History.Ui_HistoryP):
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
+            # print(response.decode())
             #转为元组
+            # result=response
             result = eval(response.decode())
+            print("getdate():"+str(result))
             return result
         except Exception as e:
             print(e)

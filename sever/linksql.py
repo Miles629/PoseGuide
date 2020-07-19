@@ -24,8 +24,8 @@ class DataBaseHandle(object):
             print(tt)#打印出查询语句来方便判断传入语句是否有问题
             data = self.cursor.fetchall() # 返回所有记录列表
             print(data)
-            msg=str(tt)+str(data)
-            return msg
+            # msg=str(tt)+str(data)
+            return data
             # 调试时用于确认返回信息，已弃用
             # for row in data:
             #     sid = row[0]
