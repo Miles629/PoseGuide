@@ -1013,6 +1013,62 @@ class RankList(QWidget,RankList.Ui_RankListP):
         for i in data:
             print()
 
+    def add1(self,rank,username):
+        lb0 = QLabel(rank)
+        lb1 = QLabel(username)
+        wight = QWidget()
+        layoutH = QHBoxLayout()
+        #280 900
+        lb0.setStyleSheet("color:#07213a")
+        lb0.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+
+        lb1.setStyleSheet("color:#07213a")
+        lb1.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+
+        layoutH.addWidget(lb0)
+        layoutH.addWidget(lb1)
+        wight.setLayout(layoutH)
+
+        # 添加列表值
+        item = QListWidgetItem()
+        item.setSizeHint(QtCore.QSize(100, 50))
+        self.listWidget_1.addItem(item)
+        self.listWidget_1.setItemWidget(item, wight)
+
+    def add2(self,l1,l2,l3,l4):
+        lb0 = QLabel(l1)
+        lb1 = QLabel(l2)
+        lb2 = QLabel(l3)
+        lb3 = QLabel(l4)
+        wight = QWidget()
+        layoutH = QHBoxLayout()
+        #680 900
+        #健身区：#00c9cd 有氧区：#fe6194 舞蹈：#fcccdc 拉伸区：#829cb5
+        lb0.setStyleSheet("backgroud-color:#00c9cd")
+        lb1.setStyleSheet("backgroud-color:#fe6194")
+        lb2.setStyleSheet("backgroud-color:#fcccdc")
+        lb3.setStyleSheet("backgroud-color:#829cb5")
+        lb0.setStyleSheet("color:#2e3770")
+        lb1.setStyleSheet("color:#2e3770")
+        lb2.setStyleSheet("color:#2e3770")
+        lb3.setStyleSheet("color:#2e3770")
+        sum = l1+l2+L3+l4
+        lb0.setGeometry(QtCore.QRect(,,l1/sum,50))
+        lb1.setGeometry(QtCore.QRect(,,l2/sum,50))
+        lb2.setGeometry(QtCore.QRect(,,l3/sum,50))
+        lb3.setGeometry(QtCore.QRect(,,l4/sum,50))
+
+        layoutH.addWidget(lb0)
+        layoutH.addWidget(lb1)
+        layoutH.addWidget(lb2)
+        layoutH.addWidget(lb3)
+        wight.setLayout(layoutH)
+        # 添加列表值
+        item = QListWidgetItem()
+        item.setSizeHint(QtCore.QSize(680, 50))
+        self.listWidget_2.addItem(item)
+        self.listWidget_2.setItemWidget(item, wight)
+
 
 class FamilyRankList(QWidget,FamilyRankList.Ui_FamilyRankListP):
     def __int__(self):
