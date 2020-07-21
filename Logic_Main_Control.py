@@ -205,29 +205,30 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
                 imagelt = eachl[0].strip('.mp4')
                 if eachl[1] =='健身':
                     print(eachl[4])
-                    self.itemAdd1(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt,eachl[1]))
-                    self.itemAdd2(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt,eachl[1]))
+                    self.itemAdd1(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
+                    self.itemAdd2(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
                 elif eachl[1] =='有氧操':
-                    self.itemAdd1(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt,eachl[1]))
-                    self.itemAdd3(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt,eachl[1]))
+                    self.itemAdd1(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
+                    self.itemAdd3(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
                 elif eachl[1] =='舞蹈':
-                    self.itemAdd1(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt,eachl[1]))
-                    self.itemAdd4(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt,eachl[1]))
+                    self.itemAdd1(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
+                    self.itemAdd4(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
                 elif eachl[1] =='拉伸':
-                    self.itemAdd1(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt,eachl[1]))
-                    self.itemAdd5(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt,eachl[1]))
+                    self.itemAdd1(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
+                    self.itemAdd5(self.add(eachl[4],eachl[1],eachl[2],eachl[3],imagelt))
         finally:
             if f:
                 f.close()
 
-    def add(self,image,l1, l2, l3,l4,l5):
+    def add(self,image,l1, l2, l3,l4):
+        # 文件英文名，类型，难度，介绍，中文
         self.imagel = QLabel()
         self.lb1 = QLabel()
         self.lb2 = QLabel()
         self.lb3 = QLabel()
         self.lb4 = QLabel()
         self.lb5 = QLabel()
-        self.lb6 = QLabel()
+
         self.bt = QPushButton()
         self.bt2 = QPushButton()
         wight = QWidget()
@@ -266,10 +267,6 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         self.lb5.setFont(QtGui.QFont("Adobe Arabic", 1, 50))
         self.lb5.setStyleSheet("color:#ffffff")
 
-        self.lb6.setObjectName('lb6')
-        self.lb6.setText(l5)
-        self.lb6.setFont(QtGui.QFont("Adobe Arabic", 1, 50))
-        self.lb6.setStyleSheet("color:#ffffff")
 
         self.bt.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
         self.bt.setStyleSheet("color:#829cb5")
@@ -297,12 +294,11 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         layout_main.addWidget(self.lb3)
         layout_right.addWidget(self.bt)
         layout_right.addWidget(self.lb5)
-        layout_right.addWidget(self.lb6)
         layout_right.addWidget(self.bt2)
         layout_main.addLayout(layout_right)
         wight.setLayout(layout_main)
         self.bt.clicked.connect(lambda:self.jumpToTabelP(imageName[0]))
-        self.bt2.clicked.connect(lambda: self.likeB_clicked(image))
+        self.bt2.clicked.connect(lambda: self.likeB_clicked(imageName[0],l1,l2,l3,image))
         #self.itemAdd(wight)
         return wight
 
@@ -461,12 +457,20 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         self.ui = Tabel(value)
         self.ui.show()
 
-    def likeB_clicked(self,value):
-        QMessageBox.about(self, '提示', '收藏"%s"成功!' % (value))
+    def likeB_clicked(self,Chiname,ttype,difficulty,introduction,Engname):
         #上传数据库该用户收藏该视频: userAccount,value=用户，视频名称(英文)
-        '''
-        
-        '''
+        msg = "upconllection %s %s %s %s %s %s" % (userAccount,Chiname,ttype,difficulty,introduction,Engname)
+        msg = msg.encode()
+        client.send(msg)
+        response = client.recv(4096)
+        print("upHistoryReturn:%s" % (response))
+        result = response.decode()
+        print(result)
+        if result == 'True':
+            QMessageBox.about(self, '提示', '收藏"%s"成功!' % (Chiname))
+        else:
+            QMessageBox.Warning(self,'错误','收藏失败',QMessageBox.Cancel)
+
 
 
 class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
@@ -639,7 +643,7 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
             video = '%s.mp4' % (tempVideo)
 
             #self.type 为训练视频的类型
-            msg = "uphistory %s %s %s %s %s %s %s %s" % (userAccount,self.projectName,globalvar.get_value("score"),"sposes/%s.mp4"%(video),"16:00",date,globalvar.get_value("comment"),globalvar.get_value("part_scores"))
+            msg = "uphistory %s %s %s %s %s %s %s %s %s" % (userAccount,self.projectName,globalvar.get_value("score"),"sposes/%s.mp4"%(video),"16:00",date,globalvar.get_value("comment"),globalvar.get_value("part_scores"),self.type)
 
             # msg = "uphistory %s %s %s %s %s %s" % (userAccount,"项目1",globalvar.get_value("score"),"E://Video","16:00",date)
             msg = msg.encode()
@@ -649,7 +653,7 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
             result = response.decode()
             print(result)
             if result == 'True':
-                QMessageBox.warning(self,'提示','上传成功',QMessageBox.Cancel)
+                QMessageBox.about(self,'提示','上传成功')
                 self.close()
                 self.ui = Score(globalvar.get_value("score"),globalvar.get_value("comment"),globalvar.get_value("part_scores"))
                 self.ui.show()
@@ -736,7 +740,7 @@ class History(QWidget,History.Ui_HistoryP):
 
     def getDate(self):
         try:
-            msg = "askhistory %s" % (userAccount)
+            msg = "askcollection %s" % (userAccount)
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
@@ -839,20 +843,32 @@ class Like(QWidget,Like.Ui_LikeP):
         self.setupUi(self)
         self.imageL.setPixmap(QtGui.QPixmap("Image/patten2.png"))
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
-        self.getData()
+        self.divide(self.getData())
         self.listWidget.itemClicked.connect(self.jump)
 
     def getData(self):
         try:
-            f = open('chooseTrain.txt', 'r', encoding='utf8', errors='ignore')
-            for eachline in f.readlines():
-                eachl = eachline.split('+')
-                imagelt = eachl[0].strip('.mp4')
-                if eachl[4] == '项目英文名':
-                    self.itemAdd(self.add(eachl[4], eachl[1], eachl[2], eachl[3], imagelt))
-        finally:
-            if f:
-                f.close()
+            msg = "askhistory %s" % (userAccount)
+            msg = msg.encode()
+            client.send(msg)
+            response = client.recv(4096)
+            # print(response.decode())
+            #转为元组
+            # result=response
+            result = eval(response.decode())
+            print("getdate():"+str(result))
+            return result
+        except Exception as e:
+            print(e)
+
+    def divide(self, result):
+        print("divide()result:" + str(result))
+        num = len(result)
+        print("divide()num:" + str(num))
+        for i in range(0, num):
+            print('result[i][8]的类型：%s' % (type(result[i][8])))
+            # partScore ='%s/%s/%s/%s/%s'%(str(result[i][8]['头部']),str(result[i][8]['左臂']),str(result[i][8]['右臂']),str(result[i][8]['左腿']),str(result[i][8]['右腿']))
+            self.add(result[i][5], result[i][2], result[i][3], result[i][4], result[i][1])
 
     def jumpToMainWindowP_clicked(self):
         self.close()
@@ -884,12 +900,12 @@ class Like(QWidget,Like.Ui_LikeP):
         self.imagel.setObjectName('imagel')
         # self.imagel.setScaledContents(True)  # 让图片自适应label大小
 
-        imageName = l4.split('-')
+        #imageName = l4.split('-')
         # print('imageName[0]=%s'%(imageName[0]))
         self.lb1.setStyleSheet("background-color:#ffffff")
         self.lb1.setStyleSheet("color:#07213a")
         self.lb1.setObjectName('lb1')
-        self.lb1.setText(imageName[0])
+        self.lb1.setText(l4)
         self.lb1.setFont(QtGui.QFont("Adobe Arabic", 22, 80))
 
         self.lb2.setStyleSheet("background-color:#ffffff")
@@ -979,7 +995,7 @@ class RankList(QWidget,RankList.Ui_RankListP):
 
     def getData(self):
         try:
-            msg = "askhistory %s" % (userAccount)
+            msg = "askhistory"
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
@@ -993,7 +1009,10 @@ class RankList(QWidget,RankList.Ui_RankListP):
             print(e)
 
     def statistics(self,data):
-        msg = self.getData()
+        people =[]
+        for i in data:
+            print()
+
 
 class FamilyRankList(QWidget,FamilyRankList.Ui_FamilyRankListP):
     def __int__(self):
