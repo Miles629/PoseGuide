@@ -61,7 +61,7 @@ while 1:
                 print("user" + com[1])
                 # 查询该用户历史记录
                 # 客户端发送指令需要按照顺序发送，空格分开，从1到8分别是u用户名item训练项目s分数dp存储路径dur持续时间date训练日期ccomment评论partscores分部位评分
-                result = DbHandle.insertDBhistory(com[1], com[2], com[3], com[4], com[5], com[6], com[7], com[8])
+                result = DbHandle.insertDBhistory(com[1], com[2], com[3], com[4], com[5], com[6], com[7], com[8],com[9])
                 if (result == True):
                     client_socket.send("True")
                 else:
