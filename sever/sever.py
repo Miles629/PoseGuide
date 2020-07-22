@@ -71,6 +71,14 @@ while 1:
                 result = DbHandle.selectDbhistory(com[1])
                 client_socket.send(str(result))
 
+            if (com[0] == 'selectDbhistoryForRank'):
+                result = DbHandle.selectDbhistoryForRank()
+                client_socket.send(str(result))
+
+            if (com[0] == 'selectDbhistoryForCount'):
+                result = DbHandle.selectDbhistoryForCount()
+                client_socket.send(str(result))
+
             # 执行客户端传递过来的命令，现在已经弃用，备注作为备份
             # handler = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
             # output = handler.stdout.readlines()

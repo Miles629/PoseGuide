@@ -130,7 +130,6 @@ class DataBaseHandle(object):
 
 
 
-
 #   登录时进行数据库查询，能够找到用户名密码一样的情况则返回True
     def selectDblogin(self,usrname,ukey):
         self.cursor = self.db.cursor()
@@ -151,6 +150,40 @@ class DataBaseHandle(object):
                 return True
             else:
                 return False
+        except Exception, e:
+            traceback.print_exc()
+            print('Error: unable to fecth data')
+        finally:
+            self.cursor.close()
+
+
+    def selectDbhistoryForRank(self,username):
+        self.cursor = self.db.cursor()
+        sql='select username,ttype,count(itemname) from history group by username,ttype'
+        print(sql)
+        try:
+            tt=self.cursor.execute(sql) # 返回 查询数据 条数 可以根据 返回值 判定处理结果
+            print(tt)#打印出查询语句来方便判断传入语句是否有问题
+            data = self.cursor.fetchall() # 返回所有记录列表
+            print(data)
+            return data
+        except Exception, e:
+            traceback.print_exc()
+            print('Error: unable to fecth data')
+        finally:
+            self.cursor.close()
+
+    #   排行榜进行数据库查询，先找到总训练量最高的前20个用户的用户名和总量
+    def selectDbhistoryForCount(self):
+        self.cursor = self.db.cursor()
+        sql = 'select username,count(itemname) from history group by username order by count(itemname) desc'
+        print(sql)
+        try:
+            tt = self.cursor.execute(sql)  # 返回 查询数据 条数 可以根据 返回值 判定处理结果
+            print(tt)  # 打印出查询语句来方便判断传入语句是否有问题
+            data = self.cursor.fetchall()  # 返回所有记录列表
+            print(data)
+            return data
         except Exception, e:
             traceback.print_exc()
             print('Error: unable to fecth data')

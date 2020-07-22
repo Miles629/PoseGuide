@@ -952,8 +952,7 @@ class Like(QWidget,Like.Ui_LikeP):
         layout_main.addLayout(layout_right)
         wight.setLayout(layout_main)
 
-        self.bt.clicked.connect(lambda: self.ceshi(imageName[0]))
-        #self.bt2.clicked.connect(lambda: self.ceshi2(imageName[0]))
+        self.bt.clicked.connect(lambda: self.jumpToTabelP(l4))
         return wight
 
     def jump(self):
@@ -993,53 +992,95 @@ class RankList(QWidget,RankList.Ui_RankListP):
         #健身区：#00c9cd 有氧区：#fe6194 舞蹈：#fcccdc 拉伸区：#829cb5
         #listwidget_1 用户得分, listwidget_2 用户训练模块涂色
 
-    def getData(self):
+    def getDataForCount(self):
         try:
-            msg = "askhistory"
+            msg = "selectDbhistoryForCount"
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
             # print(response.decode())
-            #转为元组
+            # 转为元组
             # result=response
             result = eval(response.decode())
-            print("getdate():"+str(result))
+            print("getdate():" + str(result))
             return result
         except Exception as e:
             print(e)
 
-    def statistics(self,data):
-        people =[]
-        for i in data:
-            print()
+    def getDataForRank(self):
+        try:
+            msg = "selectDbhistoryForRank"
+            msg = msg.encode()
+            client.send(msg)
+            response = client.recv(4096)
+            # print(response.decode())
+            # 转为元组
+            # result=response
+            result = eval(response.decode())
+            print("getdate():" + str(result))
+            return result
+        except Exception as e:
+            print(e)
 
-    def add1(self,rank,username):
-        lb0 = QLabel(rank)
+    def statistics(self, data):
+        resultCount = self.getDataForCount()
+        result = self.getDataForRank()
+        username = []
+        itemSum = []
+        for i in range(0, 20):
+            username.append(resultCount[i][0])
+            self.add1(i+1,resultCount[i][0],resultCount[i][1])
+        #username, ttype, count(itemname)
+        # 健身区：#00c9cd 有氧区：#fe6194 舞蹈：#fcccdc 拉伸区：#829cb5
+        for name in username:
+            count1 =0
+            count2 =0
+            count3 =0
+            count4 =0
+            for data in result:
+                if name == data[0]:
+                    if data[1] == '健身':
+                        count1 = data[2]
+                    if data[1] == '有氧操':
+                        count2 = data[2]
+                    if data[1] == '舞蹈':
+                        count3 = data[2]
+                    if data[1] == '拉伸':
+                        count4 = data[2]
+            self.add2(count1,count2,count3,count4)
+
+    def add1(self,rank,username,sum):
+        lb0 = QLabel(str(rank))
         lb1 = QLabel(username)
+        lb2 = QLabel(str(sum))
         wight = QWidget()
         layoutH = QHBoxLayout()
         #280 900
-        lb0.setStyleSheet("color:#07213a")
+        lb0.setStyleSheet("color:#ffffff")
         lb0.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
 
-        lb1.setStyleSheet("color:#07213a")
+        lb1.setStyleSheet("color:#ffffff")
         lb1.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
+
+        lb2.setStyleSheet("color:#ffffff")
+        lb2.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
 
         layoutH.addWidget(lb0)
         layoutH.addWidget(lb1)
+        layoutH.addWidget(lb2)
         wight.setLayout(layoutH)
 
         # 添加列表值
         item = QListWidgetItem()
-        item.setSizeHint(QtCore.QSize(100, 50))
+        item.setSizeHint(QtCore.QSize(280, 50))
         self.listWidget_1.addItem(item)
         self.listWidget_1.setItemWidget(item, wight)
 
     def add2(self,l1,l2,l3,l4):
-        lb0 = QLabel(l1)
-        lb1 = QLabel(l2)
-        lb2 = QLabel(l3)
-        lb3 = QLabel(l4)
+        lb0 = QLabel(str(l1))
+        lb1 = QLabel(str(l2))
+        lb2 = QLabel(str(l3))
+        lb3 = QLabel(str(l4))
         wight = QWidget()
         layoutH = QHBoxLayout()
         #680 900
@@ -1052,11 +1093,11 @@ class RankList(QWidget,RankList.Ui_RankListP):
         lb1.setStyleSheet("color:#2e3770")
         lb2.setStyleSheet("color:#2e3770")
         lb3.setStyleSheet("color:#2e3770")
-        sum = l1+l2+L3+l4
-        lb0.setGeometry(QtCore.QRect(,,l1/sum,50))
-        lb1.setGeometry(QtCore.QRect(,,l2/sum,50))
-        lb2.setGeometry(QtCore.QRect(,,l3/sum,50))
-        lb3.setGeometry(QtCore.QRect(,,l4/sum,50))
+        sum = l1+l2+l3+l4
+        lb0.setGeometry(QtCore.QRect(0,0,680*l1/sum,50))
+        lb1.setGeometry(QtCore.QRect(680*l1/sum,0,680*l2/sum,50))
+        lb2.setGeometry(QtCore.QRect(680*l1/sum+680*l2/sum,0,680*l3/sum,50))
+        lb3.setGeometry(QtCore.QRect(680*l1/sum+680*l2/sum+680*l3/sum,0,680*l4/sum,50))
 
         layoutH.addWidget(lb0)
         layoutH.addWidget(lb1)
@@ -1082,7 +1123,7 @@ class FamilyRankList(QWidget,FamilyRankList.Ui_FamilyRankListP):
 
     def getData(self):
         try:
-            msg = "askhistory %s" % (userAccount)
+            msg = "askhistory"
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
@@ -1095,8 +1136,6 @@ class FamilyRankList(QWidget,FamilyRankList.Ui_FamilyRankListP):
         except Exception as e:
             print(e)
 
-    def statistics(self,data):
-        msg = self.getData()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
