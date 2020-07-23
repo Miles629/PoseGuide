@@ -14,7 +14,7 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import QtGui,QtCore
 from PyQt5.QtWidgets import *
-from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History,Tabel,Like,RankList,FamilyRankList
+from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History,Tabel,Like,RankList
 # from PyQt5 import QtGui
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
@@ -29,7 +29,7 @@ target_port = 9998
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect((target_host, target_port))
-userAccount = "user"
+userAccount = "username"
 
 class Login(QWidget,Login.Ui_LoginP):
     def __init__(self):
@@ -459,11 +459,11 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
 
     def likeB_clicked(self,Chiname,ttype,difficulty,introduction,Engname):
         #上传数据库该用户收藏该视频: userAccount,value=用户，视频名称(英文)
-        msg = "upconllection %s %s %s %s %s %s" % (userAccount,Chiname,ttype,difficulty,introduction,Engname)
+        msg = "insertcollection %s %s %s %s %s %s" % (userAccount,Chiname,ttype,difficulty,introduction,Engname)
         msg = msg.encode()
         client.send(msg)
         response = client.recv(4096)
-        print("upHistoryReturn:%s" % (response))
+        print("insertcollection:%s" % (response))
         result = response.decode()
         print(result)
         if result == 'True':
@@ -848,7 +848,7 @@ class Like(QWidget,Like.Ui_LikeP):
 
     def getData(self):
         try:
-            msg = "askhistory %s" % (userAccount)
+            msg = "askcollections %s" % (userAccount)
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
@@ -867,7 +867,6 @@ class Like(QWidget,Like.Ui_LikeP):
         print("divide()num:" + str(num))
         for i in range(0, num):
             print('result[i][8]的类型：%s' % (type(result[i][8])))
-            # partScore ='%s/%s/%s/%s/%s'%(str(result[i][8]['头部']),str(result[i][8]['左臂']),str(result[i][8]['右臂']),str(result[i][8]['左腿']),str(result[i][8]['右腿']))
             self.add(result[i][5], result[i][2], result[i][3], result[i][4], result[i][1])
 
     def jumpToMainWindowP_clicked(self):
@@ -994,7 +993,7 @@ class RankList(QWidget,RankList.Ui_RankListP):
 
     def getDataForCount(self):
         try:
-            msg = "selectDbhistoryForCount"
+            msg = "DbhistoryForCount"
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
@@ -1009,7 +1008,7 @@ class RankList(QWidget,RankList.Ui_RankListP):
 
     def getDataForRank(self):
         try:
-            msg = "selectDbhistoryForRank"
+            msg = "DbhistoryForRank"
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
@@ -1109,33 +1108,6 @@ class RankList(QWidget,RankList.Ui_RankListP):
         item.setSizeHint(QtCore.QSize(680, 50))
         self.listWidget_2.addItem(item)
         self.listWidget_2.setItemWidget(item, wight)
-
-
-class FamilyRankList(QWidget,FamilyRankList.Ui_FamilyRankListP):
-    def __int__(self):
-        super(FamilyRankList,self).__init__()
-        self.setupUi(self)
-        self.imageL.setPixmap(QtGui.QPixmap('Image/patten2.png'))
-        self.pushButton.clicked.connect()
-        self.getData()
-        #健身区：#00c9cd 有氧区：#fe6194 舞蹈：#fcccdc 拉伸区：#829cb5
-        #listwidget_1 用户得分, listwidget_2 用户训练模块涂色
-
-    def getData(self):
-        try:
-            msg = "askhistory"
-            msg = msg.encode()
-            client.send(msg)
-            response = client.recv(4096)
-            # print(response.decode())
-            #转为元组
-            # result=response
-            result = eval(response.decode())
-            print("getdate():"+str(result))
-            return result
-        except Exception as e:
-            print(e)
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

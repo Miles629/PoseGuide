@@ -70,13 +70,17 @@ while 1:
                 print("user" + com[1])
                 result = DbHandle.selectDbhistory(com[1])
                 client_socket.send(str(result))
-
             if (com[0] == 'selectDbhistoryForRank'):
                 result = DbHandle.selectDbhistoryForRank()
                 client_socket.send(str(result))
-
             if (com[0] == 'selectDbhistoryForCount'):
                 result = DbHandle.selectDbhistoryForCount()
+                client_socket.send(str(result))
+            if (com[0] == 'insertcollection'):
+                result = DbHandle.insertDBcollections(com[1], com[2], com[3], com[4], com[5], com[6])
+                client_socket.send(str(result))
+            if (com[0] == 'askcollections'):
+                result = DbHandle.selectDbcollections(com[1])
                 client_socket.send(str(result))
 
             # 执行客户端传递过来的命令，现在已经弃用，备注作为备份

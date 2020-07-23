@@ -157,7 +157,7 @@ class DataBaseHandle(object):
             self.cursor.close()
 
 
-    def selectDbhistoryForRank(self,username):
+    def selectDbhistoryForRank(self):
         self.cursor = self.db.cursor()
         sql='select username,ttype,count(itemname) from history group by username,ttype'
         print(sql)
@@ -190,6 +190,43 @@ class DataBaseHandle(object):
         finally:
             self.cursor.close()
 
+    def insertDBcollections(self,username,Chiname,ttype,difficulty,introduction,Engname):
+        self.cursor = self.db.cursor()
+        # 生成一个哈希码来作为数据库主键
+        #hashcode = hash(time.localtime())
+        #hashcode = str(hashcode)
+        sql = 'insert into collections(username,Chiname,ttype,difficulty,introduction,Engname) values ("%s","%s","%s","%s","%s","%s")' % (pymysql.escape_string(username),
+        pymysql.escape_string(Chiname), pymysql.escape_string(ttype), pymysql.escape_string(difficulty), pymysql.escape_string(introduction),pymysql.escape_string(Engname))
+        print(sql)
+        try:
+            tt = self.cursor.execute(sql)  # 返回 插入数据 条数 可以根据 返回值 判定处理结果
+            print(tt)
+            self.db.commit()
+            return True
+        except Exception, e:
+            traceback.print_exc()
+            print("insert error:")
+            # 发生错误时回滚
+            self.db.rollback()
+            return False
+        finally:
+            self.cursor.close()
+
+    def selectDbcollections(self,usrname):
+        self.cursor = self.db.cursor()
+        sql='select * from collections where username="%s"'%(usrname)
+        print(sql)
+        try:
+            tt=self.cursor.execute(sql) # 返回 查询数据 条数 可以根据 返回值 判定处理结果
+            print(tt)#打印出查询语句来方便判断传入语句是否有问题
+            data = self.cursor.fetchall() # 返回所有记录列表
+            print(data)
+            return data
+        except Exception, e:
+            traceback.print_exc()
+            print('Error: unable to fecth data')
+        finally:
+            self.cursor.close()
 
     def closeDb(self):
         # ''' 数据库连接关闭 '''
