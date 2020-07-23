@@ -22,6 +22,8 @@ class Ui_LikeP(object):
         self.imageL.setObjectName("imageL")
         self.listWidget = QtWidgets.QListWidget(LikeP)
         self.listWidget.setGeometry(QtCore.QRect(60, 100, 1800, 900))
+        self.listWidget.setStyleSheet("background-color: rgb(7, 33, 58);\n"
+"border-color: rgb(7, 33, 58);")
         self.listWidget.setObjectName("listWidget")
         self.jumpToMainWindowP = QtWidgets.QPushButton(LikeP)
         self.jumpToMainWindowP.setGeometry(QtCore.QRect(1740, 10, 120, 80))

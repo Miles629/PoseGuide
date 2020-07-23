@@ -195,7 +195,7 @@ class DataBaseHandle(object):
         # 生成一个哈希码来作为数据库主键
         #hashcode = hash(time.localtime())
         #hashcode = str(hashcode)
-        sql = 'insert into collections(username,Chiname,ttype,difficulty,introduction,Engname) values ("%s","%s","%s","%s","%s","%s")' % (pymysql.escape_string(username),
+        sql = 'insert into collections(usrname,Chiname,ttype,difficulty,introduction,Engname) values ("%s","%s","%s","%s","%s","%s")' % (pymysql.escape_string(username),
         pymysql.escape_string(Chiname), pymysql.escape_string(ttype), pymysql.escape_string(difficulty), pymysql.escape_string(introduction),pymysql.escape_string(Engname))
         print(sql)
         try:
@@ -214,7 +214,7 @@ class DataBaseHandle(object):
 
     def selectDbcollections(self,usrname):
         self.cursor = self.db.cursor()
-        sql='select * from collections where username="%s"'%(usrname)
+        sql='select * from collections where usrname="%s"'%(usrname)
         print(sql)
         try:
             tt=self.cursor.execute(sql) # 返回 查询数据 条数 可以根据 返回值 判定处理结果

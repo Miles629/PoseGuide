@@ -248,6 +248,7 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
 
         self.lb2.setStyleSheet("background-color:#ffffff")
         self.lb2.setStyleSheet("color:#52968e")
+        self.lb2.setObjectName('lb2')
         self.lb2.setText(l1)
         self.lb2.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
 
@@ -267,13 +268,12 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         self.lb5.setFont(QtGui.QFont("Adobe Arabic", 1, 50))
         self.lb5.setStyleSheet("color:#ffffff")
 
-
         self.bt.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
         self.bt.setStyleSheet("color:#829cb5")
         self.bt.setObjectName('bt')
         self.bt.setText('详情')
 
-        img = QtGui.QImage('Image/button4.jpg')
+        img = QtGui.QImage('Image/like.PNG')
         pixmap = QtGui.QPixmap(img)
         fitPixmap = pixmap.scaled(80, 80, QtCore.Qt.IgnoreAspectRatio,QtCore.Qt.SmoothTransformation)  # 注意 scaled() 返回一个 QtGui.QPixmap
         icon = QtGui.QIcon(fitPixmap)
@@ -298,7 +298,7 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         layout_main.addLayout(layout_right)
         wight.setLayout(layout_main)
         self.bt.clicked.connect(lambda:self.jumpToTabelP(imageName[0]))
-        self.bt2.clicked.connect(lambda: self.likeB_clicked(imageName[0],l1,l2,l3,image))
+        self.bt2.clicked.connect(lambda: self.likeB_clicked(imageName[0],l1,l2,l3,image))#中文名
         #self.itemAdd(wight)
         return wight
 
@@ -338,8 +338,10 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         print(type(windows))
         widget = self.listWidget_1.itemWidget(windows)
         print(type(widget))
+        #英文名，中文名，类型
         item = widget.findChild(QLabel, 'lb5')
         item2 = widget.findChild(QLabel, 'lb1')
+        item3 = widget.findChild(QLabel, 'lb2')
         print(type(item))
         if item:
             # 这个地方负责传参数给startTrain界面，参数为（正面长.json,侧面长.json）
@@ -347,11 +349,11 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
             # print(temp)
             t = temp.split('-')
             prm1 = "%s.json" %(temp)
-            #prm2 = "%s-%s-%s-%s.json" % (t[0], t[1], '侧', '长')
+            prm2 = item2.text()
+            prm3 = item3.text()
             print(prm1)
-            #print(prm2)
             self.close()
-            self.ui = StartTrain(prm1)
+            self.ui = StartTrain(prm1,prm2,prm3)
             self.ui.show()
         else:
             print('didnt find')
@@ -362,7 +364,7 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         print(type(widget))
         item = widget.findChild(QLabel, 'lb5')
         item2 = widget.findChild(QLabel, 'lb1')
-        item3 = widget.findChild(QLabel, 'lb6')
+        item3 = widget.findChild(QLabel, 'lb2')
         print(type(item))
         if item:
             # 这个地方负责传参数给startTrain界面，参数为（正面长.json,侧面长.json）
@@ -386,7 +388,7 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         print(type(widget))
         item = widget.findChild(QLabel, 'lb5')
         item2 = widget.findChild(QLabel, 'lb1')
-        item3 = widget.findChild(QLabel, 'lb6')
+        item3 = widget.findChild(QLabel, 'lb2')
         print(type(item))
         if item:
             # 这个地方负责传参数给startTrain界面，参数为（正面长.json,侧面长.json）
@@ -410,10 +412,9 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         print(type(widget))
         item = widget.findChild(QLabel, 'lb5')
         item2 = widget.findChild(QLabel, 'lb1')
-        item3 = widget.findChild(QLabel, 'lb6')
+        item3 = widget.findChild(QLabel, 'lb2')
         print(type(item))
         if item:
-            # 这个地方负责传参数给startTrain界面，参数为（正面长.json,侧面长.json）
             temp = item.text()
             # print(temp)
             t = temp.split('-')
@@ -434,7 +435,7 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
         print(type(widget))
         item = widget.findChild(QLabel, 'lb5')
         item2 = widget.findChild(QLabel, 'lb1')
-        item3 = widget.findChild(QLabel, 'lb6')
+        item3 = widget.findChild(QLabel, 'lb2')
         print(type(item))
         if item:
             # 这个地方负责传参数给startTrain界面，参数为（正面长.json,侧面长.json）
@@ -480,6 +481,7 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
         self.json1 = json1
         self.projectName =projectName
         self.type = type
+        self.imageL.setPixmap(QtGui.QPixmap('simages/patten5.png'))
         self.jumpToChooseP.clicked.connect(self.jumpToChooseP_clicked)
         self.startB.clicked.connect(self.startB_clicked)
 
@@ -643,7 +645,7 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
             video = '%s.mp4' % (tempVideo)
 
             #self.type 为训练视频的类型
-            msg = "uphistory %s %s %s %s %s %s %s %s %s" % (userAccount,self.projectName,globalvar.get_value("score"),"sposes/%s.mp4"%(video),"16:00",date,globalvar.get_value("comment"),globalvar.get_value("part_scores"),self.type)
+            msg = "uphistory %s %s %s %s %s %s %s %s %s" % (userAccount,self.projectName,globalvar.get_value("score"),"sposes/%s"%(video),"16:00",date,globalvar.get_value("comment"),globalvar.get_value("part_scores"),self.type)
 
             # msg = "uphistory %s %s %s %s %s %s" % (userAccount,"项目1",globalvar.get_value("score"),"E://Video","16:00",date)
             msg = msg.encode()
@@ -866,7 +868,7 @@ class Like(QWidget,Like.Ui_LikeP):
         num = len(result)
         print("divide()num:" + str(num))
         for i in range(0, num):
-            print('result[i][8]的类型：%s' % (type(result[i][8])))
+            print('result[i][5]的类型：%s' % (type(result[i][5])))
             self.add(result[i][5], result[i][2], result[i][3], result[i][4], result[i][1])
 
     def jumpToMainWindowP_clicked(self):
@@ -909,6 +911,7 @@ class Like(QWidget,Like.Ui_LikeP):
 
         self.lb2.setStyleSheet("background-color:#ffffff")
         self.lb2.setStyleSheet("color:#52968e")
+        self.lb2.setObjectName('lb2')
         self.lb2.setText(l1)
         self.lb2.setFont(QtGui.QFont("Adobe Arabic", 20, 50))
 
@@ -960,18 +963,21 @@ class Like(QWidget,Like.Ui_LikeP):
         widget = self.listWidget.itemWidget(windows)
         print(type(widget))
         item = widget.findChild(QLabel, 'lb5')
+        item2 = widget.findChild(QLabel, 'lb1')
+        item3 = widget.findChild(QLabel, 'lb2')
         print(type(item))
         if item:
             # 这个地方负责传参数给startTrain界面，参数为（正面长.json,侧面长.json）
             temp = item.text()
             # print(temp)
             t = temp.split('-')
-            prm1 = "%s.json" %(temp)
-            #prm2 = "%s-%s-%s-%s.json" % (t[0], t[1], '侧', '长')
+            prm1 = "%s.json" % (temp)
+            prm2 = item2.text()
+            prm3 = item3.text()
             print(prm1)
-            #print(prm2)
+            print(prm2)
             self.close()
-            self.ui = StartTrain(prm1)
+            self.ui = StartTrain(prm1, prm2, prm3)
             self.ui.show()
         else:
             print('didnt find')
@@ -982,7 +988,7 @@ class Like(QWidget,Like.Ui_LikeP):
         self.ui.show()
 
 class RankList(QWidget,RankList.Ui_RankListP):
-    def __int__(self):
+    def __init__(self):
         super(RankList,self).__init__()
         self.setupUi(self)
         self.imageL.setPixmap(QtGui.QPixmap('Image/patten2.png'))
@@ -1026,7 +1032,7 @@ class RankList(QWidget,RankList.Ui_RankListP):
         result = self.getDataForRank()
         username = []
         itemSum = []
-        for i in range(0, 20):
+        for i in range(0, 18):
             username.append(resultCount[i][0])
             self.add1(i+1,resultCount[i][0],resultCount[i][1])
         #username, ttype, count(itemname)
@@ -1075,29 +1081,45 @@ class RankList(QWidget,RankList.Ui_RankListP):
         self.listWidget_1.addItem(item)
         self.listWidget_1.setItemWidget(item, wight)
 
-    def add2(self,l1,l2,l3,l4):
-        lb0 = QLabel(str(l1))
-        lb1 = QLabel(str(l2))
-        lb2 = QLabel(str(l3))
-        lb3 = QLabel(str(l4))
+    def add2(self, l1, l2, l3, l4):
+        lb0 = QLabel()
+        lb1 = QLabel()
+        lb2 = QLabel()
+        lb3 = QLabel()
+        # lb0 = QLabel(str(l1))
+        # lb1 = QLabel(str(l2))
+        # lb2 = QLabel(str(l3))
+        # lb3 = QLabel(str(l4))
         wight = QWidget()
         layoutH = QHBoxLayout()
-        #680 900
-        #健身区：#00c9cd 有氧区：#fe6194 舞蹈：#fcccdc 拉伸区：#829cb5
-        lb0.setStyleSheet("backgroud-color:#00c9cd")
-        lb1.setStyleSheet("backgroud-color:#fe6194")
-        lb2.setStyleSheet("backgroud-color:#fcccdc")
-        lb3.setStyleSheet("backgroud-color:#829cb5")
+        # 680 900
+        # 健身区：#00c9cd 有氧区：#fe6194 舞蹈：#fcccdc 拉伸区：#829cb5
+        lb0.setStyleSheet("background-color:#00c9cd")
+        lb1.setStyleSheet("background-color:#fe6194")
+        lb2.setStyleSheet("background-color:#fcccdc")
+        lb3.setStyleSheet("background-color:#829cb5")
         lb0.setStyleSheet("color:#2e3770")
         lb1.setStyleSheet("color:#2e3770")
         lb2.setStyleSheet("color:#2e3770")
         lb3.setStyleSheet("color:#2e3770")
-        sum = l1+l2+l3+l4
-        lb0.setGeometry(QtCore.QRect(0,0,680*l1/sum,50))
-        lb1.setGeometry(QtCore.QRect(680*l1/sum,0,680*l2/sum,50))
-        lb2.setGeometry(QtCore.QRect(680*l1/sum+680*l2/sum,0,680*l3/sum,50))
-        lb3.setGeometry(QtCore.QRect(680*l1/sum+680*l2/sum+680*l3/sum,0,680*l4/sum,50))
-
+        sum = l1 + l2 + l3 + l4
+        print(type(sum))
+        # lb0.setGeometry(QtCore.QRect(0,0,math.floor(680*l1/sum),50))
+        # lb1.setGeometry(QtCore.QRect(math.floor(680*l1/sum),0,math.floor(680*l2/sum),50))
+        # lb2.setGeometry(QtCore.QRect(math.floor(680*l1/sum+680*l2/sum),0,math.floor(680*l3/sum),50))
+        # lb3.setGeometry(QtCore.QRect(math.floor(680*l1/sum+680*l2/sum+680*l3/sum),0,math.floor(680*l4/sum),50))
+        # self.imageL.setPixmap(QtGui.QPixmap('Image/patten2.png'))
+        lb0.setPixmap(QtGui.QPixmap('Image/p1.png').scaled(math.floor(680 * l1 / sum), 50))
+        lb1.setPixmap(QtGui.QPixmap('Image/p2.png').scaled(math.floor(680 * l2 / sum), 50))
+        lb2.setPixmap(QtGui.QPixmap('Image/p3.png').scaled(math.floor(680 * l3 / sum), 50))
+        lb3.setPixmap(QtGui.QPixmap('Image/p4.png').scaled(math.floor(680 * l4 / sum), 50))
+        # img = QtGui.QImage('Image/like.PNG')
+        # pixmap = QtGui.QPixmap(img)
+        # fitPixmap = pixmap.scaled(80, 80, QtCore.Qt.IgnoreAspectRatio,
+        #                           QtCore.Qt.SmoothTransformation)  # 注意 scaled() 返回一个 QtGui.QPixmap
+        # icon = QtGui.QIcon(fitPixmap)
+        # self.bt2.setIcon(QtGui.QIcon(fitPixmap))
+        # self.bt2.setIconSize(QtCore.QSize(80, 80))
         layoutH.addWidget(lb0)
         layoutH.addWidget(lb1)
         layoutH.addWidget(lb2)

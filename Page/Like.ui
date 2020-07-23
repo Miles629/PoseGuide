@@ -38,6 +38,10 @@
      <height>900</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(7, 33, 58);
+border-color: rgb(7, 33, 58);</string>
+   </property>
   </widget>
   <widget class="QPushButton" name="jumpToMainWindowP">
    <property name="geometry">

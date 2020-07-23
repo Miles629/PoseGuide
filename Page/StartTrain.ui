@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="imageL">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -32,7 +32,10 @@
     <string notr="true">background-color: rgb(0, 170, 255);</string>
    </property>
    <property name="text">
-    <string>整个画布大小用于显示摄像头的内容，由于还不能实现录制结束自动跳转，所以用完成录制按钮跳转到评分界面(现在只用了一个label，显示出摄影图片可能还需要改变该控件的内容)</string>
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>../Image/patten5.png</pixmap>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -44,8 +47,8 @@
   <widget class="QPushButton" name="jumpToScoreP">
    <property name="geometry">
     <rect>
-     <x>1700</x>
-     <y>900</y>
+     <x>1760</x>
+     <y>960</y>
      <width>120</width>
      <height>80</height>
     </rect>
@@ -54,6 +57,8 @@
     <font>
      <family>Adobe Arabic</family>
      <pointsize>20</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
    </property>
    <property name="styleSheet">
@@ -92,9 +97,9 @@ color: rgb(7, 33, 58);</string>
   <widget class="QPushButton" name="jumpToChooseP">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>1760</x>
      <y>10</y>
-     <width>250</width>
+     <width>120</width>
      <height>80</height>
     </rect>
    </property>
@@ -102,14 +107,16 @@ color: rgb(7, 33, 58);</string>
     <font>
      <family>Adobe Arabic</family>
      <pointsize>20</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);
+    <string notr="true">color: rgb(252, 204, 220);
 background-color: rgb(7, 33, 58);</string>
    </property>
    <property name="text">
-    <string>返回选择视频</string>
+    <string>返回上级</string>
    </property>
   </widget>
  </widget>

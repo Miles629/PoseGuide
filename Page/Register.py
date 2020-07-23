@@ -11,23 +11,45 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_RegitserP(object):
-    def setupUi(self, RegitserP):
-        RegitserP.setObjectName("RegitserP")
-        RegitserP.resize(1920, 1080)
-        self.registerB = QtWidgets.QPushButton(RegitserP)
-        self.registerB.setGeometry(QtCore.QRect(1340, 860, 120, 80))
+class Ui_Form(object):
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(1920, 1080)
+        self.label_3 = QtWidgets.QLabel(Form)
+        self.label_3.setEnabled(True)
+        self.label_3.setGeometry(QtCore.QRect(0, 0, 800, 1080))
+        self.label_3.setBaseSize(QtCore.QSize(150, 240))
+        self.label_3.setAutoFillBackground(False)
+        self.label_3.setLineWidth(0)
+        self.label_3.setText("")
+        self.label_3.setTextFormat(QtCore.Qt.AutoText)
+        self.label_3.setPixmap(QtGui.QPixmap("image/15562886683298.png"))
+        self.label_3.setScaledContents(True)
+        self.label_3.setObjectName("label_3")
+        self.label = QtWidgets.QLabel(Form)
+        self.label.setGeometry(QtCore.QRect(1230, 120, 500, 200))
         font = QtGui.QFont()
         font.setFamily("Adobe Arabic")
-        font.setPointSize(22)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setPointSize(48)
+        self.label.setFont(font)
+        self.label.setAutoFillBackground(True)
+        self.label.setStyleSheet("color: rgb(46, 55, 112);")
+        self.label.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.label.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.label.setLineWidth(1)
+        self.label.setScaledContents(True)
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName("label")
+        self.registerB = QtWidgets.QPushButton(Form)
+        self.registerB.setGeometry(QtCore.QRect(1450, 900, 80, 50))
+        font = QtGui.QFont()
+        font.setFamily("Adobe Arabic")
+        font.setPointSize(14)
         self.registerB.setFont(font)
-        self.registerB.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"color: rgb(7, 33, 58);")
+        self.registerB.setStyleSheet("color: rgb(46, 55, 112);")
         self.registerB.setObjectName("registerB")
-        self.verticalLayoutWidget = QtWidgets.QWidget(RegitserP)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(990, 320, 791, 471))
+        self.verticalLayoutWidget = QtWidgets.QWidget(Form)
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(1160, 420, 601, 361))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.vboxlayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.vboxlayout.setContentsMargins(0, 0, 0, 0)
@@ -36,96 +58,78 @@ class Ui_RegitserP(object):
         self.emailT = QtWidgets.QTextEdit(self.verticalLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Adobe Arabic")
-        font.setPointSize(18)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
+        font.setPointSize(14)
         self.emailT.setFont(font)
-        self.emailT.setStyleSheet("font: 18pt \"Adobe Arabic\";")
         self.emailT.setObjectName("emailT")
         self.vboxlayout.addWidget(self.emailT)
         self.usernameT = QtWidgets.QTextEdit(self.verticalLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Adobe Arabic")
-        font.setPointSize(18)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
+        font.setPointSize(14)
         self.usernameT.setFont(font)
-        self.usernameT.setStyleSheet("color: rgb(0, 0, 0);\n"
-"font: 18pt \"Adobe Arabic\";")
+        self.usernameT.setStyleSheet("color: rgb(0, 0, 0);")
         self.usernameT.setInputMethodHints(QtCore.Qt.ImhNone)
         self.usernameT.setObjectName("usernameT")
         self.vboxlayout.addWidget(self.usernameT)
         self.passwordT = QtWidgets.QTextEdit(self.verticalLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Adobe Arabic")
-        font.setPointSize(18)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
+        font.setPointSize(14)
         self.passwordT.setFont(font)
-        self.passwordT.setStyleSheet("color: rgb(0, 0, 0);\n"
-"font: 18pt \"Adobe Arabic\";")
+        self.passwordT.setStyleSheet("color: rgb(0, 0, 0);")
         self.passwordT.setObjectName("passwordT")
         self.vboxlayout.addWidget(self.passwordT)
         self.VpasswordT = QtWidgets.QTextEdit(self.verticalLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Adobe Arabic")
-        font.setPointSize(18)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
+        font.setPointSize(14)
         self.VpasswordT.setFont(font)
-        self.VpasswordT.setStyleSheet("font: 18pt \"Adobe Arabic\";")
         self.VpasswordT.setObjectName("VpasswordT")
         self.vboxlayout.addWidget(self.VpasswordT)
-        self.jumpToLoginP = QtWidgets.QPushButton(RegitserP)
-        self.jumpToLoginP.setGeometry(QtCore.QRect(1720, 60, 120, 80))
+        self.loginL = QtWidgets.QLabel(Form)
+        self.loginL.setGeometry(QtCore.QRect(1700, 20, 81, 31))
         font = QtGui.QFont()
         font.setFamily("Adobe Arabic")
-        font.setPointSize(22)
-        font.setBold(True)
-        font.setWeight(75)
-        self.jumpToLoginP.setFont(font)
-        self.jumpToLoginP.setStyleSheet("color: rgb(252, 204, 220);\n"
-"background-color: rgb(7, 33, 58);")
-        self.jumpToLoginP.setObjectName("jumpToLoginP")
-        self.imageL = QtWidgets.QLabel(RegitserP)
-        self.imageL.setGeometry(QtCore.QRect(0, 0, 1920, 1080))
-        self.imageL.setText("")
-        self.imageL.setPixmap(QtGui.QPixmap("../Image/patten.png"))
-        self.imageL.setObjectName("imageL")
-        self.imageL.raise_()
-        self.registerB.raise_()
-        self.verticalLayoutWidget.raise_()
-        self.jumpToLoginP.raise_()
+        font.setPointSize(14)
+        self.loginL.setFont(font)
+        self.loginL.setStyleSheet("color: rgb(116, 113, 114);")
+        self.loginL.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.loginL.setObjectName("loginL")
+        self.loginB = QtWidgets.QPushButton(Form)
+        self.loginB.setGeometry(QtCore.QRect(860, 40, 75, 23))
+        font = QtGui.QFont()
+        font.setFamily("Adobe Arabic")
+        font.setPointSize(12)
+        self.loginB.setFont(font)
+        self.loginB.setObjectName("loginB")
 
-        self.retranslateUi(RegitserP)
-        QtCore.QMetaObject.connectSlotsByName(RegitserP)
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
 
-    def retranslateUi(self, RegitserP):
+    def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        RegitserP.setWindowTitle(_translate("RegitserP", "Form"))
-        self.registerB.setText(_translate("RegitserP", "注册"))
-        self.emailT.setHtml(_translate("RegitserP", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.label.setText(_translate("Form", "Pose Guide"))
+        self.registerB.setText(_translate("Form", "注册"))
+        self.emailT.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Adobe Arabic\'; font-size:18pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">email</p></body></html>"))
-        self.usernameT.setHtml(_translate("RegitserP", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"</style></head><body style=\" font-family:\'Adobe Arabic\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#747172;\">email</span></p></body></html>"))
+        self.usernameT.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Adobe Arabic\'; font-size:18pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">username</p></body></html>"))
-        self.passwordT.setHtml(_translate("RegitserP", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"</style></head><body style=\" font-family:\'Adobe Arabic\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'SimSun\'; color:#6a6a6a;\">username</span></p></body></html>"))
+        self.passwordT.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Adobe Arabic\'; font-size:18pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">password</p></body></html>"))
-        self.VpasswordT.setHtml(_translate("RegitserP", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"</style></head><body style=\" font-family:\'Adobe Arabic\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'SimSun\'; color:#6a6a6a;\">password</span></p></body></html>"))
+        self.VpasswordT.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Adobe Arabic\'; font-size:18pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">vertify password</p></body></html>"))
-        self.jumpToLoginP.setText(_translate("RegitserP", "返回登录"))
+"</style></head><body style=\" font-family:\'Adobe Arabic\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#747172;\">vertify password</span></p></body></html>"))
+        self.loginL.setText(_translate("Form", "返回登录"))
+        self.loginB.setText(_translate("Form", "返回登录"))
