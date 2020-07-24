@@ -46,7 +46,7 @@ class DataBaseHandle(object):
         # 生成一个哈希码来作为数据库主键
         hashcode=hash(time.localtime())
         hashcode=str(hashcode)
-        sql='insert into history(id,username,itemname,score,ddate,ccomment,partscores,ttype) values ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")'%(pymysql.escape_string(hashcode) ,pymysql.escape_string(u) ,
+        sql='insert into history(id,username,itemname,score,ddate,ccomment,partscores,ttype) values ("%s","%s","%s","%s","%s","%s","%s","%s")'%(pymysql.escape_string(hashcode) ,pymysql.escape_string(u) ,
         pymysql.escape_string(item) ,pymysql.escape_string(s) ,pymysql.escape_string(date) ,pymysql.escape_string(com) ,pymysql.escape_string(part),pymysql.escape_string(type))
         print(sql)
         try:
