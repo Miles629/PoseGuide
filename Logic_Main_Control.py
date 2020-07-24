@@ -72,7 +72,7 @@ class Login(QWidget,Login.Ui_LoginP):
             QMessageBox.warning(self,"错误",e,QMessageBox.Cancel)
 
 
-class Register(QWidget,Register.Ui_RegitserP):
+class Register(QWidget,Register.Ui_Form):
     def __init__(self):
         super(Register, self).__init__()
         self.setupUi(self)
@@ -855,8 +855,7 @@ class Like(QWidget,Like.Ui_LikeP):
         print("divide()num:" + str(num))
         for i in range(0, num):
             print('result[i][5]的类型：%s' % (type(result[i][5])))
-            self.add(result[i][5], result[i][2], result[i][3], result[i][4], result[i][1])
-
+            self.itemAdd(self.add(result[i][5], result[i][2], result[i][3], result[i][4], result[i][1]))
     def jumpToMainWindowP_clicked(self):
         self.close()
         self.ui = MainWindow()
