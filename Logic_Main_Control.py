@@ -7,7 +7,7 @@ Discrip://此处须注明更新的详细内容
     更改了路径
     完成了数据显示
 '''
-
+import math
 import socket
 import sys
 
@@ -140,37 +140,16 @@ class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
         self.ui = ChooseTrain()
         self.ui.show()
     def jumpToHistoryP_clicked(self):
-        '''
-            try:
-            msg = "askhistory %s" %(userAccount)
-            msg = msg.encode()
-            client.send(msg)
-            response = client.recv(4096)
-            print("askHistoryReturn:%s" % (response))
-            alist = response.decode().split('\'')
-            num = alist[0].split('"')
-            num = num[0].split('(')
-            num = num[0]
-            print(num)
-            if num != 0:
 
-            else:
-                QMessageBox.warning(self,"提示",'暂无个人历史记录',QMessageBox.Ok)
-        except Exception as e:
-            QMessageBox.warning(self,"错误",e,QMessageBox.Cancel)
-            print(e)
-        '''
         self.close()
         self.ui = History()
         self.ui.show()
 
 
     def jumpToLikeP_clicked(self):
-        '''
         self.close()
-        self.ui = Login()
+        self.ui = Like()
         self.ui.show()
-        '''
 
 
 class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
@@ -643,9 +622,10 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
             date=datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
             tempVideo = self.json1.strip('.json')
             video = '%s.mp4' % (tempVideo)
-
+            partScore = globalvar.get_value("part_scores")
+            pscore = '%s*%s*%s*%s*%s'%(str(int(100*partScore['头部']))+"%",str(int(100*partScore['左臂']))+"%",str(int(100*partScore['右臂']))+"%",str(int(100*partScore['左腿']))+"%",str(int(100*partScore['右腿']))+"%")
             #self.type 为训练视频的类型
-            msg = "uphistory %s %s %s %s %s %s %s %s %s" % (userAccount,self.projectName,globalvar.get_value("score"),"sposes/%s"%(video),"16:00",date,globalvar.get_value("comment"),globalvar.get_value("part_scores"),self.type)
+            msg = "uphistory %s %s %s %s %s %s %s %s %s" % (userAccount,self.projectName,globalvar.get_value("score"),"sposes/%s"%(video),"16:00",date,globalvar.get_value("comment"),pscore,self.type)
 
             # msg = "uphistory %s %s %s %s %s %s" % (userAccount,"项目1",globalvar.get_value("score"),"E://Video","16:00",date)
             msg = msg.encode()
@@ -664,8 +644,6 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
         except Exception as e:
             QMessageBox.warning(self, '提示',"错误", e, QMessageBox.Cancel)
             print(e)
-
-
     
     def showframe(self):
         # self.info_label.setText('已加载完成！')
@@ -725,6 +703,7 @@ class History(QWidget,History.Ui_HistoryP):
         self.setupUi(self)
         self.imageL.setPixmap(QtGui.QPixmap("Image/patten3.png"))
         self.jumpToMainWindowP.clicked.connect(self.jumpToMainWindowP_clicked)
+        self.listWidget.itemClicked.connect(self.jump)
         #目前的添加只考虑了添加1条的情况，多条数据分解，需要与数据库结合考虑
         self.divide(self.getDate())
         # self.getDate()
@@ -736,8 +715,10 @@ class History(QWidget,History.Ui_HistoryP):
         print("divide()num:"+str(num))
         for i in range(0,num):
             print('result[i][8]的类型：%s'%(type(result[i][8])))
+            parts = result[i][4].split('*')
+            partscore = "%s/%s/%s/%s/%s"%(parts[0],parts[1],parts[2],parts[3],parts[4])
             # partScore ='%s/%s/%s/%s/%s'%(str(result[i][8]['头部']),str(result[i][8]['左臂']),str(result[i][8]['右臂']),str(result[i][8]['左腿']),str(result[i][8]['右腿']))
-            self.add(result[i][1],result[i][2],str(result[i][3]),'89/80/90/92/86',result[i][5],result[i][6])
+            self.add(result[i][1],result[i][2],str(result[i][3]),partscore,result[i][5],result[i][6])
 
 
     def getDate(self):
@@ -827,6 +808,11 @@ class History(QWidget,History.Ui_HistoryP):
         self.listWidget.addItem(item)
         self.listWidget.setItemWidget(item, object)
 
+    def jump(self):
+        self.close()
+        self.ui = RankList()
+        self.show()
+
 class Tabel(QWidget,Tabel.Ui_TabelP):
     def __init__(self,projectName):
         super(Tabel, self).__init__()
@@ -840,7 +826,7 @@ class Tabel(QWidget,Tabel.Ui_TabelP):
         self.ui.show()
 
 class Like(QWidget,Like.Ui_LikeP):
-    def __init__(self,projectName):
+    def __init__(self):
         super(Like, self).__init__()
         self.setupUi(self)
         self.imageL.setPixmap(QtGui.QPixmap("Image/patten2.png"))
@@ -991,8 +977,8 @@ class RankList(QWidget,RankList.Ui_RankListP):
     def __init__(self):
         super(RankList,self).__init__()
         self.setupUi(self)
-        self.imageL.setPixmap(QtGui.QPixmap('Image/patten2.png'))
-        self.pushButton.clicked.connect()
+        self.imageL.setPixmap(QtGui.QPixmap('Image/patten6.png'))
+        self.pushButton.clicked.connect(self.jump)
         self.getData()
         #健身区：#00c9cd 有氧区：#fe6194 舞蹈：#fcccdc 拉伸区：#829cb5
         #listwidget_1 用户得分, listwidget_2 用户训练模块涂色
@@ -1130,6 +1116,11 @@ class RankList(QWidget,RankList.Ui_RankListP):
         item.setSizeHint(QtCore.QSize(680, 50))
         self.listWidget_2.addItem(item)
         self.listWidget_2.setItemWidget(item, wight)
+
+    def jump(self):
+        self.close()
+        self.ui = History()
+        self.show()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
