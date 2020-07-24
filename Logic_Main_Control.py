@@ -150,26 +150,26 @@ class LoginW(QWidget, Login.Ui_LoginP):
 
     def loginB_clicked(self):
         try:
-            user = self.userT.toPlainText()
+            user = self.userT.text()
             # userAccount=user
-            pwd = self.pwdT.toPlainText()
+            pwd = self.pwdT.text()
             print(user)
             print(pwd)
             msg = "login %s %s" %(user, pwd)
             print(msg)
             msg = msg.encode()
-            # client.send(msg)
-            # response = client.recv(4096)
-            # print("loginReturn:%s" %(response))
-            # result = response.decode()
-            # if result == 'True':
-            #     global userAccount
-            #     userAccount = user
-            #     self.close()
-            #     self.ui = MainWindow()
-            #     self.ui.show()
-            # else:
-            #     QMessageBox.warning(self,'错误','您输入的密码有误',QMessageBox.Cancel)
+            client.send(msg)
+            response = client.recv(4096)
+            print("loginReturn:%s" %(response))
+            result = response.decode()
+            if result == 'True':
+                global userAccount
+                userAccount = user
+                self.close()
+                self.ui = MainWindow()
+                self.ui.show()
+            else:
+                QMessageBox.warning(self,'错误','您输入的密码有误',QMessageBox.Cancel)
         except Exception as e:
             QMessageBox.warning(self,"错误",e,QMessageBox.Cancel)
 
@@ -221,28 +221,28 @@ class RegisterW(QWidget, Register.Ui_RegitserP):
 
     def registerB_clicked(self):
         try:
-            email = self.emailT.toPlainText()
-            user = self.usernameT.toPlainText()
-            pwd = self.passwordT.toPlainText()
-            vpwd = self.VpasswordT.toPlainText()
+            email = self.emailT.text()
+            user = self.usernameT.text()
+            pwd = self.passwordT.text()
+            vpwd = self.VpasswordT.text()
             print(user)
             print(pwd)
             if pwd == vpwd:
                 msg = "signin %s %s %s" % (user, pwd, email)
                 print(msg)
                 msg = msg.encode()
-                # client.send(msg)
-                # response = client.recv(4096)
-                # print("RegisterReturn:%s" % (response))
-                # result = response.decode()
-                # print(result)
-                # if result == 'True':
-                #     userAccount = user
-                #     self.close()
-                #     self.ui = MainWindow()
-                #     self.ui.show()
-                # else:
-                #     QMessageBox.about(self, '有误', '注册失败', QMessageBox.Cancel)
+                client.send(msg)
+                response = client.recv(4096)
+                print("RegisterReturn:%s" % (response))
+                result = response.decode()
+                print(result)
+                if result == 'True':
+                    userAccount = user
+                    self.close()
+                    self.ui = MainWindow()
+                    self.ui.show()
+                else:
+                    QMessageBox.about(self, '有误', '注册失败', QMessageBox.Cancel)
             else:
                 QMessageBox.warning(self, "错误", '您输入的两次密码不同，请重新输入', QMessageBox.Ok)
 
@@ -486,9 +486,13 @@ class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
         self.jumpToLikeP.clicked.connect(self.jumpToLikeP_clicked)
 
     def jumpToLoginP_clicked(self):
-        self.close()
-        self.ui = Login()
-        self.ui.show()
+        MainWindow = QtWidgets.QMainWindow()
+        ui = RegisterWindow()
+        ui.setupUi(MainWindow)
+        MainWindow.showMaximized()
+        # self.close()
+        # self.ui = Login()
+        # self.ui.show()
     def jumpToChooseP_clicked(self):
         self.close()
         self.ui = ChooseTrain()
@@ -1508,6 +1512,10 @@ class RankList(QWidget,RankList.Ui_RankListP):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ui = LoginWindow()
-    ui.show()
+    MainWindow = QtWidgets.QMainWindow()
+    ui = RegisterWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.showMaximized()
+    # ui = LoginWindow()
+    # ui.show()
     sys.exit(app.exec_())
