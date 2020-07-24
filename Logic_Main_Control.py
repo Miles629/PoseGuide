@@ -623,10 +623,40 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
             tempVideo = self.json1.strip('.json')
             video = '%s.mp4' % (tempVideo)
             partScore = globalvar.get_value("part_scores")
-            pscore = '%s*%s*%s*%s*%s'%(str(int(100*partScore['头部']))+"%",str(int(100*partScore['左臂']))+"%",str(int(100*partScore['右臂']))+"%",str(int(100*partScore['左腿']))+"%",str(int(100*partScore['右腿']))+"%")
+            allscore="allscore"
+            head="head"
+            lhand="lhand"
+            rhand="rhand"
+            lleg="lleg"
+            rleg="rleg"
+            try:
+                allscore=(str(int(allscore*100))+"%")
+            except:
+                allscore=(str(allscore))
+            try:
+                head=(str(int(100*partScore['头部']))+"%")
+            except:
+                head=(str(partScore['头部']))
+            try:
+                lhand=(str(int(100*partScore['左臂']))+"%")
+            except:
+                lhand=(str(partScore['左臂']))
+            try:
+                rhand=(str(int(100*partScore['右臂']))+"%")
+            except:
+                rhand=(str(partScore['右臂']))
+            try:
+                lleg=(str(int(100*partScore['左腿']))+"%")
+            except:
+                lleg=(str(partScore['左腿']))
+            try:
+                rleg=(str(int(100*partScore['右腿']))+"%")
+            except:
+                rleg=(str(partScore['右腿']))
+            pscore = '%s*%s*%s*%s*%s'%(head,lhand,rhand,lleg,rleg)
             #self.type 为训练视频的类型
             msg = "uphistory %s %s %s %s %s %s %s %s %s" % (userAccount,self.projectName,globalvar.get_value("score"),"sposes/%s"%(video),"16:00",date,globalvar.get_value("comment"),pscore,self.type)
-
+            print("msg:"+msg)
             # msg = "uphistory %s %s %s %s %s %s" % (userAccount,"项目1",globalvar.get_value("score"),"E://Video","16:00",date)
             msg = msg.encode()
             client.send(msg)
@@ -647,7 +677,7 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
     
     def showframe(self):
         # self.info_label.setText('已加载完成！')
-        self.label.setPixmap(self.showImage)
+        self.imageL.setPixmap(self.showImage)
         # if not self.jumpToScoreP.isEnabled():
             # self.info_label.setText('已停止！')
         
@@ -715,7 +745,8 @@ class History(QWidget,History.Ui_HistoryP):
         print("divide()num:"+str(num))
         for i in range(0,num):
             # print('result[i][8]的类型：%s'%(type(result[i][8])))
-            parts = result[i][4].split('*')
+            print("parts:"+result[i][8])
+            parts = result[i][8].split('*')
             partscore = "%s/%s/%s/%s/%s"%(parts[0],parts[1],parts[2],parts[3],parts[4])
             # partScore ='%s/%s/%s/%s/%s'%(str(result[i][8]['头部']),str(result[i][8]['左臂']),str(result[i][8]['右臂']),str(result[i][8]['左腿']),str(result[i][8]['右腿']))
             self.add(result[i][1],result[i][2],str(result[i][3]),partscore,result[i][5],result[i][6])
@@ -723,7 +754,7 @@ class History(QWidget,History.Ui_HistoryP):
 
     def getDate(self):
         try:
-            msg = "askcollections %s" % (userAccount)
+            msg = "askhistory %s" % (userAccount)
             # msg = "askcollection %s" % (userAccount)
             msg = msg.encode()
             client.send(msg)
