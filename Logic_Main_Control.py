@@ -619,7 +619,7 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
             # 上传训练历史记录的格式如下，u用户名item训练项目s分数dp存储路径dur持续时间date训练日期
             #msg = "uphistory u item s dp dur date"
             # date=datetime.date()
-            date=datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
+            date = datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
             tempVideo = self.json1.strip('.json')
             video = '%s.mp4' % (tempVideo)
             partScore = globalvar.get_value("part_scores")
@@ -655,9 +655,8 @@ class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
                 rleg=(str(partScore['右腿']))
             pscore = '%s*%s*%s*%s*%s'%(head,lhand,rhand,lleg,rleg)
             #self.type 为训练视频的类型
-            msg = "uphistory %s %s %s %s %s %s %s %s %s" % (userAccount,self.projectName,globalvar.get_value("score"),"sposes/%s"%(video),"16:00",date,globalvar.get_value("comment"),pscore,self.type)
+            msg = "uphistory %s %s %s %s %s %s" % (userAccount,self.projectName,globalvar.get_value("score"),globalvar.get_value("comment"),pscore,self.type)
             print("msg:"+msg)
-            # msg = "uphistory %s %s %s %s %s %s" % (userAccount,"项目1",globalvar.get_value("score"),"E://Video","16:00",date)
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
@@ -737,7 +736,7 @@ class History(QWidget,History.Ui_HistoryP):
         #目前的添加只考虑了添加1条的情况，多条数据分解，需要与数据库结合考虑
         self.divide(self.getDate())
         # self.getDate()
-    # "uphistory u item s dp dur date"
+    # "uphistory u item s dp ttype date"
 
     def divide(self,result):
         print("divide()result:"+str(result))
@@ -745,11 +744,12 @@ class History(QWidget,History.Ui_HistoryP):
         print("divide()num:"+str(num))
         for i in range(0,num):
             # print('result[i][8]的类型：%s'%(type(result[i][8])))
-            print("parts:"+result[i][8])
-            parts = result[i][8].split('*')
+            #print("parts:"+result[i][8])
+            parts = result[i][6].split('*')
             partscore = "%s/%s/%s/%s/%s"%(parts[0],parts[1],parts[2],parts[3],parts[4])
             # partScore ='%s/%s/%s/%s/%s'%(str(result[i][8]['头部']),str(result[i][8]['左臂']),str(result[i][8]['右臂']),str(result[i][8]['左腿']),str(result[i][8]['右腿']))
-            self.add(result[i][1],result[i][2],str(result[i][3]),partscore,result[i][5],result[i][6])
+            self.add(result[i][1],result[i][2],str(result[i][3]),partscore,result[i][7],result[i][4])
+
 
 
     def getDate(self):

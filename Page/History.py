@@ -143,5 +143,5 @@ class Ui_HistoryP(object):
         self.label_6.setText(_translate("HistoryP", "右臂"))
         self.label_9.setText(_translate("HistoryP", "左腿"))
         self.label_10.setText(_translate("HistoryP", "右腿"))
-        self.label_5.setText(_translate("HistoryP", "时长"))
+        self.label_5.setText(_translate("HistoryP", "类型"))
         self.label_4.setText(_translate("HistoryP", "训练日期"))

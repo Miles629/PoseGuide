@@ -208,7 +208,7 @@ color: rgb(252, 204, 220);</string>
        <string notr="true">color: rgb(255, 255, 255);</string>
       </property>
       <property name="text">
-       <string>时长</string>
+       <string>类型</string>
       </property>
      </widget>
     </item>
