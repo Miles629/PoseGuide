@@ -714,7 +714,7 @@ class History(QWidget,History.Ui_HistoryP):
         num =len(result)
         print("divide()num:"+str(num))
         for i in range(0,num):
-            print('result[i][8]的类型：%s'%(type(result[i][8])))
+            # print('result[i][8]的类型：%s'%(type(result[i][8])))
             parts = result[i][4].split('*')
             partscore = "%s/%s/%s/%s/%s"%(parts[0],parts[1],parts[2],parts[3],parts[4])
             # partScore ='%s/%s/%s/%s/%s'%(str(result[i][8]['头部']),str(result[i][8]['左臂']),str(result[i][8]['右臂']),str(result[i][8]['左腿']),str(result[i][8]['右腿']))
@@ -723,7 +723,8 @@ class History(QWidget,History.Ui_HistoryP):
 
     def getDate(self):
         try:
-            msg = "askcollection %s" % (userAccount)
+            msg = "askcollections %s" % (userAccount)
+            # msg = "askcollection %s" % (userAccount)
             msg = msg.encode()
             client.send(msg)
             response = client.recv(4096)
