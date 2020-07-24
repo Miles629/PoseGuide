@@ -1,0 +1,116 @@
+[2020-07-24 18:44:05 LoginW.py 74] DEBUG  焦点进入: userT
+[2020-07-24 18:46:01 LoginW.py 74] DEBUG  焦点进入: userT
+[2020-07-24 20:38:36 <string> 13] DEBUG  btn_num_4_clicked 按下 4 发送: 4
+[2020-07-24 20:38:39 <string> 14] DEBUG  btn_char_l_clicked 按下 l 发送: l
+[2020-07-24 20:38:40 <string> 9] DEBUG  btn_backspace_clicked 按下 backspace 发送: backspace
+[2020-07-24 20:38:41 <string> 13] DEBUG  btn_num_7_clicked 按下 7 发送: 7
+[2020-07-24 20:38:43 <string> 9] DEBUG  btn_space_clicked 按下 space 发送:  
+[2020-07-24 20:38:45 <string> 9] DEBUG  btn_shift_clicked 按下 shift 发送: None
+[2020-07-24 21:23:23 LoginW.py 73] DEBUG  焦点进入: userT
+[2020-07-24 21:26:13 LoginW.py 73] DEBUG  焦点进入: userT
+[2020-07-24 21:37:53 LoginW.py 73] DEBUG  焦点进入: userT
+[2020-07-24 21:38:02 LoginW.py 73] DEBUG  焦点进入: userT
+[2020-07-24 21:42:37 LoginW.py 73] DEBUG  焦点进入: userT
+[2020-07-24 21:46:37 LoginW.py 73] DEBUG  焦点进入: userT
+[2020-07-24 21:46:39 LoginW.py 73] DEBUG  焦点进入: userT
+[2020-07-24 21:46:40 LoginW.py 73] DEBUG  焦点进入: userT
+[2020-07-24 21:49:35 LoginW.py 73] DEBUG  焦点进入: userT
+[2020-07-24 21:49:36 LoginW.py 73] DEBUG  焦点进入: userT
+[2020-07-24 21:51:03 LoginW.py 73] DEBUG  焦点进入: userT
+[2020-07-24 22:11:59 LoginW.py 73] DEBUG  焦点进入: userT
+[2020-07-24 22:12:02 <string> 14] DEBUG  btn_char_y_clicked 按下 y 发送: y
+[2020-07-24 22:12:03 <string> 14] DEBUG  btn_char_j_clicked 按下 j 发送: j
+[2020-07-24 22:12:03 <string> 14] DEBUG  btn_char_u_clicked 按下 u 发送: u
+[2020-07-24 22:12:04 <string> 13] DEBUG  btn_num_6_clicked 按下 6 发送: 6
+[2020-07-24 22:12:05 <string> 13] DEBUG  btn_num_9_clicked 按下 9 发送: 9
+[2020-07-24 22:12:05 <string> 13] DEBUG  btn_num_8_clicked 按下 8 发送: 8
+[2020-07-24 22:12:06 <string> 9] DEBUG  btn_backspace_clicked 按下 backspace 发送: backspace
+[2020-07-24 22:12:06 <string> 9] DEBUG  btn_backspace_clicked 按下 backspace 发送: backspace
+[2020-07-24 22:12:06 <string> 9] DEBUG  btn_backspace_clicked 按下 backspace 发送: backspace
+[2020-07-24 22:12:07 <string> 9] DEBUG  btn_backspace_clicked 按下 backspace 发送: backspace
+[2020-07-24 22:12:07 <string> 9] DEBUG  btn_backspace_clicked 按下 backspace 发送: backspace
+[2020-07-24 22:12:07 <string> 9] DEBUG  btn_backspace_clicked 按下 backspace 发送: backspace
+[2020-07-24 22:12:08 LoginW.py 73] DEBUG  焦点进入: pwdT
+[2020-07-24 22:12:09 LoginW.py 73] DEBUG  焦点进入: userT
+[2020-07-24 22:12:10 <string> 14] DEBUG  btn_char_y_clicked 按下 y 发送: y
+[2020-07-24 22:12:10 <string> 13] DEBUG  btn_num_5_clicked 按下 5 发送: 5
+[2020-07-24 22:12:10 <string> 13] DEBUG  btn_num_6_clicked 按下 6 发送: 6
+[2020-07-24 22:12:12 <string> 14] DEBUG  btn_char_i_clicked 按下 i 发送: i
+[2020-07-24 22:12:15 <string> 14] DEBUG  btn_char_y_clicked 按下 y 发送: y
+[2020-07-24 22:12:16 <string> 13] DEBUG  btn_num_7_clicked 按下 7 发送: 7
+[2020-07-24 22:12:16 <string> 13] DEBUG  btn_num_6_clicked 按下 6 发送: 6
+[2020-07-24 22:12:17 <string> 14] DEBUG  btn_char_t_clicked 按下 t 发送: t
+[2020-07-24 22:12:17 <string> 14] DEBUG  btn_char_g_clicked 按下 g 发送: g
+[2020-07-24 22:12:17 <string> 14] DEBUG  btn_char_k_clicked 按下 k 发送: k
+[2020-07-24 22:12:19 <string> 13] DEBUG  btn_num_2_clicked 按下 2 发送: 2
+[2020-07-24 22:12:19 <string> 9] DEBUG  btn_backspace_clicked 按下 backspace 发送: backspace
+[2020-07-24 22:12:20 <string> 9] DEBUG  btn_shift_clicked 按下 shift 发送: None
+[2020-07-24 22:12:21 <string> 13] DEBUG  btn_num_2_clicked 按下 @ 发送: @
+[2020-07-24 22:12:22 <string> 14] DEBUG  btn_char_q_clicked 按下 q 发送: q
+[2020-07-24 22:12:23 <string> 14] DEBUG  btn_char_q_clicked 按下 q 发送: q
+[2020-07-24 22:12:24 <string> 9] DEBUG  btn_dot_clicked 按下 dot 发送: .
+[2020-07-24 22:12:24 <string> 14] DEBUG  btn_char_c_clicked 按下 c 发送: c
+[2020-07-24 22:12:25 <string> 9] DEBUG  btn_backspace_clicked 按下 backspace 发送: backspace
+[2020-07-24 22:12:26 <string> 9] DEBUG  btn_backspace_clicked 按下 backspace 发送: backspace
+[2020-07-24 22:12:28 LoginW.py 73] DEBUG  焦点进入: pwdT
+[2020-07-24 22:12:30 LoginW.py 73] DEBUG  焦点进入: pwdT
+[2020-07-24 22:12:33 LoginW.py 73] DEBUG  焦点进入: pwdT
+[2020-07-24 22:13:18 RegisterW.py 84] DEBUG  焦点进入: emailT
+[2020-07-24 22:13:20 RegisterW.py 84] DEBUG  焦点进入: emailT
+[2020-07-24 22:13:22 <string> 14] DEBUG  btn_char_i_clicked 按下 i 发送: i
+[2020-07-24 22:13:23 <string> 14] DEBUG  btn_char_h_clicked 按下 h 发送: h
+[2020-07-24 22:13:24 <string> 14] DEBUG  btn_char_g_clicked 按下 g 发送: g
+[2020-07-24 22:13:24 <string> 14] DEBUG  btn_char_j_clicked 按下 j 发送: j
+[2020-07-24 22:13:25 <string> 14] DEBUG  btn_char_k_clicked 按下 k 发送: k
+[2020-07-24 22:13:30 <string> 13] DEBUG  btn_num_9_clicked 按下 9 发送: 9
+[2020-07-24 22:13:31 <string> 13] DEBUG  btn_num_0_clicked 按下 0 发送: 0
+[2020-07-24 22:13:31 <string> 14] DEBUG  btn_char_u_clicked 按下 u 发送: u
+[2020-07-24 22:13:32 <string> 14] DEBUG  btn_char_f_clicked 按下 f 发送: f
+[2020-07-24 22:13:32 <string> 14] DEBUG  btn_char_r_clicked 按下 r 发送: r
+[2020-07-24 22:13:33 <string> 14] DEBUG  btn_char_e_clicked 按下 e 发送: e
+[2020-07-24 22:13:33 <string> 14] DEBUG  btn_char_d_clicked 按下 d 发送: d
+[2020-07-24 22:13:34 <string> 14] DEBUG  btn_char_s_clicked 按下 s 发送: s
+[2020-07-24 22:13:34 <string> 14] DEBUG  btn_char_v_clicked 按下 v 发送: v
+[2020-07-24 22:13:34 <string> 14] DEBUG  btn_char_b_clicked 按下 b 发送: b
+[2020-07-24 22:13:35 <string> 14] DEBUG  btn_char_n_clicked 按下 n 发送: n
+[2020-07-24 22:13:35 <string> 14] DEBUG  btn_char_m_clicked 按下 m 发送: m
+[2020-07-24 22:13:36 <string> 9] DEBUG  btn_semicolon_clicked 按下 semicolon 发送: ;
+[2020-07-24 22:13:36 <string> 14] DEBUG  btn_char_p_clicked 按下 p 发送: p
+[2020-07-24 22:13:37 <string> 9] DEBUG  btn_backspace_clicked 按下 backspace 发送: backspace
+[2020-07-24 22:13:37 <string> 9] DEBUG  btn_backspace_clicked 按下 backspace 发送: backspace
+[2020-07-24 22:13:38 <string> 9] DEBUG  btn_backspace_clicked 按下 backspace 发送: backspace
+[2020-07-24 22:13:40 RegisterW.py 84] DEBUG  焦点进入: usernameT
+[2020-07-24 22:13:41 RegisterW.py 84] DEBUG  焦点进入: passwordT
+[2020-07-24 22:13:41 <string> 9] DEBUG  btn_enter_clicked 按下 enter 发送: enter
+[2020-07-24 22:13:51 <string> 9] DEBUG  btn_backspace_clicked 按下 backspace 发送: backspace
+[2020-07-24 22:13:54 <string> 14] DEBUG  btn_char_h_clicked 按下 h 发送: h
+[2020-07-24 22:13:55 <string> 14] DEBUG  btn_char_t_clicked 按下 t 发送: t
+[2020-07-24 22:13:55 <string> 13] DEBUG  btn_num_6_clicked 按下 6 发送: 6
+[2020-07-24 22:13:56 <string> 13] DEBUG  btn_num_7_clicked 按下 7 发送: 7
+[2020-07-24 22:13:57 <string> 14] DEBUG  btn_char_d_clicked 按下 d 发送: d
+[2020-07-24 22:13:57 <string> 13] DEBUG  btn_num_3_clicked 按下 3 发送: 3
+[2020-07-24 22:13:58 <string> 13] DEBUG  btn_num_6_clicked 按下 6 发送: 6
+[2020-07-24 22:16:22 RegisterW.py 84] DEBUG  焦点进入: emailT
+[2020-07-24 22:31:05 control.py 147] DEBUG  焦点进入: emailT
+[2020-07-24 22:31:07 control.py 147] DEBUG  焦点进入: emailT
+[2020-07-24 22:31:10 <string> 13] DEBUG  btn_num_6_clicked 按下 6 发送: 6
+[2020-07-24 22:31:11 <string> 14] DEBUG  btn_char_j_clicked 按下 j 发送: j
+[2020-07-24 22:31:11 <string> 14] DEBUG  btn_char_u_clicked 按下 u 发送: u
+[2020-07-24 22:31:12 <string> 13] DEBUG  btn_num_6_clicked 按下 6 发送: 6
+[2020-07-24 22:31:13 control.py 147] DEBUG  焦点进入: emailT
+[2020-07-24 22:31:18 control.py 72] DEBUG  焦点进入: userT
+[2020-07-24 22:32:40 control.py 147] DEBUG  焦点进入: emailT
+[2020-07-24 22:32:41 <string> 13] DEBUG  btn_num_6_clicked 按下 6 发送: 6
+[2020-07-24 22:32:42 <string> 14] DEBUG  btn_char_u_clicked 按下 u 发送: u
+[2020-07-24 22:32:43 <string> 14] DEBUG  btn_char_y_clicked 按下 y 发送: y
+[2020-07-24 22:32:54 control.py 72] DEBUG  焦点进入: userT
+[2020-07-24 22:32:57 control.py 72] DEBUG  焦点进入: userT
+[2020-07-24 22:32:59 control.py 72] DEBUG  焦点进入: userT
+[2020-07-24 22:33:00 control.py 72] DEBUG  焦点进入: userT
+[2020-07-24 22:33:03 control.py 72] DEBUG  焦点进入: pwdT
+[2020-07-24 22:33:05 control.py 72] DEBUG  焦点进入: userT
+[2020-07-24 22:33:05 control.py 72] DEBUG  焦点进入: pwdT
+[2020-07-24 22:33:14 control.py 147] DEBUG  焦点进入: emailT
+[2020-07-24 22:33:18 control.py 147] DEBUG  焦点进入: emailT
+[2020-07-24 22:39:50 control.py 147] DEBUG  焦点进入: emailT
+[2020-07-24 22:39:52 control.py 147] DEBUG  焦点进入: emailT

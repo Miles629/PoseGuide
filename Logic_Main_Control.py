@@ -10,20 +10,27 @@ Discrip://此处须注明更新的详细内容
 import math
 import socket
 import sys
-
+import sys
+from PyQt5 import QtGui
+from PyQt5.QtCore import QEvent, QCoreApplication
 from PyQt5.QtWidgets import *
+from PyQt5 import QtCore, QtWidgets
+from Page import Login,Register
+from SoftKeyBoard import SoftKeyBoard
+from utils import logger
 from PyQt5 import QtGui,QtCore
 from PyQt5.QtWidgets import *
 from Page import Login,Register,Main_Window,ChooseTrain,StartTrain,Score,History,Tabel,Like,RankList
-# from PyQt5 import QtGui
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
 from datetime import datetime
 import cv2
 import globalvar
 import modelload
 import threading
 # import video
+
+global log
+log = logger.setup_logger('logging.log')
+
 target_host = "39.106.96.98"
 target_port = 9998
 
@@ -31,20 +38,115 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect((target_host, target_port))
 userAccount = "username"
 
-class Login(QWidget,Login.Ui_LoginP):
-    def __init__(self):
-        super(Login,self).__init__()
-        self.setupUi(self)
+# class Login(QWidget,Login.Ui_LoginP):
+#     def __init__(self):
+#         super(Login,self).__init__()
+#         self.setupUi(self)
+#
+#         self.imageL.setPixmap(QtGui.QPixmap("Image/patten.png"))
+#
+#         self.jumpToRegisterP.clicked.connect(self.jumpToRegisterP_clicked)
+#         self.loginB_2.clicked.connect(self.loginB_clicked)
+#
+#     def jumpToRegisterP_clicked(self):
+#         self.close()
+#         self.ui = Register()
+#         self.ui.show()
+#
+#     def loginB_clicked(self):
+#         try:
+#             user = self.userT.toPlainText()
+#             # userAccount=user
+#             pwd = self.pwdT.toPlainText()
+#             print(user)
+#             print(pwd)
+#             msg = "login %s %s" %(user, pwd)
+#             print(msg)
+#             msg = msg.encode()
+#             client.send(msg)
+#             response = client.recv(4096)
+#             print("loginReturn:%s" %(response))
+#             result = response.decode()
+#             if result == 'True':
+#                 global userAccount
+#                 userAccount = user
+#                 self.close()
+#                 self.ui = MainWindow()
+#                 self.ui.show()
+#             else:
+#                 QMessageBox.warning(self,'错误','您输入的密码有误',QMessageBox.Cancel)
+#         except Exception as e:
+#             QMessageBox.warning(self,"错误",e,QMessageBox.Cancel)
+#
+# class Register(QWidget,Register.Ui_Form):
+#     def __init__(self):
+#         super(Register, self).__init__()
+#         self.setupUi(self)
+#         self.imageL.setPixmap(QtGui.QPixmap("Image/patten.png"))
+#         self.jumpToLoginP.clicked.connect(self.jumpToLoginP_clicked)
+#         self.registerB.clicked.connect(self.registerB_clicked)
+#
+#     def jumpToLoginP_clicked(self):
+#         self.close()
+#         self.ui = Login()
+#         self.ui.show()
+#
+#     def registerB_clicked(self):
+#         try:
+#             email =self.emailT.toPlainText()
+#             user = self.usernameT.toPlainText()
+#             pwd = self.passwordT.toPlainText()
+#             vpwd = self.VpasswordT.toPlainText()
+#             print(user)
+#             print(pwd)
+#             if pwd == vpwd:
+#                 msg = "signin %s %s %s" %(user, pwd, email)
+#                 print(msg)
+#                 msg = msg.encode()
+#                 client.send(msg)
+#                 response = client.recv(4096)
+#                 print("RegisterReturn:%s" %(response))
+#                 result = response.decode()
+#                 print(result)
+#                 if result == 'True':
+#                     userAccount = user
+#                     self.close()
+#                     self.ui = MainWindow()
+#                     self.ui.show()
+#                 else:
+#                     QMessageBox.about(self,'有误','注册失败',QMessageBox.Cancel)
+#             else:
+#                 QMessageBox.warning(self,"错误",'您输入的两次密码不同，请重新输入',QMessageBox.Ok)
+#
+#         except Exception as e:
+#             QMessageBox.warning(self,"错误",e,QMessageBox.Cancel)
 
+class LoginW(QWidget, Login.Ui_LoginP):
+    def __init__(self):
+        super(LoginW, self).__init__()
+        self.setupUi(self)
         self.imageL.setPixmap(QtGui.QPixmap("Image/patten.png"))
 
+        # 将点击事件与槽函数进行连接
         self.jumpToRegisterP.clicked.connect(self.jumpToRegisterP_clicked)
         self.loginB_2.clicked.connect(self.loginB_clicked)
 
+        self.userT.installEventFilter(self)
+        self.pwdT.installEventFilter(self)
+
+        # 最后一次点击的输入框
+        self.now_editline = self.userT
+
+        self.set_log(log)
+
     def jumpToRegisterP_clicked(self):
+        print('跳转')
         self.close()
-        self.ui = Register()
-        self.ui.show()
+        QCoreApplication.instance().quit
+        self.MainWindow = QMainWindow()
+        self.ui = RegisterWindow()
+        self.ui.setupUi(self.MainWindow)
+        self.MainWindow.showMaximized()
 
     def loginB_clicked(self):
         try:
@@ -56,64 +158,316 @@ class Login(QWidget,Login.Ui_LoginP):
             msg = "login %s %s" %(user, pwd)
             print(msg)
             msg = msg.encode()
-            client.send(msg)
-            response = client.recv(4096)
-            print("loginReturn:%s" %(response))
-            result = response.decode()
-            if result == 'True':
-                global userAccount
-                userAccount = user
-                self.close()
-                self.ui = MainWindow()
-                self.ui.show()
-            else:
-                QMessageBox.warning(self,'错误','您输入的密码有误',QMessageBox.Cancel)
+            # client.send(msg)
+            # response = client.recv(4096)
+            # print("loginReturn:%s" %(response))
+            # result = response.decode()
+            # if result == 'True':
+            #     global userAccount
+            #     userAccount = user
+            #     self.close()
+            #     self.ui = MainWindow()
+            #     self.ui.show()
+            # else:
+            #     QMessageBox.warning(self,'错误','您输入的密码有误',QMessageBox.Cancel)
         except Exception as e:
             QMessageBox.warning(self,"错误",e,QMessageBox.Cancel)
 
+    def set_log(self, logger):
+        """ 设置日志文件 """
+        self.log = logger
 
-class Register(QWidget,Register.Ui_Form):
+    def eventFilter(self, obj, event):
+        if event.type() == QEvent.FocusIn:
+            self.log.debug('焦点进入: {}'.format(obj.objectName()))
+            self.now_editline = obj
+
+        elif event.type()== QEvent.FocusOut:
+            pass
+        return False
+
+class RegisterW(QWidget, Register.Ui_RegitserP):
     def __init__(self):
-        super(Register, self).__init__()
+        super(RegisterW, self).__init__()
         self.setupUi(self)
+
+        # 将点击事件与槽函数进行连接
+        self.imageL.setPixmap(QtGui.QPixmap("Image/patten.png"))
+
+        self.emailT.installEventFilter(self)
+        self.usernameT.installEventFilter(self)
+        self.passwordT.installEventFilter(self)
+        self.VpasswordT.installEventFilter(self)
+
+        # 最后一次点击的输入框
+        self.now_editline = self.emailT
+
+        self.set_log(log)
+
         self.imageL.setPixmap(QtGui.QPixmap("Image/patten.png"))
         self.jumpToLoginP.clicked.connect(self.jumpToLoginP_clicked)
         self.registerB.clicked.connect(self.registerB_clicked)
 
+
     def jumpToLoginP_clicked(self):
+        print('跳转')
         self.close()
-        self.ui = Login()
-        self.ui.show()
+        QCoreApplication.instance().quit
+        self.MainWindow = QMainWindow()
+        self.ui = LoginWindow()
+        self.ui.setupUi(self.MainWindow)
+        self.MainWindow.showMaximized()
+
 
     def registerB_clicked(self):
         try:
-            email =self.emailT.toPlainText()
+            email = self.emailT.toPlainText()
             user = self.usernameT.toPlainText()
             pwd = self.passwordT.toPlainText()
             vpwd = self.VpasswordT.toPlainText()
             print(user)
             print(pwd)
             if pwd == vpwd:
-                msg = "signin %s %s %s" %(user, pwd, email)
+                msg = "signin %s %s %s" % (user, pwd, email)
                 print(msg)
                 msg = msg.encode()
-                client.send(msg)
-                response = client.recv(4096)
-                print("RegisterReturn:%s" %(response))
-                result = response.decode()
-                print(result)
-                if result == 'True':
-                    userAccount = user
-                    self.close()
-                    self.ui = MainWindow()
-                    self.ui.show()
-                else:
-                    QMessageBox.about(self,'有误','注册失败',QMessageBox.Cancel)
+                # client.send(msg)
+                # response = client.recv(4096)
+                # print("RegisterReturn:%s" % (response))
+                # result = response.decode()
+                # print(result)
+                # if result == 'True':
+                #     userAccount = user
+                #     self.close()
+                #     self.ui = MainWindow()
+                #     self.ui.show()
+                # else:
+                #     QMessageBox.about(self, '有误', '注册失败', QMessageBox.Cancel)
             else:
-                QMessageBox.warning(self,"错误",'您输入的两次密码不同，请重新输入',QMessageBox.Ok)
+                QMessageBox.warning(self, "错误", '您输入的两次密码不同，请重新输入', QMessageBox.Ok)
 
         except Exception as e:
-            QMessageBox.warning(self,"错误",e,QMessageBox.Cancel)
+            QMessageBox.warning(self, "错误", e, QMessageBox.Cancel)
+
+    def set_log(self, logger):
+        """ 设置日志文件 """
+        self.log = logger
+
+    def eventFilter(self, obj, event):
+        if event.type() == QEvent.FocusIn:
+            self.log.debug('焦点进入: {}'.format(obj.objectName()))
+            self.now_editline = obj
+
+        elif event.type()== QEvent.FocusOut:
+            pass
+        return False
+
+class LoginWindow:
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        self.config_window()
+        self.set_slot_func()
+
+        # 设置配置文件
+        self.soft_keybord.set_log(log)
+        self.login_window.set_log(log)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Hello World (*^▽^*)"))
+
+    def config_window(self):
+        # 垂直布局
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setObjectName("verticalLayout")
+
+        # 分隔主窗口 上按钮, 下图片
+        self.splitter = QtWidgets.QSplitter(self.centralwidget)
+        self.splitter.setOrientation(QtCore.Qt.Vertical)
+        self.splitter.setObjectName("splitter")
+
+        # 外层竖向弹簧
+        self.verticalLayout.addWidget(self.splitter)
+
+        self.login_window = LoginW()
+        self.soft_keybord = SoftKeyBoard()
+        self.splitter.addWidget(self.login_window)         # 弹簧上面
+
+    def set_slot_func(self):
+        """ 配置槽函数 """
+        # 登录窗口与键盘联动
+        self.login_window.btn_keyboard.clicked.connect(self.slot_switch_keyboard)
+        self.soft_keybord.signal_send_text.connect(self.slot_recive_key)
+
+        self.switch_keybord = False     # 控制键盘的开启
+
+    def slot_switch_keyboard(self):
+        """ 显示关闭软键盘 """
+        self.switch_keybord = not self.switch_keybord
+        if not self.switch_keybord:
+            self.splitter.widget(1).setParent(None)
+        else:
+            self.splitter.insertWidget(1, self.soft_keybord)
+
+        # 显示光标
+        self.login_window.now_editline.setFocus()
+
+    def processing_func_key(self, text):
+        """ 处理功能键 """
+        if text == 'up':
+            self.login_window.focusPreviousChild()
+
+        elif text == 'down':
+            self.login_window.focusNextChild()
+
+        elif text == 'left':
+            self.login_window.now_editline.cursorBackward(False, 1)
+
+        elif text == 'right':
+            self.login_window.now_editline.cursorForward(False, 1)
+
+        elif text == 'backspace':
+            self.login_window.now_editline.backspace()
+
+        elif text == 'enter':
+            if self.login_window.btn_keyboard.hasFocus():   # 隐藏键盘
+                # ~ self.slot_switch_keyboard()
+                pass
+
+            elif self.login_window.loginB_2.hasFocus():    # 登录
+                self.login_window.loginB_clicked()
+
+            elif self.login_window.userT.hasFocus():      # 在用户框时进入密码框
+                self.login_window.focusNextChild()
+
+            elif self.login_window.pwdT.hasFocus():    # 在密码框时登录
+                self.login_window.focusNextChild()
+                self.login_window.loginB_clicked()
+
+        elif text == 'clear':
+            self.login_window.now_editline.clear()
+
+    def slot_recive_key(self, text):
+        """ 接收键盘发来的信息, 并发送到相应输入框 """
+        print('接受到信号：%s'%(text))
+        if len(text) == 1:  # 非功能键
+            print('准备插入该输入框')
+            name = self.login_window.now_editline.objectName()
+            print('当前的输入框对象为%s'%(str(name)))
+            self.login_window.now_editline.insert(text)
+            print('成功输入该框')
+        else:
+            self.processing_func_key(text)
+
+class RegisterWindow:
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        self.config_window()
+        self.set_slot_func()
+
+        # 设置配置文件
+        self.soft_keybord.set_log(log)
+        self.register_window.set_log(log)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Hello World (*^▽^*)"))
+
+    def config_window(self):
+        # 垂直布局
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setObjectName("verticalLayout")
+
+        # 分隔主窗口 上按钮, 下图片
+        self.splitter = QtWidgets.QSplitter(self.centralwidget)
+        self.splitter.setOrientation(QtCore.Qt.Vertical)
+        self.splitter.setObjectName("splitter")
+
+        # 外层竖向弹簧
+        self.verticalLayout.addWidget(self.splitter)
+
+        self.register_window = RegisterW()
+        self.soft_keybord = SoftKeyBoard()
+        self.splitter.addWidget(self.register_window)         # 弹簧上面
+
+    def set_slot_func(self):
+        """ 配置槽函数 """
+        # 登录窗口与键盘联动
+        self.register_window.btn_keyboard.clicked.connect(self.slot_switch_keyboard)
+        self.soft_keybord.signal_send_text.connect(self.slot_recive_key)
+
+        self.switch_keybord = False     # 控制键盘的开启
+
+    def slot_switch_keyboard(self):
+        """ 显示关闭软键盘 """
+        self.switch_keybord = not self.switch_keybord
+        if not self.switch_keybord:
+            self.splitter.widget(1).setParent(None)
+        else:
+            self.splitter.insertWidget(1, self.soft_keybord)
+
+        # 显示光标
+        self.register_window.now_editline.setFocus()
+
+    def processing_func_key(self, text):
+        """ 处理功能键 """
+        if text == 'up':
+            self.register_window.focusPreviousChild()
+
+        elif text == 'down':
+            self.register_window.focusNextChild()
+
+        elif text == 'left':
+            self.register_window.now_editline.cursorBackward(False, 1)
+
+        elif text == 'right':
+            self.register_window.now_editline.cursorForward(False, 1)
+
+        elif text == 'backspace':
+            self.register_window.now_editline.backspace()
+
+        elif text == 'enter':
+            if self.register_window.btn_keyboard.hasFocus():   # 隐藏键盘
+                # ~ self.slot_switch_keyboard()
+                pass
+
+            elif self.register_window.registerB.hasFocus():    # 登录
+                self.register_window.registerB_clicked()
+
+            elif self.register_window.emailT.hasFocus():      # 在用户框时进入密码框
+                self.register_window.focusNextChild()
+
+            elif self.register_window.usernameT.hasFocus():      # 在用户框时进入密码框
+                self.register_window.focusNextChild()
+
+            elif self.register_window.passwordT.hasFocus():    # 在密码框时登录
+                self.register_window.focusNextChild()
+                self.register_window.registerB_clicked()
+            elif self.register_window.VpasswordT.hasFocus():    # 在密码框时登录
+                self.register_window.focusNextChild()
+                self.register_window.registerB_clicked()
+
+        elif text == 'clear':
+            self.register_window.now_editline.clear()
+
+    def slot_recive_key(self, text):
+        """ 接收键盘发来的信息, 并发送到相应输入框 """
+        if len(text) == 1:  # 非功能键
+            self.register_window.now_editline.insert(text)
+        else:
+            self.processing_func_key(text)
 
 
 class MainWindow(QWidget,Main_Window.Ui_MainWindowP):
@@ -450,7 +804,6 @@ class ChooseTrain(QWidget,ChooseTrain.Ui_ChososeTrainP):
             QMessageBox.about(self, '提示', '收藏"%s"成功!' % (Chiname))
         else:
             QMessageBox.Warning(self,'错误','收藏失败',QMessageBox.Cancel)
-
 
 
 class StartTrain(QWidget,StartTrain.Ui_StartTrainP):
@@ -1155,6 +1508,6 @@ class RankList(QWidget,RankList.Ui_RankListP):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ui = Login()
+    ui = LoginWindow()
     ui.show()
     sys.exit(app.exec_())
