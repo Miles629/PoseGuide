@@ -142,7 +142,6 @@ class LoginW(QWidget, Login.Ui_LoginP):
     def jumpToRegisterP_clicked(self):
         print('跳转')
         self.close()
-        QCoreApplication.instance().quit
         self.MainWindow = QMainWindow()
         self.ui = RegisterWindow()
         self.ui.setupUi(self.MainWindow)
@@ -212,7 +211,6 @@ class RegisterW(QWidget, Register.Ui_RegitserP):
     def jumpToLoginP_clicked(self):
         print('跳转')
         self.close()
-        QCoreApplication.instance().quit
         self.MainWindow = QMainWindow()
         self.ui = LoginWindow()
         self.ui.setupUi(self.MainWindow)
@@ -1206,8 +1204,38 @@ class Tabel(QWidget,Tabel.Ui_TabelP):
     def __init__(self,projectName):
         super(Tabel, self).__init__()
         self.setupUi(self)
+        self.projectName = projectName
         self.imageL.setPixmap(QtGui.QPixmap("Image/patten2.png"))
         self.jumpToChooseP.clicked.connect(self.jumpToChooseP_clicked)
+        msg = "askhistory username"
+        msg = msg.encode()
+        client.send(msg)
+        response = client.recv(4096)
+        print(response)
+
+        # 历史记录数据可视化
+        re = eval(response)
+        print(type(re))
+        num = len(re)
+        print(num)
+        print(re[0][3])
+
+        x = []
+        for i in range(0, num):
+            x.append(re[i][6])
+        print(x)
+        y = []
+        for i in range(0, num):
+            y.append(float(re[i][3]) * 100)
+        print(y)
+        xdict = dict(enumerate(x))
+
+        win = pg.GraphicsWindow()
+        # stringaxis = MyStringAxis(xdict, orientation='bottom')
+        stringaxis = pg.AxisItem(orientation='bottom')
+        stringaxis.setTicks([xdict.items()])
+        plot = win.addPlot(axisItems={'bottom': stringaxis})
+        curve = plot.plot(list(xdict.keys()), y)
 
     def jumpToChooseP_clicked(self):
         self.close()
@@ -1513,7 +1541,7 @@ class RankList(QWidget,RankList.Ui_RankListP):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
-    ui = RegisterWindow()
+    ui = LoginWindow()
     ui.setupUi(MainWindow)
     MainWindow.showMaximized()
     # ui = LoginWindow()
